@@ -43,10 +43,13 @@ class Problems extends CI_Controller
 		if ($assignment_id == 0)
 			show_error('No assignment selected.');
 
+		$assignment = $this->assignment_model->assignment_info($assignment_id);
+
 		$data = array(
 			'all_assignments' => $this->all_assignments,
 			'all_problems' => $this->assignment_model->all_problems($assignment_id),
-			'description_assignment' => $this->assignment_model->assignment_info($assignment_id),
+			'description_assignment' => $assignment,
+			'can_submit' => TRUE,
 		);
 
 		if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > $data['description_assignment']['problems'])
@@ -64,8 +67,13 @@ class Problems extends CI_Controller
 		if (file_exists($path))
 			$data['problem']['description'] = file_get_contents($path);
 
-		if ( ! $this->user->selected_assignment['open'] OR shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) // deadline = finish_time + extra_time
-			$data['finished'] = TRUE;
+		if ( $assignment['id'] == 0
+			OR ( $this->user->level == 0 && ! $assignment['open'] )
+			OR shj_now() < strtotime($assignment['start_time'])
+			OR shj_now() > strtotime($assignment['finish_time'])+$assignment['extra_time'] // deadline = finish_time + extra_time
+			OR ! $this->assignment_model->is_participant($assignment['participants'], $this->user->username)
+		)
+			$data['can_submit'] = FALSE;
 
 		$this->twig->display('pages/problems.twig', $data);
 	}

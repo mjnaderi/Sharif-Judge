@@ -67,7 +67,7 @@ $(document).ready(function () {
 
 {% block main_content %}
 {% for error in errors %}
-	<p class="shj_error">{{ error }}</p>
+	<p class="shj_error">{{ error|raw }}</p>
 {% endfor %}
 <div style="height: 15px;"></div>
 <div class="gridster">

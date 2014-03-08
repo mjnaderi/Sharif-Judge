@@ -86,7 +86,7 @@ $(document).ready(function(){
 		</table>
 	</div>
 
-	{% if not finished %}
+	{% if can_submit %}
 	<div class="problems_widget">
 		<p><i class="fa fa-upload fa-lg color11"></i> Submit</p>
 		{{ form_open_multipart('submit') }}
