@@ -1,0 +1,98 @@
+.snippet-wrap ol.snippet-num > li:before {
+	border-right: 1px solid #EEE;
+}
+
+.sh_zellner .sh_sourceCode {
+	background-color: #fff;
+	color: #000;
+}
+
+.sh_zellner .sh_sourceCode .sh_keyword {
+	color: #a52a2a;
+}
+
+.sh_zellner .sh_sourceCode .sh_type {
+	color: #00f;
+}
+
+.sh_zellner .sh_sourceCode .sh_string {
+	color: #f0f;
+}
+
+.sh_zellner .sh_sourceCode .sh_regexp {
+	color: #f0f;
+}
+
+.sh_zellner .sh_sourceCode .sh_specialchar {
+	color: #f0f;
+}
+
+.sh_zellner .sh_sourceCode .sh_comment {
+	color: #f00;
+	font-style: italic;
+}
+
+.sh_zellner .sh_sourceCode .sh_number {
+	color: #f0f;
+}
+
+.sh_zellner .sh_sourceCode .sh_preproc {
+	color: #a020f0;
+}
+
+.sh_zellner .sh_sourceCode .sh_function {
+	color: #000;
+	font-weight: bold;
+}
+
+.sh_zellner .sh_sourceCode .sh_url {
+	color: #f0f;
+}
+
+.sh_zellner .sh_sourceCode .sh_date {
+	color: #a52a2a;
+}
+
+.sh_zellner .sh_sourceCode .sh_time {
+	color: #a52a2a;
+}
+
+.sh_zellner .sh_sourceCode .sh_file {
+	color: #a52a2a;
+}
+
+.sh_zellner .sh_sourceCode .sh_ip {
+	color: #f0f;
+}
+
+.sh_zellner .sh_sourceCode .sh_name {
+	color: #f0f;
+}
+
+.sh_zellner .sh_sourceCode .sh_variable {
+	color: #225f2d;
+}
+
+.sh_zellner .sh_sourceCode .sh_oldfile {
+	color: #f0f;
+}
+
+.sh_zellner .sh_sourceCode .sh_newfile {
+	color: #f0f;
+}
+
+.sh_zellner .sh_sourceCode .sh_difflines {
+	color: #a52a2a;
+}
+
+.sh_zellner .sh_sourceCode .sh_selector {
+	color: #225f2d;
+}
+
+.sh_zellner .sh_sourceCode .sh_property {
+	color: #a52a2a;
+}
+
+.sh_zellner .sh_sourceCode .sh_value {
+	color: #f0f;
+}

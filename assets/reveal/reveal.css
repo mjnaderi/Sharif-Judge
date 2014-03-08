@@ -1,0 +1,63 @@
+/**
+ * Reveal Modals
+ */
+
+.reveal-modal-bg {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	z-index: 100;
+	display: none;
+	top: 0;
+	left: 0;
+}
+
+.reveal-modal {
+	visibility: hidden;
+	top: 50px;
+	left: 50%;
+	margin-left: -300px;
+	width: 520px;
+	background-color: #fcfcfc;
+	position: fixed; /* changed by mjnaderi from absolute to fixed */
+	z-index: 101;
+	padding: 5px 20px 10px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+	-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+}
+
+.reveal-modal.small {
+	width: 200px;
+	margin-left: -100px;
+}
+
+.reveal-modal.medium {
+	width: 400px;
+	margin-left: -200px;
+}
+
+.reveal-modal.large {
+	width: 600px;
+	margin-left: -300px;
+}
+
+.reveal-modal.xlarge {
+	width: 800px;
+	margin-left: -400px;
+}
+
+.reveal-modal .close-reveal-modal {
+	font-size: 22px;
+	line-height: .5;
+	position: absolute;
+	top: 8px;
+	right: 3px;
+	color: #aaa;
+	font-weight: bold;
+	cursor: pointer;
+}

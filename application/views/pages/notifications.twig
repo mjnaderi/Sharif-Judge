@@ -1,0 +1,43 @@
+{#
+ # Sharif Judge
+ # file: notifications.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% set selected = 'notifications' %}
+{% extends 'templates/base.twig' %}
+{% block icon %}fa-bell{% endblock %}
+{% block title %}Notifications{% endblock %}
+{% block head_title %}Notifications{% endblock %}
+
+
+
+{% block title_menu %}
+	{% if user.level >= 2 %}
+	<span class="title_menu_item"><a href="{{ site_url('notifications/add') }}"><i class="fa fa-plus color10"></i> New</a></span>
+	{% endif %}
+{% endblock %}
+
+
+
+{% block main_content %}
+{% if notifications|length == 0 %}
+<p style="text-align: center;">Nothing yet...</p>
+{% endif %}
+{% for notification in notifications %}
+	<div class="notif" id="number{{ notification.id }}" data-id="{{ notification.id }}">
+		<div class="notif_title" dir="auto">
+			<span class="anchor ttl_n">{{ notification.title }}</span>
+			<div class="notif_meta">
+				{{ notification.time }}
+				{% if user.level >= 2 %}
+					<span class="anchor edt_n">Edit</span>
+					<span class="anchor del_n">Delete</span>
+				{% endif %}
+			</div>
+		</div>
+		<div class="notif_text" dir="auto">
+			{{ notification.text|raw }}
+		</div>
+	</div>
+{% endfor %}
+{% endblock %}  {# main_content #}

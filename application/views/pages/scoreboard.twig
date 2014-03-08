@@ -1,0 +1,23 @@
+{#
+ # Sharif Judge
+ # file: scoreboard.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% set selected = 'scoreboard' %}
+{% extends 'templates/base.twig' %}
+{% block icon %}fa-star{% endblock %}
+{% block title %}Scoreboard{% endblock %}
+{% block head_title %}Scoreboard{% endblock %}
+
+
+
+{% block main_content %}
+{% if user.selected_assignment.id == 0 %}
+<p>No assignment is selected.</p>
+{% elseif not user.selected_assignment.scoreboard %}
+<p>Scoreboard is disabled.</p>
+{% else %}
+	<p>Scoreboard of <span dir="auto">{{ user.selected_assignment.name }}</span></p>
+	{{ scoreboard|raw }}
+{% endif %}
+{% endblock %} {# main_content #}

@@ -1,0 +1,175 @@
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	padding: 0;
+	outline: 0;
+}
+
+body {
+	background-color: #fcfcfc;
+	color: #2d2d2d;
+	font-size: 12px;
+	font-family: sans-serif;
+}
+
+a {
+	color: #232323;
+}
+
+::selection {
+	background-color: #b2cce6;
+}
+::-moz-selection {
+	background-color: #b2cce6;
+}
+
+div.box {
+	top: 50%;
+	left: 50%;
+	width: 280px;
+	position: absolute;
+	margin-left: -140px;
+}
+
+div.login {
+	margin-top: -190px;
+}
+
+div.register {
+	margin-top: -250px;
+}
+
+div.success {
+	margin-top: -130px;
+}
+
+div.judge_logo {
+	text-align: center;
+}
+
+div.judge_logo img {
+	border: none;
+}
+
+div.login_form {
+	width: 100%;
+	display: inline-block;
+}
+
+div.login1 {
+	background-color: #fbfbfb;
+	padding: 10px 20px 20px 20px;
+	box-shadow: rgba(0, 0, 0, 0.2) 0 0 5px -1px;
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+	border: 1px solid #ddd;
+}
+
+div.login2 {
+	padding: 15px;
+	border: 1px solid #ccc;
+	border-top:none;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	box-shadow: rgba(0, 0, 0, 0.2) 0 0 4px -1px;
+	background-color: rgba(199, 224, 219, 0.3);
+}
+
+div.login1 p {
+	padding: 0;
+	margin: 10px 0 0 0;
+}
+
+div.login2 a {
+	line-height: 27px;
+}
+
+input.sharif_input {
+	background-color: #fefefe;
+	width: 100%;
+	line-height: 1;
+	font-family: sans-serif;
+	font-size: 20px;
+	padding: 6px 5px;
+	margin-top: 4px;
+	border-radius: 2px;
+	border: 1px solid #c4c4c4;
+	transition: box-shadow 200ms ease;
+	-webkit-transition: box-shadow 200ms ease;
+	box-shadow: rgba(0,0,0,0.04) 0 0 0 1px inset;
+	-moz-box-shadow: rgba(0,0,0,0.04) 0 0 0 1px inset;
+	-webkit-box-shadow: rgba(0,0,0,0.04) 0 0 0 1px inset;
+}
+
+input.sharif_input:focus {
+	outline: 0;
+	border-color: rgba(82, 168, 236, 0.6);
+	box-shadow: rgba(82, 168, 236, 0.6) 0 0 3px;
+	-moz-box-shadow: rgba(82, 168, 236, 0.6) 0 0 3px;
+	-webkit-box-shadow: rgba(82, 168, 236, 0.6) 0 0 3px;
+}
+
+.shj_error {
+	color: red;
+	font-size: 12px;
+}
+
+.shj_ok {
+	color: green;
+	font-size: 12px;
+}
+
+input#sharif_submit {
+	border: 0;
+	height: 30px;
+	float: right;
+	color: #ffffff;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 5px 14px;
+	display: inline-block;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #3d768a;
+	box-shadow: 0px 10px 14px -7px #276873;
+	-moz-box-shadow: 0px 10px 14px -7px #276873;
+	-webkit-box-shadow: 0px 10px 14px -7px #276873;
+	background-color: #599bb3;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #599bb3), color-stop(1, #408c99));
+	background: -moz-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background: -webkit-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background: -o-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background: -ms-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
+}
+
+input#sharif_submit:hover {
+	background-color: #408c99;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
+	background: -moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background: -webkit-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background: -o-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background: -ms-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background: linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#599bb3',GradientType=0);
+}
+
+input#sharif_submit:active {
+	top: 1px;
+	position: relative;
+}
+
+div#install_form {
+	width: 300px;
+	margin: 100px auto;
+}
+
+div#install_success {
+	width: 600px;
+	margin: 100px auto;
+}

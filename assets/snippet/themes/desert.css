@@ -1,0 +1,114 @@
+.snippet-wrap ol.snippet-num > li:before {
+	border-right: 1px solid #EEE;
+}
+
+.sh_desert .sh_sourceCode {
+	background-color: #af947e;
+	color: #fffdec;
+}
+
+.sh_desert .sh_sourceCode .sh_keyword {
+	color: #fef8bc;
+	font-weight: bold;
+}
+
+.sh_desert .sh_sourceCode .sh_type {
+	color: #fef8bc;
+}
+
+.sh_desert .sh_sourceCode .sh_string {
+	color: #f6f647;
+}
+
+.sh_desert .sh_sourceCode .sh_regexp {
+	color: #f6f647;
+}
+
+.sh_desert .sh_sourceCode .sh_specialchar {
+	color: #f6f647;
+}
+
+.sh_desert .sh_sourceCode .sh_comment {
+	color: #a00000;
+	font-style: italic;
+}
+
+.sh_desert .sh_sourceCode .sh_number {
+	color: #3e3f25;
+}
+
+.sh_desert .sh_sourceCode .sh_preproc {
+	color: #833914;
+}
+
+.sh_desert .sh_sourceCode .sh_symbol {
+	color: #66574f;
+}
+
+.sh_desert .sh_sourceCode .sh_function {
+	color: #f3d266;
+	font-weight: bold;
+}
+
+.sh_desert .sh_sourceCode .sh_cbracket {
+	color: #66574f;
+}
+
+.sh_desert .sh_sourceCode .sh_url {
+	color: #f6f647;
+}
+
+.sh_desert .sh_sourceCode .sh_date {
+	color: #fef8bc;
+	font-weight: bold;
+}
+
+.sh_desert .sh_sourceCode .sh_time {
+	color: #fef8bc;
+	font-weight: bold;
+}
+
+.sh_desert .sh_sourceCode .sh_file {
+	color: #fef8bc;
+	font-weight: bold;
+}
+
+.sh_desert .sh_sourceCode .sh_ip {
+	color: #f6f647;
+}
+
+.sh_desert .sh_sourceCode .sh_name {
+	color: #f6f647;
+}
+
+.sh_desert .sh_sourceCode .sh_variable {
+	color: #000;
+	font-weight: bold;
+}
+
+.sh_desert .sh_sourceCode .sh_oldfile {
+	color: #f6f647;
+}
+
+.sh_desert .sh_sourceCode .sh_newfile {
+	color: #f6f647;
+}
+
+.sh_desert .sh_sourceCode .sh_difflines {
+	color: #fef8bc;
+	font-weight: bold;
+}
+
+.sh_desert .sh_sourceCode .sh_selector {
+	color: #000;
+	font-weight: bold;
+}
+
+.sh_desert .sh_sourceCode .sh_property {
+	color: #fef8bc;
+	font-weight: bold;
+}
+
+.sh_desert .sh_sourceCode .sh_value {
+	color: #f6f647;
+}

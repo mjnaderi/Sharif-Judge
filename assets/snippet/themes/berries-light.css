@@ -1,0 +1,114 @@
+.snippet-wrap ol.snippet-num > li:before {
+	border-right: 1px solid #EEE;
+}
+
+.sh_berries-light .sh_sourceCode {
+	background-color: #d7ffff;
+	color: #47406d;
+}
+
+.sh_berries-light .sh_sourceCode .sh_keyword {
+	color: #2cae1e;
+	font-weight: bold;
+}
+
+.sh_berries-light .sh_sourceCode .sh_type {
+	color: #8b51c0;
+}
+
+.sh_berries-light .sh_sourceCode .sh_string {
+	color: #5f81b3;
+}
+
+.sh_berries-light .sh_sourceCode .sh_regexp {
+	color: #5f81b3;
+}
+
+.sh_berries-light .sh_sourceCode .sh_specialchar {
+	color: #5f81b3;
+}
+
+.sh_berries-light .sh_sourceCode .sh_comment {
+	color: #9c3caf;
+	font-style: italic;
+}
+
+.sh_berries-light .sh_sourceCode .sh_number {
+	color: #20755a;
+}
+
+.sh_berries-light .sh_sourceCode .sh_preproc {
+	color: #0628cb;
+}
+
+.sh_berries-light .sh_sourceCode .sh_symbol {
+	color: #d2073b;
+}
+
+.sh_berries-light .sh_sourceCode .sh_function {
+	color: #901164;
+	font-weight: bold;
+}
+
+.sh_berries-light .sh_sourceCode .sh_cbracket {
+	color: #d2073b;
+}
+
+.sh_berries-light .sh_sourceCode .sh_url {
+	color: #5f81b3;
+}
+
+.sh_berries-light .sh_sourceCode .sh_date {
+	color: #2cae1e;
+	font-weight: bold;
+}
+
+.sh_berries-light .sh_sourceCode .sh_time {
+	color: #2cae1e;
+	font-weight: bold;
+}
+
+.sh_berries-light .sh_sourceCode .sh_file {
+	color: #2cae1e;
+	font-weight: bold;
+}
+
+.sh_berries-light .sh_sourceCode .sh_ip {
+	color: #5f81b3;
+}
+
+.sh_berries-light .sh_sourceCode .sh_name {
+	color: #5f81b3;
+}
+
+.sh_berries-light .sh_sourceCode .sh_variable {
+	color: #0628cb;
+	font-weight: bold;
+}
+
+.sh_berries-light .sh_sourceCode .sh_oldfile {
+	color: #5f81b3;
+}
+
+.sh_berries-light .sh_sourceCode .sh_newfile {
+	color: #5f81b3;
+}
+
+.sh_berries-light .sh_sourceCode .sh_difflines {
+	color: #2cae1e;
+	font-weight: bold;
+}
+
+.sh_berries-light .sh_sourceCode .sh_selector {
+	color: #0628cb;
+	font-weight: bold;
+}
+
+.sh_berries-light .sh_sourceCode .sh_property {
+	color: #2cae1e;
+	font-weight: bold;
+}
+
+.sh_berries-light .sh_sourceCode .sh_value {
+	color: #5f81b3;
+}

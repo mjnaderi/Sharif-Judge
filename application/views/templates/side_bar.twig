@@ -1,0 +1,81 @@
+{#
+ # Sharif Judge
+ # file: side_bar.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+<div id="side_bar" class="sidebar_open">
+	<ul>
+		<li class="color-dashboard{{ selected=='dashboard' ? ' selected' }}">
+			<a href="{{ site_url('dashboard') }}">
+				<i class="fa fa-dashboard fa-lg"></i>
+				<span class="sidebar_text">Dashboard</span>
+			</a>
+		</li>
+		{% if user.level == 3 %}
+		<li class="color-settings{{ selected=='settings' ? ' selected' }}">
+			<a href="{{ site_url('settings') }}">
+				<i class="fa fa-gear fa-lg"></i>
+				<span class="sidebar_text">Settings</span>
+			</a>
+		</li>
+		<li class="color-users{{ selected=='users' ? ' selected' }}">
+			<a href="{{ site_url('users') }}">
+				<i class="fa fa-users fa-lg"></i>
+				<span class="sidebar_text">Users</span>
+			</a>
+		</li>
+		{% endif %}
+		<li class="color-notifications{{ selected=='notifications' ? ' selected' }}">
+			<a href="{{ site_url('notifications') }}">
+				<i class="fa fa-bell fa-lg"></i>
+				<span class="sidebar_text">Notifications</span>
+			</a>
+		</li>
+		<li class="color-assignments{{ selected=='assignments' ? ' selected' }}">
+			<a href="{{ site_url('assignments') }}">
+				<i class="fa fa-folder-open fa-lg"></i>
+				<span class="sidebar_text">Assignments</span>
+			</a>
+		</li>
+		<li class="color-problems{{ selected=='problems' ? ' selected' }}">
+			<a href="{{ site_url('problems') }}">
+				<i class="fa fa-puzzle-piece fa-lg"></i>
+				<span class="sidebar_text">Problems</span>
+			</a>
+		</li>
+		<li class="color-submit{{ selected=='submit' ? ' selected' }}">
+			<a href="{{ site_url('submit') }}">
+				<i class="fa fa-location-arrow fa-lg"></i>
+				<span class="sidebar_text">Submit</span>
+			</a>
+		</li>
+		<li class="color-final_submissions{{ selected=='final_submissions' ? ' selected' }}">
+			<a href="{{ site_url('submissions/final') }}">
+				<i class="fa fa-map-marker fa-lg"></i>
+				<span class="sidebar_text">Final Submissions</span>
+			</a>
+		</li>
+		<li class="color-all_submissions{{ selected=='all_submissions' ? ' selected' }}">
+			<a href="{{ site_url('submissions/all') }}">
+				<i class="fa fa-bars fa-lg"></i>
+				<span class="sidebar_text">All Submissions</span>
+			</a>
+		</li>
+		<li class="color-scoreboard{{ selected=='scoreboard' ? ' selected' }}">
+			<a href="{{ site_url('scoreboard') }}">
+				<i class="fa fa-star fa-lg"></i>
+				<span class="sidebar_text">Scoreboard</span>
+			</a>
+		</li>
+	</ul>
+	<div id="sidebar_bottom">
+		<p>
+			<a href="http://sharifjudge.ir" target="_blank">&copy; Sharif Judge {{ SHJ_VERSION }}</a>
+			<a href="http://docs.sharifjudge.ir" target="_blank">Docs</a>
+		</p>
+		<p class="timer"></p>
+		<div id="shj_collapse" class="pointer">
+			<i id="collapse" class="fa fa-caret-square-o-left fa-lg"></i><span class="sidebar_text">Collapse Menu</span>
+		</div>
+	</div>
+</div>

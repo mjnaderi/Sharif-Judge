@@ -1,0 +1,118 @@
+.snippet-wrap ol.snippet-num > li:before {
+	color: rgba(0, 0, 0, 0.3);
+	border-right: 1px solid #E5E5E5;
+}
+
+.sh_github .sh_sourceCode { /* ok */
+	font-family: Consolas, "Liberation Mono", Courier, monospace;
+	background-color: #fff;
+	color: #333;
+}
+
+.sh_github .sh_sourceCode .sh_keyword {
+	font-weight: bold;
+}
+
+.sh_github .sh_sourceCode .sh_type { /* ok */
+	color: #458;
+	font-weight: bold;
+}
+
+.sh_github .sh_sourceCode .sh_string { /* ok */
+	color: #D14;
+}
+
+.sh_github .sh_sourceCode .sh_regexp {
+	color: #1861a7;
+}
+
+.sh_github .sh_sourceCode .sh_specialchar {
+	color: #1861a7;
+}
+
+.sh_github .sh_sourceCode .sh_comment { /* ok */
+	color: #998;
+	font-style: italic;
+}
+
+.sh_github .sh_sourceCode .sh_number { /* ok */
+	color: #099;
+}
+
+.sh_github .sh_sourceCode .sh_preproc { /* ok */
+	color: #333;
+	font-weight: bold;
+}
+
+.sh_github .sh_sourceCode .sh_symbol { /* ok */
+	font-weight: bold;
+}
+
+.sh_github .sh_sourceCode .sh_symbol + .sh_function { /* ok */
+	color: #008080;
+}
+
+.sh_github .sh_sourceCode .sh_function { /* ok */
+	color: #900;
+}
+
+.sh_github .sh_sourceCode .sh_cbracket { /* ok */
+	color: #333;
+}
+
+.sh_github .sh_sourceCode .sh_url {
+	color: #1861a7;
+}
+
+.sh_github .sh_sourceCode .sh_date {
+	color: #ff3030;
+	font-weight: bold;
+}
+
+.sh_github .sh_sourceCode .sh_time {
+	color: #ff3030;
+	font-weight: bold;
+}
+
+.sh_github .sh_sourceCode .sh_file {
+	color: #ff3030;
+	font-weight: bold;
+}
+
+.sh_github .sh_sourceCode .sh_ip {
+	color: #1861a7;
+}
+
+.sh_github .sh_sourceCode .sh_name {
+	color: #1861a7;
+}
+
+.sh_github .sh_sourceCode .sh_variable {
+	color: #00f;
+}
+
+.sh_github .sh_sourceCode .sh_oldfile {
+	color: #1861a7;
+}
+
+.sh_github .sh_sourceCode .sh_newfile {
+	color: #1861a7;
+}
+
+.sh_github .sh_sourceCode .sh_difflines {
+	color: #ff3030;
+	font-weight: bold;
+}
+
+.sh_github .sh_sourceCode .sh_selector {
+	color: #00f;
+}
+
+.sh_github .sh_sourceCode .sh_property {
+	color: #ff3030;
+	font-weight: bold;
+}
+
+.sh_github .sh_sourceCode .sh_value {
+	color: #1861a7;
+}

@@ -1,0 +1,72 @@
+{#
+ # Sharif Judge
+ # file: submit.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% set selected = 'submit' %}
+{% extends 'templates/base.twig' %}
+{% block icon %}fa-location-arrow{% endblock %}
+{% block title %}Submit{% endblock %}
+{% block head_title %}Submit{% endblock %}
+
+
+
+{% block other_assets %}
+<script>
+	shj.p={};
+	{{ problems_js|raw }}
+	$(document).ready(function(){
+		$("select#problems").change(function(){
+			var v = $(this).val();
+			$('select#languages').empty();
+			$('<option value="0" selected="selected">-- Select Language --</option>').appendTo('select#languages');
+			if (v==0)
+				return;
+			for (var i=0;i<shj.p[v].length;i++)
+				$('<option value="'+shj.p[v][i]+'">'+shj.p[v][i]+'</option>').appendTo('select#languages');
+		});
+	});
+</script>
+{% endblock %}
+
+
+
+{% block main_content %}
+{% if error != 'none' %}
+<p>{{ error }}</p>
+{% else %}
+	<p>Selected assignment: <span dir="auto">{{ user.selected_assignment.name }}</span></p>
+	<p>Coefficient: {{ coefficient }}%</p>
+	{{ form_open_multipart('submit') }}
+	<p class="input_p">
+		<label for="problems" class="tiny">Problem:</label>
+		<select id="problems" name ="problem" class="sharif_input">
+			<option value="0" selected="selected">-- Select Problem --</option>
+			{% for problem in problems %}
+				<option dir="auto" value="{{ problem.id }}">{{ problem.name }}</option>
+			{% endfor %}
+		</select>
+		{{ form_error('problem','<div class="shj_error">','</div>') }}
+	</p>
+	<p class="input_p">
+		<label for="languages" class="tiny">Language:</label>
+		<select id="languages" name="language" class="sharif_input">
+			<option value="0" selected="selected">-- Select Language --</option>
+		</select>
+		{{ form_error('language','<div class="shj_error">','</div>') }}
+	</p>
+	<p class="input_p">
+		<label for="file" class="tiny">File:</label>
+		<input type="file" id="file" class="sharif_input medium" name="userfile" />
+		{% if upload_state == 'error' %}
+		<div class="shj_error">Error uploading file.</div>
+		{% elseif upload_state == 'ok' %}
+		<div class="shj_ok">File uploaded successfully. See the result in 'All Submissions'.</div>
+		{% endif %}
+	</p>
+	<p class="input_p">
+		<input type="submit" value="Submit" class="sharif_input"/>
+	</p>
+	</form>
+{% endif %}
+{% endblock %}  {# main_content #}

@@ -1,0 +1,203 @@
+{#
+ # Sharif Judge
+ # file: add_assignment.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% set selected = 'assignments' %}
+{% extends 'templates/base.twig' %}
+{% block icon %}{{ edit ? 'fa-edit' : 'fa-plus-square' }}{% endblock %}
+{% block title %}{{ edit ? 'Edit' : 'Add' }} Assignment{% endblock %}
+{% block head_title %}{{ edit ? 'Edit' : 'Add' }} Assignment{% endblock %}
+
+
+
+{% block other_assets %}
+<script type='text/javascript' src="{{ base_url('assets/js/taboverride.min.js') }}"></script>
+<script>
+	$(document).ready(function(){
+		tabOverride.set(document.getElementsByTagName('textarea'));
+	});
+</script>
+<script type="text/javascript" src="{{ base_url('assets/js/jquery-ui-timepicker-addon.js') }}"></script>
+<script>
+	shj.num_of_problems={{ problems|length }};
+	shj.row='<tr><td>PID</td>\
+	<td><input type="text" name="name[]" class="sharif_input short" value="Problem "/></td>\
+	<td><input type="text" name="score[]" class="sharif_input tiny2" value="100"/></td>\
+	<td><input type="text" name="c_time_limit[]" class="sharif_input tiny2" value="500"/></td>\
+	<td><input type="text" name="python_time_limit[]" class="sharif_input tiny2" value="1500"/></td>\
+	<td><input type="text" name="java_time_limit[]" class="sharif_input tiny2" value="2000"/></td>\
+	<td><input type="text" name="memory_limit[]" class="sharif_input tiny" value="50000"/></td>\
+	<td><input type="text" name="languages[]" class="sharif_input short2" value="C,C++,Python 2,Python 3,Java"/></td>\
+	<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="diff"/></td>\
+	<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="-bB"/></td>\
+	<td><input type="checkbox" name="is_upload_only[]" class="check" value="PID"/><td><i class="fa fa-times-circle fa-lg color1 delete_problem pointer"></i></td></td>\
+</tr>';
+	$(document).ready(function(){
+		$("#add").click(function(){
+			$('#problems_table>tbody').append(shj.row.replace(/PID/g, (shj.num_of_problems+1)));
+			shj.num_of_problems++;
+			$('#nop').attr('value', shj.num_of_problems);
+		});
+		$(document).on('click', '.delete_problem', function(){
+			if (shj.num_of_problems==1) return;
+			var row = $(this).parents('tr');
+			row.remove();
+			var i = 0;
+			$('#problems_table>tbody').children('tr').each(function(){
+				i++;
+				$(this).children(':first').html(i);
+				$(this).find('[type="checkbox"]').attr('value',i);
+			});
+			shj.num_of_problems--;
+			$('#nop').attr('value',shj.num_of_problems);
+		});
+		$('#start_time').datetimepicker();
+		$('#finish_time').datetimepicker();
+	});
+</script>
+{% endblock %}
+
+
+
+{% block title_menu %}
+<span class="title_menu_item">
+	<a href="http://docs.sharifjudge.ir/add_assignment" target="_blank"><i class="fa fa-question-circle color1"></i> Help</a>
+</span>
+{% endblock %}
+
+
+
+{% block main_content %}
+{% for success_message in success_messages %}
+	<p class="shj_ok">{{ success_message }}</p>
+{% endfor %}
+{% for error_message in error_messages %}
+	<p class="shj_error">{{ error_message }}</p>
+{% endfor %}
+
+{% if edit %}
+<p>
+	<i class="fa fa-info-circle fa-lg color8"></i> If you don't want to change tests, just do not upload any file.
+</p>
+{% endif %}
+
+{{ form_open_multipart(edit ? 'assignments/edit/'~edit_assignment.id : 'assignments/add') }}
+<div class="panel_left">
+	<input type="hidden" name="number_of_problems" id="nop" value="{{ edit ? edit_assignment.problems : problems|length }}"/>
+	<p class="input_p">
+		<label for="form_a_name">Assignment Name</label>
+		<input id="form_a_name" type="text" name="assignment_name" class="sharif_input medium" value="{{ edit ? edit_assignment.name : set_value('assignment_name') }}"/>
+		{{ form_error('assignment_name', '<div class="shj_error">', '</div>') }}
+	</p>
+	<p class="input_p">
+		<label for="start_time">Start Time</label>
+		<input id="start_time" type="text" name="start_time" class="sharif_input medium" value="{{ edit ? edit_assignment.start_time|date('m/d/Y H:i') : set_value('start_time') }}" />
+		{{ form_error('start_time', '<div class="shj_error">', '</div>') }}
+	</p>
+	<p class="input_p">
+		<label for="finish_time">Finish Time</label>
+		<input id="finish_time" type="text" name="finish_time" class="sharif_input medium" value="{{ edit ? edit_assignment.finish_time|date('m/d/Y H:i') : set_value('finish_time') }}" />
+		{{ form_error('finish_time', '<div class="shj_error">', '</div>') }}
+	</p>
+	<p class="input_p clear">
+		<label for="form_extra_time">
+			Extra Time (minutes)<br>
+			<span class="form_comment">Extra time for late submissions.</span>
+		</label>
+		<input id="form_extra_time" type="text" name="extra_time" id="extra_time" class="sharif_input medium" value="{{ edit ? edit_assignment.extra_time|extra_time_formatter : set_value('extra_time') }}" />
+		{{ form_error('extra_time', '<div class="shj_error">', '</div>') }}
+	</p>
+	<p class="input_p clear">
+		<label for="form_participants">Participants<br>
+			<span class="form_comment">Enter username of participants here (comma separated).
+				Only these users are able to submit. You can use keyword "ALL".</span>
+		</label>
+		<textarea id="form_participants" name="participants" rows="5" class="sharif_input medium">{{ edit ? edit_assignment.participants : set_value('participants', 'ALL') }}</textarea>
+	</p>
+	<p class="input_p clear">
+		<label for="form_tests_desc">Tests and Descriptions (zip file)<br>
+			<span class="form_comment">
+				<a href="http://docs.sharifjudge.ir/tests_structure" target="_blank">Use this structure</a>
+			</span>
+		</label>
+
+		<input id="form_tests_desc" type="file" name="tests_desc" class="sharif_input medium"/>
+		{% if (not edit) and upload_error %}
+			<div class="shj_error">{{ upload_error }}</div>
+		{% endif %}
+	</p>
+</div>
+<div class="panel_right">
+	<p class="input_p">
+		<input id="form_a_open" type="checkbox" name="open" value="1" {{ edit ? (edit_assignment.open ? 'checked') : set_checkbox('open', '1') }} />
+		<label for="form_a_open" class="default">Open</label><br>
+		<span class="form_comment">Open or close this assignment.</span>
+		{{ form_error('open', '<div class="shj_error">', '</div>') }}
+	</p>
+	<p class="input_p">
+		<input id="form_a_scoreboard" type="checkbox" name="scoreboard" value="1" {{ edit ? (edit_assignment.scoreboard ? 'checked') : set_checkbox('scoreboard', '1') }} />
+		<label for="form_a_scoreboard" class="default">Scoreboard</label><br>
+		<span class="form_comment">Check this to enable scoreboard.</span>
+		{{ form_error('scoreboard', '<div class="shj_error">', '</div>') }}
+	</p>
+	<p class="input_p">
+		<label for="form_late_rule">Coefficient rule (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#coefficient_rule">?</a>)</label><br>
+		<span class="form_comment medium clear" style="display: block;">PHP script without &lt;?php ?&gt; tags</span>
+		<textarea id="form_late_rule" name="late_rule" rows="14" class="sharif_input add_text">{{ edit ? edit_assignment.late_rule : set_value('late_rule', default_late_rule) }}</textarea>
+		{{ form_error('late_rule', '<div class="shj_error">', '</div>') }}
+	</p>
+</div>
+<p class="input_p" id="add_problems">Problems <i class="fa fa-plus-circle fa-lg color11 pointer" id="add"></i>
+<table id="problems_table">
+	<thead>
+	<tr>
+		<th rowspan="2"></th>
+		<th rowspan="2">Name</th>
+		<th rowspan="2">Score</th>
+		<th colspan="3" style="border-bottom: 1px solid #BDBDBD">Time Limit (ms)</th>
+		<th rowspan="2">Memory<br>Limit (kB)</th>
+		<th rowspan="2">Allowed<br>Languages (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#allowed_languages">?</a>)</th>
+		<th rowspan="2">Diff<br>Command (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#diff_command">?</a>)</th>
+		<th rowspan="2">Diff<br>Argument (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#diff_arguments">?</a>)</th>
+		<th rowspan="2">Upload<br>Only (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#upload_only">?</a>)</th>
+		<th rowspan="2"></th>
+	</tr>
+	<tr>
+		<th>C/C++</th><th>Python</th><th>Java</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for problem in problems %}
+		<tr>
+			<td>{{ problem.id }}</td>
+			<td><input type="text" name="name[]" class="sharif_input short" value="{{ problem.name }}"/></td>
+			<td><input type="text" name="score[]" class="sharif_input tiny2" value="{{ problem.score }}"/></td>
+			<td><input type="text" name="c_time_limit[]" class="sharif_input tiny2" value="{{ problem.c_time_limit }}"/></td>
+			<td><input type="text" name="python_time_limit[]" class="sharif_input tiny2" value="{{ problem.python_time_limit }}"/></td>
+			<td><input type="text" name="java_time_limit[]" class="sharif_input tiny2" value="{{ problem.java_time_limit }}"/></td>
+			<td><input type="text" name="memory_limit[]" class="sharif_input tiny" value="{{ problem.memory_limit }}"/></td>
+			<td><input type="text" name="languages[]" class="sharif_input short2" value="{{ problem.allowed_languages }}"/></td>
+			<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="{{ problem.diff_cmd }}"/></td>
+			<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="{{ problem.diff_arg }}"/></td>
+			<td><input type="checkbox" name="is_upload_only[]" class="check" value="{{ problem.id }}" {{ problem.is_upload_only ? 'checked' }}/></td>
+			<td><i class="fa fa-times-circle fa-lg color1 delete_problem pointer"></i></td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+</p>
+{{ form_error('name[]', '<div class="shj_error">', '</div>') }}
+{{ form_error('score[]', '<div class="shj_error">', '</div>') }}
+{{ form_error('c_time_limit[]', '<div class="shj_error">', '</div>') }}
+{{ form_error('python_time_limit[]', '<div class="shj_error">', '</div>') }}
+{{ form_error('java_time_limit[]', '<div class="shj_error">', '</div>') }}
+{{ form_error('memory_limit[]', '<div class="shj_error">', '</div>') }}
+{{ form_error('languages[]', '<div class="shj_error">', '</div>') }}
+{{ form_error('diff_cmd[]', '<div class="shj_error">', '</div>') }}
+{{ form_error('diff_arg[]', '<div class="shj_error">', '</div>') }}
+<p class="input_p">
+	<input type="submit" value="{{ edit ? 'Edit' : 'Add' }} Assignment" class="sharif_input"/>
+</p>
+</form>
+{% endblock %}  {# main_content #}

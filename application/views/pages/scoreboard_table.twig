@@ -1,0 +1,51 @@
+{#
+ # Sharif Judge
+ # file: scoreboard_table.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% spaceless %}
+<table class="sharif_table">
+
+<thead>
+	<tr>
+		<th>#</th>
+		<th>Username</th>
+		<th>Name</th>
+		{% for problem in problems %}
+			<th>
+				<a dir="auto" href="{{ site_url("problems/#{assignment_id}/#{problem.id}") }}">{{ problem.name }}</a><br>
+				<span class="tiny_text_b">{{ problem.score }}</span>
+			</th>
+		{% endfor %}
+		<th>
+			Total<br>
+			<span class="tiny_text_b">{{ total_score }}</span>
+		</th>
+	</tr>
+</thead>
+
+{% for sc_username in scoreboard.username %}
+	<tr>
+	<td>{{ loop.index }}</td>
+	<td>{{ sc_username }}</td>
+	<td dir="auto">{{ names[sc_username] }}</td>
+	{% for problem in problems %}
+	<td>
+		{% if scores[sc_username][problem.id].score is defined %}
+			{{ scores[sc_username][problem.id].score }}<br>
+			<span class="tiny_text" title="Time">{{ time_hhmm(scores[sc_username][problem.id].time) }}</span>
+		{% else %}
+			-
+		{% endif %}
+	</td>
+	{% endfor %}
+	<td>
+	<span style="font-weight: bold;">{{ scoreboard['score'][loop.index0] }}</span>
+	<br>
+	<span class="tiny_text" title="Total Time + Submit Penalty">{{ time_hhmm(scoreboard['submit_penalty'][loop.index0]) }}</span>
+	</td>
+	</tr>
+{% endfor %}
+
+</table>
+{% endspaceless %}

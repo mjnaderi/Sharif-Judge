@@ -1,0 +1,202 @@
+{#
+ # Sharif Judge
+ # file: submissions.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% set selected=view~'_submissions' %}
+{% extends 'templates/base.twig' %}
+{% block icon %}{{ view == 'all' ? 'fa-bars' : 'fa-map-marker' }}{% endblock %}
+{% block title %}{{ view|title }} Submissions{% endblock %}
+{% block head_title %}{{ view|title }} Submissions{% endblock %}
+
+
+
+{% block other_assets %}
+	<link rel='stylesheet' type='text/css' href='{{ base_url("assets/snippet/jquery.snippet.css") }}'/>
+	<link rel='stylesheet' type='text/css' href='{{ base_url("assets/snippet/themes/github.css") }}'/>
+	<script type='text/javascript' src="{{ base_url("assets/snippet/jquery.snippet.js") }}"></script>
+
+	<link rel='stylesheet' type='text/css' href='{{ base_url("assets/reveal/reveal.css") }}'/>
+	<script type='text/javascript' src="{{ base_url("assets/reveal/jquery.reveal.js") }}"></script>
+	<script type='text/javascript' src="{{ base_url("assets/js/shj_submissions.js") }}"></script>
+{% endblock %}
+
+
+
+{% block title_menu %}
+	<span class="title_menu_item">
+		<a href="{{ excel_link }}"><i class="fa fa-download color2"></i> Excel</a>
+	</span>
+	{% if filter_user %}
+	<span class="title_menu_item">
+		<a href="{{ site_url('submissions/'~view~(filter_problem ? '/problem/'~filter_problem)) }}">
+		<i class="fa fa-filter color1"></i> Remove Username Filter</a>
+	</span>
+	{% endif %}
+	{% if filter_problem %}
+	<span class="title_menu_item">
+		<a href="{{ site_url('submissions/'~view~(filter_user?'/user/'~filter_user)) }}">
+		<i class="fa fa-filter color4"></i> Remove Problem Filter</a>
+	</span>
+	{% endif %}
+{% endblock %} {# title_menu #}
+
+
+
+
+{% block main_content %}
+
+<p>{{ view|title }} Submissions of <span dir="auto">{{ user.selected_assignment.name }}</span></p>
+{%  if view == 'all' %}
+<p><i class="fa fa-warning color3"></i> You cannot change your final submissions after assignment finishes.</p>
+{% endif %}
+<table class="sharif_table">
+	<thead>
+		<tr>
+		{% if view == 'all' %}
+			<th width="1%" rowspan="2">Final</th>
+		{% endif %}
+		{% if user.level > 0 %}
+				{% if view == 'all' %}
+				<th width="3%" rowspan="2">ID</th>
+				{% else %}
+				<th width="2%" rowspan="2">#</th>
+				<th width="3%" rowspan="2">ID</th>
+				{% endif %}
+				<th width="6%" rowspan="2">Username</th>
+				<th width="14%" rowspan="2">Name</th>
+				<th width="4%" rowspan="2">Problem</th>
+				<th width="14%" rowspan="2">Submit Time</th>
+				<th colspan="3">Score</th>
+				<th width="1%" rowspan="2">Language</th>
+				<th width="6%" rowspan="2">Status</th>
+				<th width="6%" rowspan="2">Code</th>
+				{% if view == 'final' %}
+				<th width="6%" rowspan="2">Log</th>
+				{% endif %}
+				{% if user.level >= 2 %}
+				<th width="1%" rowspan="2">Actions</th>
+				{% endif %}
+			</tr>
+			<tr>
+				<th width="5%" class="score">Score</th>
+				<th width="5%" class="score">Delay<br>%</th>
+				<th width="5%" class="score">Final Score</th>
+			</tr>
+		{% else %}
+				<th width="10%" rowspan="2">Problem</th>
+				<th width="30%" rowspan="2">Submit Time</th>
+				<th width="7%" colspan="3">Score</th>
+				<th width="1%" rowspan="2">Language</th>
+				<th width="30%" rowspan="2">Status</th>
+				<th width="15%" rowspan="2">Code</th>
+			</tr>
+			<tr>
+				<th width="7%" class="score">Score</th>
+				<th width="7%" class="score">Delay<br>%</th>
+				<th width="7%" class="score">Final Score</th>
+			</tr>
+		{% endif %}
+	</thead>
+	{% set i=0 %}
+	{% set j=0 %}
+	{% set un='' %}
+	{% for submission in submissions %}
+		{% set i = i+1 %}
+		{% if submission.username != un %}
+			{% set j = j+1 %}
+		{% endif %}
+		{% set un = submission.username %}
+		<tr data-u="{{ submission.username }}" data-a="{{ submission.assignment }}" data-p="{{ submission.problem }}" data-s="{{ submission.submit_id }}" {% if view == 'final' and j is even %}class="hl"{% endif %}>
+		{% if view == 'all' %}
+			<td>
+				<i class="pointer set_final fa {{ submission.is_final ? 'fa-check-circle-o color11' : 'fa-circle-o' }} fa-2x"></i>
+			</td>
+		{% endif %}
+		{% if user.level > 0 %}
+			{% if view == 'all' %}
+				<td>{{ submission.submit_id }}</td>
+			{% else %}
+				<td>{{ (page_number-1)*per_page+i }}</td>
+				<td>{{ submission.submit_id }}</td>
+			{% endif %}
+
+			<td><a href="{{ site_url('submissions/'~view~'/user/'~submission.username~(filter_problem?'/problem/'~filter_problem)) }}">{{ submission.username }}</a></td>
+			<td dir="auto">{{ submission.name }}</td>
+		{% endif %}
+			<td><a href="{{ site_url('submissions/'~view~(filter_user?'/user/'~filter_user)~'/problem/'~submission.problem) }}" title="{{ problems[submission.problem].name }}">{{ submission.problem }}</a></td>
+			<td>{{ submission.time }}</td>
+			<td>{{ submission.pre_score }}</td>
+			<td>
+				<span class="tiny_text" {{ submission.delay > 0 ? 'style="color:red;"' }}'>
+				{% if submission.delay <= 0 %}
+					No Delay
+				{% else %}
+					<span title="HH:MM">{{ time_hhmm(submission.delay) }}</span>
+				{% endif %}
+				</span><br>
+				{{ submission.coefficient }}%
+			</td>
+			<td style="font-weight: bold;">{{ submission.final_score }} </td>
+			<td>{{ submission.language }}</td>
+			<td class="status">
+				{% if submission.status == 'Uploaded' %}
+					Uploaded
+				{% else %}
+					{% if submission.status|lower == 'pending' %}
+						{% set submission_class = 'btn' %}
+					{% elseif submission.status|lower == 'score' %}
+						{% set submission_class = (submission.fullmark ? 'btn shj-green' : 'btn shj-red') %}
+					{% else %}
+						{% set submission_class = 'btn shj-blue' %}
+					{% endif %}
+					<div class="{{ submission_class }}" data-type="result" >
+						{% if submission.status == 'SCORE' %}
+							{{ submission.final_score }}
+						{% else %}
+							{{ submission.status }}
+						{% endif %}
+					</div>
+				{% endif %}
+			</td>
+			<td>
+				{% if submission.file_type == 'zip' or submission.file_type == 'pdf' %}
+					<div class="btn shj-orange" data-type="download">Download</div>
+				{% else %}
+					<div class="btn shj-orange" data-type="code" >Code</div>
+				{% endif %}
+			</td>
+			{% if view == 'final' and user.level > 0 %}
+			<td>
+				{% if submission.status == 'Uploaded' %}
+					---
+				{% else %}
+					<div class="btn" data-type="log" >Log</div>
+				{% endif %}
+			</td>
+			{% endif %}
+			{% if user.level >= 2 %}
+				<td>
+					<a href="#" class="shj_rejudge"><i class="fa fa-refresh fa-lg color10"></i></a>
+				</td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+</table>
+
+<p>
+{{ pagination|raw }}
+</p>
+
+{% endblock %}  {# main_content #}
+
+
+
+{% block body_end %}
+<div id="shj_modal" class="reveal-modal xlarge">
+	<div class="modal_inside">
+		<div style="text-align: center;">Loading<br><img src="{{ base_url('assets/images/loading.gif') }}"/></div>
+	</div>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+{% endblock %}

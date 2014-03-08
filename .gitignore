@@ -1,0 +1,17 @@
+# gitignore file for Sharif Judge
+
+.git
+.idea
+
+# Ignore Twig Cache Files
+application/cache/Twig/*/
+
+# Ignore Compiled EasySandbox Files
+tester/easysandbox/EasySandbox.o
+tester/easysandbox/EasySandbox.so
+tester/easysandbox/malloc.o
+tester/easysandbox/t/*
+!tester/easysandbox/t/*.c*
+
+# Ignore MOSS File
+tester/moss

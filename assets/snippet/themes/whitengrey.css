@@ -1,0 +1,105 @@
+.snippet-wrap ol.snippet-num > li:before {
+	border-right: 1px solid #EEE;
+}
+
+.sh_whitengrey .sh_sourceCode {
+	background-color: #fff;
+	color: #696969;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_keyword {
+	color: #696969;
+	font-weight: bold;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_type {
+	color: #696969;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_string {
+	color: #080;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_regexp {
+	color: #080;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_specialchar {
+	color: #080;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_comment {
+	color: #1326a2;
+	font-style: italic;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_number {
+	color: #b0f;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_preproc {
+	color: #470000;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_function {
+	color: #000;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_url {
+	color: #080;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_date {
+	color: #696969;
+	font-weight: bold;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_time {
+	color: #696969;
+	font-weight: bold;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_file {
+	color: #696969;
+	font-weight: bold;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_ip {
+	color: #080;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_name {
+	color: #080;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_variable {
+	color: #696969;
+	font-weight: bold;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_oldfile {
+	color: #080;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_newfile {
+	color: #080;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_difflines {
+	color: #696969;
+	font-weight: bold;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_selector {
+	color: #696969;
+	font-weight: bold;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_property {
+	color: #696969;
+	font-weight: bold;
+}
+
+.sh_whitengrey .sh_sourceCode .sh_value {
+	color: #080;
+}

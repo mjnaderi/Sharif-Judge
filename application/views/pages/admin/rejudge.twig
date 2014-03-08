@@ -1,0 +1,34 @@
+{#
+ # Sharif Judge
+ # file: rejudge.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% set selected = 'assignments' %}
+{% extends 'templates/base.twig' %}
+{% block icon %}fa-refresh{% endblock %}
+{% block title %}Rejudge{% endblock %}
+{% block head_title %}Rejudge{% endblock %}
+
+
+{% block main_content %}
+<p>
+	Selected Assignment: <span dir="auto">{{ user.selected_assignment.name }}</span>
+</p>
+<p>
+	By clicking on rejudge, all submissions of selected problem will change to <code>PENDING</code> state. Then
+	Sharif Judge rejudges them one by one.
+</p>
+<p>
+	If you want to rejudge a single submission, you can click on rejudge button in <a href="{{ site_url('submissions/all') }}">All Submissions</a> or <a href="{{ site_url('submissions/final') }}">Final Submissions</a> page.
+</p>
+{% for problem in problems %}
+	{{ form_open('rejudge') }}
+		<input type="hidden" name="problem_id" value="{{ problem.id }}"/>
+		<input type="submit" class="sharif_input" value="Rejudge Problem {{ problem.id }} ({{ problem.name }})"/>
+	</form>
+{% endfor %}
+
+{% for message in msg %}
+	<p class="shj_ok">{{ message }}</p>
+{% endfor %}
+{% endblock %}  {# main_content #}

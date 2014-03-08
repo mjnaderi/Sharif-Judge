@@ -1,0 +1,88 @@
+.snippet-wrap ol.snippet-num > li:before {
+	border-right: 1px solid #EEE;
+}
+
+.sh_matlab .sh_sourceCode {
+	background-color: #fff;
+	color: #000;
+}
+
+.sh_matlab .sh_sourceCode .sh_keyword {
+	color: #00f;
+}
+
+.sh_matlab .sh_sourceCode .sh_type {
+	color: #000;
+}
+
+.sh_matlab .sh_sourceCode .sh_string {
+	color: #800000;
+}
+
+.sh_matlab .sh_sourceCode .sh_regexp {
+	color: #800000;
+}
+
+.sh_matlab .sh_sourceCode .sh_specialchar {
+	color: #000;
+}
+
+.sh_matlab .sh_sourceCode .sh_number {
+	color: #000;
+}
+
+.sh_matlab .sh_sourceCode .sh_function {
+	color: #000;
+}
+
+.sh_matlab .sh_sourceCode .sh_url {
+	color: #800000;
+}
+
+.sh_matlab .sh_sourceCode .sh_date {
+	color: #00f;
+}
+
+.sh_matlab .sh_sourceCode .sh_time {
+	color: #00f;
+}
+
+.sh_matlab .sh_sourceCode .sh_file {
+	color: #00f;
+}
+
+.sh_matlab .sh_sourceCode .sh_ip {
+	color: #800000;
+}
+
+.sh_matlab .sh_sourceCode .sh_name {
+	color: #800000;
+}
+
+.sh_matlab .sh_sourceCode .sh_variable {
+	color: #00f;
+}
+
+.sh_matlab .sh_sourceCode .sh_oldfile {
+	color: #000;
+}
+
+.sh_matlab .sh_sourceCode .sh_newfile {
+	color: #800000;
+}
+
+.sh_matlab .sh_sourceCode .sh_difflines {
+	color: #00f;
+}
+
+.sh_matlab .sh_sourceCode .sh_selector {
+	color: #00f;
+}
+
+.sh_matlab .sh_sourceCode .sh_property {
+	color: #00f;
+}
+
+.sh_matlab .sh_sourceCode .sh_value {
+	color: #800000;
+}
