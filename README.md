@@ -20,7 +20,7 @@ Download the latest release from [http://sharifjudge.ir/download](http://sharifj
   * Submission queue
   * Download results in excel file
   * Download submitted codes in zip file
-  * _"Output Comparison"_ and _"Tester Script"_ methods for checking output correctness
+  * _"Output Comparison"_ and _"Tester Code"_ methods for checking output correctness
   * Add multiple users
   * Problem Descriptions (Editable in Markdown and HTML formats)
   * Rejudge
