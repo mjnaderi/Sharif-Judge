@@ -1,0 +1,10 @@
+# You also need to change
+# $config['index_page'] = 'index.php';
+# to
+# $config['index_page'] = '';
+# in application/config/config.php
+# in order to enable clean urls.
+
+RewriteEngine on
+RewriteCond $1 !^(index\.php|assets|robots\.txt)
+RewriteRule ^(.*)$ index.php?/$1 [L]
