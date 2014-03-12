@@ -53,3 +53,7 @@ For running Sharif Judge, a Linux server with following requirements is needed:
 ## After Installation
 
   * Read the [documentation](http://docs.sharifjudge.ir/installation#after_installation)
+
+## License
+
+GPL v3
