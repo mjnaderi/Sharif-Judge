@@ -411,19 +411,11 @@ for((i=1;i<=TST;i++)); do
 			echo "<span class=\"shj_o\">Memory Limit Exceeded</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		fi
-		if grep -iq "java.lang.InternalError" err; then
-			shj_log "Runtime Error: java.lang.InternalError"
-			echo "<span class=\"shj_o\">Runtime Error (java.lang.InternalError)</span>" >>$PROBLEMPATH/$UN/result.html
-			continue
-		fi
-		if grep -iq "java.lang.StackOverflowError" err; then
-			shj_log "Runtime Error: java.lang.StackOverflowError"
-			echo "<span class=\"shj_o\">Runtime Error (java.lang.StackOverflowError)</span>" >>$PROBLEMPATH/$UN/result.html
-			continue
-		fi
-		if grep -iq "java.lang.UnknownError" err; then
-			shj_log "Runtime Error: java.lang.UnknownError"
-			echo "<span class=\"shj_o\">Runtime Error (java.lang.UnknownError)</span>" >>$PROBLEMPATH/$UN/result.html
+		if grep -q -m 1 "^Exception" err; then # show Exception
+			javaexceptionname=`grep -m 1 "^Exception" err`
+			javaexception=`grep -m 1 "$MAINFILENAME.java" err`
+			shj_log "$javaexceptionname\n$javaexception"
+			echo "<span class=\"shj_o\">Runtime Error ($javaexceptionname)</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		fi
 	elif [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
@@ -550,6 +542,11 @@ for((i=1;i<=TST;i++)); do
 		echo "<span class=\"shj_r\">WRONG</span>" >>$PROBLEMPATH/$UN/result.html
 	fi
 done
+
+if [ "$EXT" = "java" ] && [ "$javaexceptionname" != "" ]; then
+	echo -e "\n<span class=\"shj_b\">Last Java Exception:</span>" >>$PROBLEMPATH/$UN/result.html
+	echo -e "$javaexceptionname\n$javaexception" >>$PROBLEMPATH/$UN/result.html
+fi
 
 cd ..
 rm -r $JAIL >/dev/null 2>/dev/null # removing files

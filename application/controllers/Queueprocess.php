@@ -115,7 +115,10 @@ class Queueprocess extends CI_Controller
 
 			// Saving judge result
 			if ( is_numeric($output) || $output === 'Compilation Error' || $output === 'Syntax Error' )
+			{
 				shell_exec("cp $userdir/result.html $userdir/result-{$submit_id}.html");
+				shell_exec("cp $userdir/log $userdir/log-{$submit_id}");
+			}
 
 			if (is_numeric($output)) {
 				$submission['pre_score'] = $output;

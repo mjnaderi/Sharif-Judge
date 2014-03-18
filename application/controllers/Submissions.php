@@ -436,7 +436,8 @@ class Submissions extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function _check_type($type) {
+	public function _check_type($type)
+	{
 		return ($type === 'code' || $type === 'result' || $type === 'log');
 	}
 
@@ -481,7 +482,7 @@ class Submissions extends CI_Controller
 					"/assignment_{$submission['assignment']}/p{$submission['problem']}/{$submission['username']}/{$submission['file_name']}.".filetype_to_extension($submission['file_type']);
 			elseif ($type === 'log')
 				$file_path = rtrim($this->settings_model->get_setting('assignments_root'),'/').
-					"/assignment_{$submission['assignment']}/p{$submission['problem']}/{$submission['username']}/log";
+					"/assignment_{$submission['assignment']}/p{$submission['problem']}/{$submission['username']}/log-{$submission['submit_id']}";
 			else
 				$file_path = '/nowhere'; // This line is never reached!
 
@@ -511,7 +512,8 @@ class Submissions extends CI_Controller
 
 
 
-	public function download_file(){
+	public function download_file()
+	{
 		$username = $this->uri->segment(3);
 		$assignment = $this->uri->segment(4);
 		$problem = $this->uri->segment(5);

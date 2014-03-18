@@ -71,9 +71,7 @@
 				<th width="1%" rowspan="2">Language</th>
 				<th width="6%" rowspan="2">Status</th>
 				<th width="6%" rowspan="2">Code</th>
-				{% if view == 'final' %}
 				<th width="6%" rowspan="2">Log</th>
-				{% endif %}
 				{% if user.level >= 2 %}
 				<th width="1%" rowspan="2">Actions</th>
 				{% endif %}
@@ -166,7 +164,7 @@
 					<div class="btn shj-orange" data-type="code" >Code</div>
 				{% endif %}
 			</td>
-			{% if view == 'final' and user.level > 0 %}
+			{% if user.level > 0 %}
 			<td>
 				{% if submission.status == 'Uploaded' %}
 					---

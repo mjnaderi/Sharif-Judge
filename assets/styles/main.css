@@ -1072,19 +1072,19 @@ pre, .shj_code {
 	overflow: auto;
 }
 
-span.shj_o {
+.shj_o {
 	color: #ff5f00;
 }
 
-span.shj_b {
+.shj_b {
 	color: blue;
 }
 
-span.shj_r {
+.shj_r {
 	color: #b20000;
 }
 
-span.shj_g {
+.shj_g {
 	color: green;
 }
 
