@@ -538,7 +538,7 @@ for((i=1;i<=TST;i++)); do
 	if $ACCEPTED; then
 		shj_log "ACCEPTED"
 		echo "<span class=\"shj_g\">ACCEPT</span>" >>$PROBLEMPATH/$UN/result.html
-		((PASSEDTESTS=$PASSEDTESTS+1))
+		((PASSEDTESTS=PASSEDTESTS+1))
 	else
 		shj_log "WRONG"
 		echo "<span class=\"shj_r\">WRONG</span>" >>$PROBLEMPATH/$UN/result.html
