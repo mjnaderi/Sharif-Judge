@@ -545,7 +545,7 @@ for((i=1;i<=TST;i++)); do
 	fi
 done
 
-if [ "$EXT" = "java" ] && [ "$javaexceptionname" != "" ]; then
+if [ "$javaexceptionname" != "" ]; then
 	echo -e "\n<span class=\"shj_b\">Last Java Exception:</span>" >>$PROBLEMPATH/$UN/result.html
 	echo -e "$javaexceptionname\n$javaexceptionplace" >>$PROBLEMPATH/$UN/result.html
 fi
