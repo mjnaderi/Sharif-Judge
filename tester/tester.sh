@@ -103,14 +103,16 @@ fi
 
 
 LOG="$PROBLEMPATH/$UN/log"; echo "" >>$LOG
-function shj_log {
+function shj_log
+{
 	if $LOG_ON; then
 		echo -e "$@" >>$LOG 
 	fi
 }
 
 
-function shj_finish {
+function shj_finish
+{
 	# Get Current Time (in milliseconds)
 	END=$(($(date +%s%N)/1000000));
 	shj_log "\nTotal Execution Time: $((END-START)) ms"
@@ -202,7 +204,7 @@ fi
 if [ "$EXT" = "py2" ]; then
 	cp $PROBLEMPATH/$UN/$FILENAME.py $FILENAME.py
 	shj_log "Checking Python Syntax"
-	python -O -m py_compile $FILENAME.py >/dev/null 2>cerr
+	python2 -O -m py_compile $FILENAME.py >/dev/null 2>cerr
 	EXITCODE=$?
 	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
 	shj_log "Syntax checked. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
@@ -442,9 +444,9 @@ for((i=1;i<=TST;i++)); do
 
 	elif [ "$EXT" = "py2" ]; then
 		if $PERL_EXISTS; then
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT python -O $FILENAME.py"
+			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT python2 -O $FILENAME.py"
 		else
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "python -O $FILENAME.py"
+			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "python2 -O $FILENAME.py"
 		fi
 		EXITCODE=$?
 
