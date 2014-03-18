@@ -414,9 +414,9 @@ for((i=1;i<=TST;i++)); do
 			continue
 		fi
 		if grep -q -m 1 "^Exception" err; then # show Exception
-			javaexceptionname=`grep -m 1 "^Exception" err`
-			javaexception=`grep -m 1 "$MAINFILENAME.java" err`
-			shj_log "$javaexceptionname\n$javaexception"
+			javaexceptionname=`grep -m 1 "^Exception" err | grep -oE 'java.[a-zA-Z\.]*'`
+			javaexceptionplace=`grep -m 1 "$MAINFILENAME.java" err`
+			shj_log "$javaexceptionname\n$javaexceptionplace"
 			echo "<span class=\"shj_o\">Runtime Error ($javaexceptionname)</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		fi
@@ -547,7 +547,7 @@ done
 
 if [ "$EXT" = "java" ] && [ "$javaexceptionname" != "" ]; then
 	echo -e "\n<span class=\"shj_b\">Last Java Exception:</span>" >>$PROBLEMPATH/$UN/result.html
-	echo -e "$javaexceptionname\n$javaexception" >>$PROBLEMPATH/$UN/result.html
+	echo -e "$javaexceptionname\n$javaexceptionplace" >>$PROBLEMPATH/$UN/result.html
 fi
 
 cd ..
