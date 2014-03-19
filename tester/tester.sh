@@ -56,9 +56,6 @@ C_OPTIONS="-fno-asm -Dasm=error -lm -O2"
 # -Wall ...
 # Read more: http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
 C_WARNING_OPTION="-w"
-#
-# Display java exception to students
-DISPLAY_JAVA_EXCEPTION_ENABLED=false    # true/false
 
 
 
@@ -114,6 +111,12 @@ if [ ${16} = "1" ]; then
 	JAVA_POLICY="-Djava.security.manager -Djava.security.policy=java.policy"
 else
 	JAVA_POLICY=""
+fi
+# enable/disable displaying java exception to students
+if [ ${17} = "1" ]; then
+	DISPLAY_JAVA_EXCEPTION_ON=true
+else
+	DISPLAY_JAVA_EXCEPTION_ON=false
 fi
 
 # DIFFOPTION can also be "ignore" or "exact".
@@ -182,6 +185,7 @@ elif [[ $EXT = "py2" || $EXT = "py3" ]]; then
 	shj_log "Python Shield: $PY_SHIELD_ON"
 elif [[ $EXT = "java" ]]; then
 	shj_log "JAVA_POLICY: \"$JAVA_POLICY\""
+	shj_log "DISPLAY_JAVA_EXCEPTION_ON: $DISPLAY_JAVA_EXCEPTION_ON"
 fi
 
 
@@ -421,7 +425,7 @@ for((i=1;i<=TST;i++)); do
 			javaexceptionname=`grep -m 1 "^Exception" err | grep -oE 'java\.[a-zA-Z\.]*'`
 			javaexceptionplace=`grep -m 1 "$MAINFILENAME.java" err`
 			shj_log "$javaexceptionname\n$javaexceptionplace"
-			if $DISPLAY_JAVA_EXCEPTION_ENABLED; then
+			if $DISPLAY_JAVA_EXCEPTION_ON; then
 				echo "<span class=\"shj_o\">Runtime Error ($javaexceptionname)</span>" >>$PROBLEMPATH/$UN/result.html
 			else
 				echo "<span class=\"shj_o\">Runtime Error</span>" >>$PROBLEMPATH/$UN/result.html
@@ -555,7 +559,7 @@ done
 
 
 # Print last java exception (if enabled)
-if $DISPLAY_JAVA_EXCEPTION_ENABLED && [ "$javaexceptionname" != "" ]; then
+if $DISPLAY_JAVA_EXCEPTION_ON && [ "$javaexceptionname" != "" ]; then
 	echo -e "\n<span class=\"shj_b\">Last Java Exception:</span>" >>$PROBLEMPATH/$UN/result.html
 	echo -e "$javaexceptionname\n$javaexceptionplace" >>$PROBLEMPATH/$UN/result.html
 fi

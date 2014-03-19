@@ -97,6 +97,7 @@ class Install extends CI_Controller
 				'total_submits' => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE),
 				'open'          => array('type' => 'TINYINT', 'constraint' => 1),
 				'scoreboard'    => array('type' => 'TINYINT', 'constraint' => 1),
+				'javaexceptions'=> array('type' => 'TINYINT', 'constraint' => 1),
 				'description'   => array('type' => 'TEXT', 'default' => ''),
 				'start_time'    => array('type' => $DATETIME),
 				'finish_time'   => array('type' => $DATETIME),

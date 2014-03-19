@@ -130,16 +130,22 @@
 </div>
 <div class="panel_right">
 	<p class="input_p">
-		<input id="form_a_open" type="checkbox" name="open" value="1" {{ edit ? (edit_assignment.open ? 'checked') : set_checkbox('open', '1') }} />
-		<label for="form_a_open" class="default">Open</label><br>
-		<span class="form_comment">Open or close this assignment.</span>
+		<input id="form_a_open" type="checkbox" name="open" value="1" {{ edit ? (edit_assignment.open ? 'checked') : set_checkbox('open', '1')|raw }} />
+		<label for="form_a_open" class="default">Open</label>
+		<span class="form_comment space-left">Open or close this assignment</span>
 		{{ form_error('open', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p">
-		<input id="form_a_scoreboard" type="checkbox" name="scoreboard" value="1" {{ edit ? (edit_assignment.scoreboard ? 'checked') : set_checkbox('scoreboard', '1') }} />
-		<label for="form_a_scoreboard" class="default">Scoreboard</label><br>
-		<span class="form_comment">Check this to enable scoreboard.</span>
+		<input id="form_a_scoreboard" type="checkbox" name="scoreboard" value="1" {{ edit ? (edit_assignment.scoreboard ? 'checked') : set_checkbox('scoreboard', '1')|raw }} />
+		<label for="form_a_scoreboard" class="default">Scoreboard</label>
+		<span class="form_comment space-left">Check this to enable scoreboard</span>
 		{{ form_error('scoreboard', '<div class="shj_error">', '</div>') }}
+	</p>
+	<p class="input_p">
+		<input id="form_a_javaexceptions" type="checkbox" name="javaexceptions" value="1" {{ edit ? (edit_assignment.javaexceptions ? 'checked') : set_checkbox('javaexceptions', '1')|raw }} />
+		<label for="form_a_javaexceptions" class="default">Java Exceptions</label>
+		<span class="form_comment space-left">Check this to show Java exceptions to users</span>
+		{{ form_error('javaexceptions', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p">
 		<label for="form_late_rule">Coefficient rule (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#coefficient_rule">?</a>)</label><br>

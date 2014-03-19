@@ -142,6 +142,10 @@ blockquote {
 	width: 100%;
 }
 
+.space-left {
+	margin-left: 7px!important;
+}
+
 /********************************************/
 div#top_bar {
 	top: 0;
