@@ -18,6 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+
 ##################### Example Usage #####################
 # tester.sh /home/mohammad/judge/homeworks/hw6/p1 mjn problem problem c 1 1 50000 1000000 diff -bB 1 1 1 0 1
 # In this example judge assumes that the file is located at:
@@ -25,6 +26,7 @@
 # And test cases are located at:
 # /home/mohammad/judge/homeworks/hw6/p1/in/  {input1.txt, input2.txt, ...}
 # /home/mohammad/judge/homeworks/hw6/p1/out/ {output1.txt, output2.txt, ...}
+
 
 
 ####################### Output #######################
@@ -36,8 +38,29 @@
 #   File Format Not Supported
 #   Judge Error
 
+
+
 # Get Current Time (in milliseconds)
 START=$(($(date +%s%N)/1000000));
+
+
+
+####################### Options #######################
+#
+# Compile options for C/C++
+C_OPTIONS="-fno-asm -Dasm=error -lm -O2"
+#
+# Warning Options for C/C++
+# -w: Inhibit all warning messages
+# -Werror: Make all warnings into errors
+# -Wall ...
+# Read more: http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+C_WARNING_OPTION="-w"
+#
+# Display java exception to students
+DISPLAY_JAVA_EXCEPTION_ENABLED=false    # true/false
+
+
 
 ################### Getting Arguments ###################
 # problem directory
@@ -122,15 +145,13 @@ function shj_finish
 
 
 
-
+#################### Initialization #####################
 
 shj_log "Starting tester..."
 
-#################### Initialization #####################
 # detecting existence of perl
 PERL_EXISTS=true
 hash perl 2>/dev/null || PERL_EXISTS=false
-
 if ! $PERL_EXISTS; then
 	shj_log "Warning: perl not found. We continue without perl..."
 fi
@@ -167,10 +188,10 @@ fi
 
 COMPILE_BEGIN_TIME=$(($(date +%s%N)/1000000));
 
-
 ########################################################################################################
 ############################################ COMPILING JAVA ############################################
 ########################################################################################################
+
 if [ "$EXT" = "java" ]; then
 	cp ../java.policy java.policy
 	cp $PROBLEMPATH/$UN/$FILENAME.java $MAINFILENAME.java
@@ -196,11 +217,10 @@ fi
 
 
 
-
-
 ########################################################################################################
 ########################################## COMPILING PYTHON 2 ##########################################
 ########################################################################################################
+
 if [ "$EXT" = "py2" ]; then
 	cp $PROBLEMPATH/$UN/$FILENAME.py $FILENAME.py
 	shj_log "Checking Python Syntax"
@@ -228,11 +248,10 @@ fi
 
 
 
-
-
 ########################################################################################################
 ########################################## COMPILING PYTHON 3 ##########################################
 ########################################################################################################
+
 if [ "$EXT" = "py3" ]; then
 	cp $PROBLEMPATH/$UN/$FILENAME.py $FILENAME.py
 	shj_log "Checking Python Syntax"
@@ -260,22 +279,9 @@ fi
 
 
 
-
-
 ########################################################################################################
 ############################################ COMPILING C/C++ ###########################################
 ########################################################################################################
-
-# Compile options for C/C++
-OPTIONS="-fno-asm -Dasm=error -lm -O2"
-
-# Warning Options for C/C++
-# -w: Inhibit all warning messages
-# -Werror: Make all warnings into errors
-# -Wall ...
-# Read more: http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
-WARNING_OPTION="-w"
-
 
 if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 	COMPILER="gcc"
@@ -305,12 +311,12 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 			cp ../shield/def$EXT.h def.h
 			# adding define to beginning of code:
 			echo '#define main themainmainfunction' | cat - code.c > thetemp && mv thetemp code.c
-			$COMPILER shield.$EXT $OPTIONS $WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
+			$COMPILER shield.$EXT $C_OPTIONS $C_WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
 			EXITCODE=$?
 		fi
 	else
 		mv code.c code.$EXT
-		$COMPILER code.$EXT $OPTIONS $WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
+		$COMPILER code.$EXT $C_OPTIONS $C_WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
 		EXITCODE=$?
 	fi
 	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
@@ -358,17 +364,14 @@ fi
 
 
 
-
-
 ########################################################################################################
 ################################################ TESTING ###############################################
 ########################################################################################################
+
 shj_log "\nTesting..."
 shj_log "$TST test cases found"
 
 echo "" >$PROBLEMPATH/$UN/result.html
-
-PASSEDTESTS=0
 
 
 if [ -f "$PROBLEMPATH/tester.cpp" ] && [ ! -f "$PROBLEMPATH/tester.executable" ]; then
@@ -394,6 +397,7 @@ if [ -f "$PROBLEMPATH/tester.executable" ]; then
 fi
 
 
+PASSEDTESTS=0
 
 for((i=1;i<=TST;i++)); do
 	shj_log "\n=== TEST $i ==="
@@ -417,7 +421,11 @@ for((i=1;i<=TST;i++)); do
 			javaexceptionname=`grep -m 1 "^Exception" err | grep -oE 'java\.[a-zA-Z\.]*'`
 			javaexceptionplace=`grep -m 1 "$MAINFILENAME.java" err`
 			shj_log "$javaexceptionname\n$javaexceptionplace"
-			echo "<span class=\"shj_o\">Runtime Error ($javaexceptionname)</span>" >>$PROBLEMPATH/$UN/result.html
+			if $DISPLAY_JAVA_EXCEPTION_ENABLED; then
+				echo "<span class=\"shj_o\">Runtime Error ($javaexceptionname)</span>" >>$PROBLEMPATH/$UN/result.html
+			else
+				echo "<span class=\"shj_o\">Runtime Error</span>" >>$PROBLEMPATH/$UN/result.html
+			fi
 			continue
 		fi
 	elif [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
@@ -545,10 +553,13 @@ for((i=1;i<=TST;i++)); do
 	fi
 done
 
-if [ "$javaexceptionname" != "" ]; then
+
+# Print last java exception (if enabled)
+if $DISPLAY_JAVA_EXCEPTION_ENABLED && [ "$javaexceptionname" != "" ]; then
 	echo -e "\n<span class=\"shj_b\">Last Java Exception:</span>" >>$PROBLEMPATH/$UN/result.html
 	echo -e "$javaexceptionname\n$javaexceptionplace" >>$PROBLEMPATH/$UN/result.html
 fi
+
 
 cd ..
 rm -r $JAIL >/dev/null 2>/dev/null # removing files
