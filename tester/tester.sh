@@ -422,8 +422,8 @@ for((i=1;i<=TST;i++)); do
 			continue
 		fi
 		if grep -q -m 1 "^Exception" err; then # show Exception
-			javaexceptionname=`grep -m 1 "^Exception" err | grep -oE 'java\.[a-zA-Z\.]*'`
-			javaexceptionplace=`grep -m 1 "$MAINFILENAME.java" err`
+			javaexceptionname=`grep -m 1 "^Exception" err | grep -oE 'java\.[a-zA-Z\.]*' | head -c 80`
+			javaexceptionplace=`grep -m 1 "$MAINFILENAME.java" err | head -c 80`
 			shj_log "$javaexceptionname\n$javaexceptionplace"
 			# if DISPLAY_JAVA_EXCEPTION_ON is true and the exception is in the trusted list, we show the exception name
 			if $DISPLAY_JAVA_EXCEPTION_ON && grep -q -m 1 "^$javaexceptionname\$" ../trusted_java_exceptions; then
