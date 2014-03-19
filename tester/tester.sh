@@ -424,7 +424,7 @@ for((i=1;i<=TST;i++)); do
 		if grep -q -m 1 "^Exception" err; then # show Exception
 			javaexceptionname=`grep -m 1 "^Exception" err | grep -oE 'java\.[a-zA-Z\.]*' | head -c 80`
 			javaexceptionplace=`grep -m 1 "$MAINFILENAME.java" err | head -c 80`
-			shj_log "Exception: $javaexceptionname\n$javaexceptionplace"
+			shj_log "Exception: $javaexceptionname\nMaybe at:$javaexceptionplace"
 			# if DISPLAY_JAVA_EXCEPTION_ON is true and the exception is in the trusted list, we show the exception name
 			if $DISPLAY_JAVA_EXCEPTION_ON && grep -q -m 1 "^$javaexceptionname\$" ../java_exceptions_list; then
 				echo "<span class=\"shj_o\">Runtime Error ($javaexceptionname)</span>" >>$PROBLEMPATH/$UN/result.html
