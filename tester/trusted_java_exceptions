@@ -1,0 +1,58 @@
+@file trusted_java_exceptions
+@author Mohammad Javad Naderi <mjnaderi@gmail.com>
+# List of Trusted Java Exceptions
+# When "Java Exceptions" is enabled for an assignment, we show the name of an exception if and only if
+# this file contains that name. This is for security reasons.
+
+java.lang.ArithmeticException
+java.lang.ArrayIndexOutOfBoundsException
+java.lang.ArrayStoreException
+java.lang.ClassCastException
+java.lang.ClassNotFoundException
+java.lang.CloneNotSupportedException
+java.lang.EnumConstantNotPresentException
+java.lang.Exception
+java.lang.IllegalAccessException
+java.lang.IllegalArgumentException
+java.lang.IllegalMonitorStateException
+java.lang.IllegalStateException
+java.lang.IllegalThreadStateException
+java.lang.IndexOutOfBoundsException
+java.lang.InstantiationException
+java.lang.InterruptedException
+java.lang.NegativeArraySizeException
+java.lang.NoSuchFieldException
+java.lang.NoSuchMethodException
+java.lang.NullPointerException
+java.lang.NumberFormatException
+java.lang.ReflectiveOperationException
+java.lang.RuntimeException
+java.lang.SecurityException
+java.lang.StringIndexOutOfBoundsException
+java.lang.TypeNotPresentException
+java.lang.UnsupportedOperationException
+
+java.lang.AbstractMethodError
+java.lang.AssertionError
+java.lang.BootstrapMethodError
+java.lang.ClassCircularityError
+java.lang.ClassFormatError
+java.lang.Error
+java.lang.ExceptionInInitializerError
+java.lang.IllegalAccessError
+java.lang.IncompatibleClassChangeError
+java.lang.InstantiationError
+java.lang.InternalError
+java.lang.LinkageError
+java.lang.NoClassDefFoundError
+java.lang.NoSuchFieldError
+java.lang.NoSuchMethodError
+java.lang.OutOfMemoryError
+java.lang.StackOverflowError
+java.lang.ThreadDeath
+java.lang.UnknownError
+java.lang.UnsatisfiedLinkError
+java.lang.UnsupportedClassVersionError
+java.lang.VerifyError
+java.lang.VirtualMachineError
+
