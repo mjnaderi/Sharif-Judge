@@ -62,7 +62,7 @@
 
 {% block title_menu %}
 <span class="title_menu_item">
-	<a href="http://docs.sharifjudge.ir/add_assignment" target="_blank"><i class="fa fa-question-circle color1"></i> Help</a>
+	<a href="http://docs.sharifjudge.ir/en:v1.4:add_assignment" target="_blank"><i class="fa fa-question-circle color1"></i> Help</a>
 </span>
 {% endblock %}
 
@@ -118,7 +118,7 @@
 	<p class="input_p clear">
 		<label for="form_tests_desc">Tests and Descriptions (zip file)<br>
 			<span class="form_comment">
-				<a href="http://docs.sharifjudge.ir/tests_structure" target="_blank">Use this structure</a>
+				<a href="http://docs.sharifjudge.ir/en:v1.4:tests_structure" target="_blank">Use this structure</a>
 			</span>
 		</label>
 
@@ -148,7 +148,7 @@
 		{{ form_error('javaexceptions', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p">
-		<label for="form_late_rule">Coefficient rule (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#coefficient_rule">?</a>)</label><br>
+		<label for="form_late_rule">Coefficient rule (<a target="_blank" href="http://docs.sharifjudge.ir/en:v1.4:add_assignment#coefficient_rule">?</a>)</label><br>
 		<span class="form_comment medium clear" style="display: block;">PHP script without &lt;?php ?&gt; tags</span>
 		<textarea id="form_late_rule" name="late_rule" rows="14" class="sharif_input add_text">{{ edit ? edit_assignment.late_rule : set_value('late_rule', default_late_rule) }}</textarea>
 		{{ form_error('late_rule', '<div class="shj_error">', '</div>') }}
@@ -163,10 +163,10 @@
 		<th rowspan="2">Score</th>
 		<th colspan="3" style="border-bottom: 1px solid #BDBDBD">Time Limit (ms)</th>
 		<th rowspan="2">Memory<br>Limit (kB)</th>
-		<th rowspan="2">Allowed<br>Languages (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#allowed_languages">?</a>)</th>
-		<th rowspan="2">Diff<br>Command (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#diff_command">?</a>)</th>
-		<th rowspan="2">Diff<br>Argument (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#diff_arguments">?</a>)</th>
-		<th rowspan="2">Upload<br>Only (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#upload_only">?</a>)</th>
+		<th rowspan="2">Allowed<br>Languages (<a target="_blank" href="http://docs.sharifjudge.ir/en:v1.4:add_assignment#allowed_languages">?</a>)</th>
+		<th rowspan="2">Diff<br>Command (<a target="_blank" href="http://docs.sharifjudge.ir/en:v1.4:add_assignment#diff_command">?</a>)</th>
+		<th rowspan="2">Diff<br>Argument (<a target="_blank" href="http://docs.sharifjudge.ir/en:v1.4:add_assignment#diff_arguments">?</a>)</th>
+		<th rowspan="2">Upload<br>Only (<a target="_blank" href="http://docs.sharifjudge.ir/en:v1.4:add_assignment#upload_only">?</a>)</th>
 		<th rowspan="2"></th>
 	</tr>
 	<tr>

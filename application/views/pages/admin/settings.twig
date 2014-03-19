@@ -24,7 +24,7 @@ $(document).ready(function(){
 
 {% block title_menu %}
 <span class="title_menu_item">
-	<a href="http://docs.sharifjudge.ir/settings" target="_blank"><i class="fa fa-question-circle color6"></i> Help</a>
+	<a href="http://docs.sharifjudge.ir/en:v1.4:settings" target="_blank"><i class="fa fa-question-circle color6"></i> Help</a>
 </span>
 {% endblock %}
 
@@ -146,7 +146,7 @@ $(document).ready(function(){
 
 	<h2 class="shj_form">
 		Sandboxing <span class="title_menu_item">
-			<a href="http://docs.sharifjudge.ir/sandboxing" target="_blank"><i class="fa fa-question-circle color11"></i> Help</a>
+			<a href="http://docs.sharifjudge.ir/en:v1.4:sandboxing" target="_blank"><i class="fa fa-question-circle color11"></i> Help</a>
 		</span>
 	</h2>
 
@@ -155,7 +155,7 @@ $(document).ready(function(){
 		<label for="form_easysandbox">EasySandbox</label>
 	</p>
 	<p class="form_comment">Enable EasySandbox for C/C++.<br>
-		You must <a href="http://docs.sharifjudge.ir/sandboxing#build_easysandbox" target="_blank">build EasySandbox</a> before enabling it.<br>
+		You must <a href="http://docs.sharifjudge.ir/en:v1.4:sandboxing#build_easysandbox" target="_blank">build EasySandbox</a> before enabling it.<br>
 		{% if not sandbox_built %}
 			<span style="color: red;">You have not built EasySandbox yet.</span>
 		{% endif %}
@@ -166,35 +166,35 @@ $(document).ready(function(){
 		<label for="form_java_policy">Java Policy</label>
 	</p>
 	<p class="form_comment">
-		Enable <a href="http://docs.sharifjudge.ir/sandboxing#java_sandboxing" target="_blank">Java Sandboxing</a>
+		Enable <a href="http://docs.sharifjudge.ir/en:v1.4:sandboxing#java_sandboxing" target="_blank">Java Sandboxing</a>
 	</p>
 
 
 
 	<h2 class="shj_form">
 		Shield <span class="title_menu_item">
-			<a href="http://docs.sharifjudge.ir/shield" target="_blank"><i class="fa fa-question-circle color11"></i> Help</a>
+			<a href="http://docs.sharifjudge.ir/en:v1.4:shield" target="_blank"><i class="fa fa-question-circle color11"></i> Help</a>
 		</span>
 	</h2>
 
 	<p class="input_p">
 		<input id="form_c_sh" type="checkbox" name="enable_c_shield" value="1" {{ enable_c_shield ? 'checked' }}/> <label for="form_c_sh">C Shield</label><br>
-		<span class="form_comment">Enable <a href="http://docs.sharifjudge.ir/shield" target="_blank">Shield</a> for C</span>
+		<span class="form_comment">Enable <a href="http://docs.sharifjudge.ir/en:v1.4:shield" target="_blank">Shield</a> for C</span>
 	</p>
 	<p class="input_p">
 		<input id="form_cpp_sh" type="checkbox" name="enable_cpp_shield" value="1" {{ enable_cpp_shield ? 'checked' }}/>
 		<label for="form_cpp_sh">C++ Shield</label><br>
-		<span class="form_comment">Enable <a href="http://docs.sharifjudge.ir/shield" target="_blank">Shield</a> for C++</span>
+		<span class="form_comment">Enable <a href="http://docs.sharifjudge.ir/en:v1.4:shield" target="_blank">Shield</a> for C++</span>
 	</p>
 	<p class="input_p">
 		<input id="form_py2_sh" type="checkbox" name="enable_py2_shield" value="1" {{ enable_py2_shield ? 'checked' }}/>
 		<label for="form_py2_sh">Python 2 Shield</label><br>
-		<span class="form_comment">Enable <a href="http://docs.sharifjudge.ir/shield" target="_blank">Shield</a> for Python 2</span>
+		<span class="form_comment">Enable <a href="http://docs.sharifjudge.ir/en:v1.4:shield" target="_blank">Shield</a> for Python 2</span>
 	</p>
 	<p class="input_p">
 		<input id="form_py3_sh" type="checkbox" name="enable_py3_shield" value="1" {{ enable_py3_shield ? 'checked' }}/>
 		<label for="form_py3_sh">Python 3 Shield</label><br>
-		<span class="form_comment">Enable <a href="http://docs.sharifjudge.ir/shield" target="_blank">Shield</a> for Python 3</span>
+		<span class="form_comment">Enable <a href="http://docs.sharifjudge.ir/en:v1.4:shield" target="_blank">Shield</a> for Python 3</span>
 	</p>
 	<p class="input_p">
 		<label for="form_def_c">Shield Rules (for C)</label>
