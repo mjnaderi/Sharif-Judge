@@ -424,9 +424,9 @@ for((i=1;i<=TST;i++)); do
 		if grep -q -m 1 "^Exception" err; then # show Exception
 			javaexceptionname=`grep -m 1 "^Exception" err | grep -oE 'java\.[a-zA-Z\.]*' | head -c 80`
 			javaexceptionplace=`grep -m 1 "$MAINFILENAME.java" err | head -c 80`
-			shj_log "$javaexceptionname\n$javaexceptionplace"
+			shj_log "Exception: $javaexceptionname\n$javaexceptionplace"
 			# if DISPLAY_JAVA_EXCEPTION_ON is true and the exception is in the trusted list, we show the exception name
-			if $DISPLAY_JAVA_EXCEPTION_ON && grep -q -m 1 "^$javaexceptionname\$" ../trusted_java_exceptions; then
+			if $DISPLAY_JAVA_EXCEPTION_ON && grep -q -m 1 "^$javaexceptionname\$" ../java_exceptions_list; then
 				echo "<span class=\"shj_o\">Runtime Error ($javaexceptionname)</span>" >>$PROBLEMPATH/$UN/result.html
 			else
 				echo "<span class=\"shj_o\">Runtime Error</span>" >>$PROBLEMPATH/$UN/result.html
@@ -560,8 +560,8 @@ done
 
 
 # After I added the feature for showing java exception name and exception place,
-# I found that the way I am doing it is a security risk. So I added the file "tester/trusted_java_exceptions"
-# and now it is safe to show the exception name (if it is in file trusted_java_exceptions), but we should not 
+# I found that the way I am doing it is a security risk. So I added the file "tester/java_exceptions_list"
+# and now it is safe to show the exception name (if it is in file java_exceptions_list), but we should not 
 # show place of exception. So I commented following lines:
 	## Print last java exception (if enabled)
 	#if $DISPLAY_JAVA_EXCEPTION_ON && [ "$javaexceptionname" != "" ]; then
