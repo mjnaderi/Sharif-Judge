@@ -135,5 +135,15 @@ if ( ! function_exists('shj_random_password'))
 }
 
 
+
+if ( ! function_exists('shj_basename'))
+{
+	function shj_basename($path)
+	{
+		return preg_replace('$^.*[\\\\/]$', '', $path);
+	}
+}
+
+
 /* End of file shj_helper.php */
 /* Location: ./application/helpers/shj_helper.php */

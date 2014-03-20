@@ -113,7 +113,7 @@ class Assignments extends CI_Controller
 
 		// Download the file to browser
 		$this->load->helper('download')->helper('file');
-		$filename = preg_replace('$^.*[\\\\/]$', '', $pdf_files[0]);
+		$filename = shj_basename($pdf_files[0]);
 		force_download($filename, file_get_contents($pdf_files[0]), TRUE);
 	}
 
@@ -145,23 +145,37 @@ class Assignments extends CI_Controller
 		for ($i=1 ; $i<=$number_of_problems ; $i++)
 		{
 
-			$path = $root_path."/p{$i}/in";
+			$path = "$root_path/p{$i}/in";
 			$this->zip->read_dir($path, FALSE, $root_path);
 
-			$path = $root_path."/p{$i}/out";
+			$path = "$root_path/p{$i}/out";
 			$this->zip->read_dir($path, FALSE, $root_path);
 
-			$path = $root_path."/p{$i}/tester.cpp";
+			$path = "$root_path/p{$i}/tester.cpp";
 			if (file_exists($path))
 				$this->zip->add_data("p{$i}/tester.cpp", file_get_contents($path));
 
-			$path = $root_path."/p{$i}/desc.html";
+			$pdf_files = glob("$root_path/p{$i}/*.pdf");
+			if ($pdf_files)
+			{
+				$path = $pdf_files[0];
+				$this->zip->add_data("p{$i}/".shj_basename($path), file_get_contents($path));
+			}
+
+			$path = "$root_path/p{$i}/desc.html";
 			if (file_exists($path))
 				$this->zip->add_data("p{$i}/desc.html", file_get_contents($path));
 
-			$path = $root_path."/p{$i}/desc.md";
+			$path = "$root_path/p{$i}/desc.md";
 			if (file_exists($path))
 				$this->zip->add_data("p{$i}/desc.md", file_get_contents($path));
+		}
+
+		$pdf_files = glob("$root_path/*.pdf");
+		if ($pdf_files)
+		{
+			$path = $pdf_files[0];
+			$this->zip->add_data(shj_basename($path), file_get_contents($path));
 		}
 
 		$this->zip->download("assignment{$assignment_id}_tests_desc_".date('Y-m-d_H-i', shj_now()).'.zip');
