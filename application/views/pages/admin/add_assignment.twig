@@ -52,8 +52,12 @@
 			shj.num_of_problems--;
 			$('#nop').attr('value',shj.num_of_problems);
 		});
-		$('#start_time').datetimepicker();
-		$('#finish_time').datetimepicker();
+		$('#start_time').datetimepicker({
+			timeFormat: 'HH:mm:ss'
+		});
+		$('#finish_time').datetimepicker({
+			timeFormat: 'HH:mm:ss'
+		});
 	});
 </script>
 {% endblock %}
@@ -90,12 +94,12 @@
 	</p>
 	<p class="input_p">
 		<label for="start_time">Start Time</label>
-		<input id="start_time" type="text" name="start_time" class="sharif_input medium" value="{{ edit ? edit_assignment.start_time|date('m/d/Y H:i') : set_value('start_time') }}" />
+		<input id="start_time" type="text" name="start_time" class="sharif_input medium" value="{{ edit ? edit_assignment.start_time|date('m/d/Y H:i:s') : set_value('start_time') }}" />
 		{{ form_error('start_time', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p">
 		<label for="finish_time">Finish Time</label>
-		<input id="finish_time" type="text" name="finish_time" class="sharif_input medium" value="{{ edit ? edit_assignment.finish_time|date('m/d/Y H:i') : set_value('finish_time') }}" />
+		<input id="finish_time" type="text" name="finish_time" class="sharif_input medium" value="{{ edit ? edit_assignment.finish_time|date('m/d/Y H:i:s') : set_value('finish_time') }}" />
 		{{ form_error('finish_time', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p clear">

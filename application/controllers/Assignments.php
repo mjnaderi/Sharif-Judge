@@ -52,8 +52,6 @@ class Assignments extends CI_Controller
 			$item['coefficient'] = $coefficient;
 			$item['delay'] = $delay;
 			$item['extra_time'] = $extra_time;
-			$item['start_time'] = date("Y-m-d H:i", strtotime($item['start_time']));
-			$item['finish_time'] = date("Y-m-d H:i", strtotime($item['finish_time']));
 		}
 
 		$this->twig->display('pages/assignments.twig', $data);
