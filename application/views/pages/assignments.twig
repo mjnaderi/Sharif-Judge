@@ -53,7 +53,7 @@
 	<td><a href="{{ site_url('problems/'~item.id) }}">{{ item.problems }} problem{{ item.problems != 1 ? 's' }}</a></td>
 	<td>{{ item.total_submits }} submission{{ item.total_submits != 1 ? 's' }}</td>
 	<td>
-		{% if item.delay > item.extra_time %}
+		{% if item.finished %}
 			<span style="color: red;">Finished</span>
 		{% else %}
 			{{ item.coefficient }} %

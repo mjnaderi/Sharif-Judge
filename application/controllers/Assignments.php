@@ -50,8 +50,7 @@ class Assignments extends CI_Controller
 				$coefficient = "error";
 			ob_end_clean();
 			$item['coefficient'] = $coefficient;
-			$item['delay'] = $delay;
-			$item['extra_time'] = $extra_time;
+			$item['finished'] = ($delay > $extra_time);
 		}
 
 		$this->twig->display('pages/assignments.twig', $data);
