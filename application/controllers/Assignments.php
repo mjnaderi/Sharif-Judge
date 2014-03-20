@@ -9,8 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Assignments extends CI_Controller
 {
 
-	private $error_messages;
-	private $success_messages;
+	private $messages;
 	private $edit_assignment;
 	private $edit;
 
@@ -24,8 +23,7 @@ class Assignments extends CI_Controller
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
 
-		$this->error_messages = array();
-		$this->success_messages = array();
+		$this->messages = array();
 		$this->edit_assignment = array();
 		$this->edit = FALSE;
 	}
@@ -38,8 +36,7 @@ class Assignments extends CI_Controller
 	{
 		$data = array(
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'success_messages' => $this->success_messages,
-			'error_messages' => $this->error_messages
+			'messages' => $this->messages,
 		);
 
 		foreach ($data['all_assignments'] as &$item)
@@ -95,7 +92,35 @@ class Assignments extends CI_Controller
 	}
 
 
+
 	// ------------------------------------------------------------------------
+
+
+
+	/**
+	 * Download pdf file of an assignment (or problem) to browser
+	 */
+	public function pdf($assignment_id, $problem_id = NULL)
+	{
+		// Find pdf file
+		if ($problem_id === NULL)
+			$pattern = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/*.pdf";
+		else
+			$pattern = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/*.pdf";
+		$pdf_files = glob($pattern);
+		if ( ! $pdf_files )
+			show_error("File not found");
+
+		// Download the file to browser
+		$this->load->helper('download')->helper('file');
+		$filename = preg_replace('$^.*[\\\\/]$', '', $pdf_files[0]);
+		force_download($filename, file_get_contents($pdf_files[0]), TRUE);
+	}
+
+
+
+	// ------------------------------------------------------------------------
+
 
 
 	/**
@@ -114,10 +139,11 @@ class Assignments extends CI_Controller
 
 		$number_of_problems = $assignment['problems'];
 
+		$root_path = rtrim($this->settings_model->get_setting('assignments_root'),'/').
+			"/assignment_{$assignment_id}";
+
 		for ($i=1 ; $i<=$number_of_problems ; $i++)
 		{
-			$root_path = rtrim($this->settings_model->get_setting('assignments_root'),'/').
-				"/assignment_{$assignment_id}";
 
 			$path = $root_path."/p{$i}/in";
 			$this->zip->read_dir($path, FALSE, $root_path);
@@ -138,7 +164,7 @@ class Assignments extends CI_Controller
 				$this->zip->add_data("p{$i}/desc.md", file_get_contents($path));
 		}
 
-		$this->zip->download("assignment{$assignment_id}_tests_desc_".date('Y-m-d_H-i',shj_now()).'.zip');
+		$this->zip->download("assignment{$assignment_id}_tests_desc_".date('Y-m-d_H-i', shj_now()).'.zip');
 	}
 
 
@@ -160,10 +186,13 @@ class Assignments extends CI_Controller
 
 		$this->load->library('zip');
 
+		$assignments_root = rtrim($this->settings_model->get_setting('assignments_root'),'/');
+
 		foreach ($items as $item)
 		{
-			$file_path = rtrim($this->settings_model->get_setting('assignments_root'),'/').
-				"/assignment_{$item['assignment']}/p{$item['problem']}/{$item['username']}/{$item['file_name']}.".filetype_to_extension($item['file_type']);
+			$file_path = $assignments_root.
+				"/assignment_{$item['assignment']}/p{$item['problem']}/{$item['username']}/{$item['file_name']}."
+				.filetype_to_extension($item['file_type']);
 			if ( ! file_exists($file_path))
 				continue;
 			$file = file_get_contents($file_path);
@@ -226,21 +255,20 @@ class Assignments extends CI_Controller
 		$this->load->library('upload');
 
 		if ( ! empty($_POST) )
-			if ($this->_add()){ // add/edit assignment
-				if ( ! $this->edit) // if adding assignment (not editing)
-				{
-					// goto Assignment page
+			if ($this->_add()) // add/edit assignment
+			{
+				//if ( ! $this->edit) // if adding assignment (not editing)
+				//{
+				//   goto Assignments page
 					$this->index();
 					return;
-				}
+				//}
 			}
 
 		$data = array(
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'error_messages' => $this->error_messages,
-			'success_messages' => $this->success_messages,
+			'messages' => $this->messages,
 			'edit' => $this->edit,
-			'upload_error' => $this->upload->display_errors('', ''),
 			'default_late_rule' => $this->settings_model->get_setting('default_late_rule'),
 		);
 
@@ -316,6 +344,8 @@ class Assignments extends CI_Controller
 	private function _add()
 	{
 
+		// Check permission
+
 		if ($this->user->level <= 1) // permission denied
 			show_404();
 
@@ -335,114 +365,169 @@ class Assignments extends CI_Controller
 		$this->form_validation->set_rules('diff_cmd[]', 'diff command', 'required');
 		$this->form_validation->set_rules('diff_arg[]', 'diff argument', 'required');
 
+		// Validate input data
+
 		if ( ! $this->form_validation->run())
 			return FALSE;
+
+
+		// Preparing variables
 
 		if ($this->edit)
 			$the_id = $this->edit_assignment;
 		else
 			$the_id = $this->assignment_model->new_assignment_id();
 
-		$config['upload_path'] = rtrim($this->settings_model->get_setting('assignments_root'), '/');
-		shell_exec('rm '.$config['upload_path'].'/*.zip');
-
-		$config['allowed_types'] = 'zip';
-		$this->upload->initialize($config);
-
-		$assignment_dir = $config['upload_path']."/assignment_{$the_id}";
+		$assignments_root = rtrim($this->settings_model->get_setting('assignments_root'), '/');
+		$assignment_dir = "$assignments_root/assignment_{$the_id}";
 
 
-		// If all problems are Upload-Only, we do not need a zip file
-		if ( ! $this->edit && count($this->input->post('is_upload_only')) == $this->input->post('number_of_problems'))
+
+		// Adding/Editing assignment in database
+
+		if ( ! $this->assignment_model->add_assignment($the_id, $this->edit))
 		{
-			if ( ! file_exists($assignment_dir))
-				mkdir($assignment_dir, 0700);
-
-			// Remove previous test cases and description
-			shell_exec("cd $assignment_dir; rm -rf */in; rm -rf */out; rm -f */tester.cpp; rm -f */tester.executable; rm -f */desc.html; rm -f */desc.md;");
-
-			for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
-				if ( ! file_exists("$assignment_dir/p$i"))
-					mkdir("$assignment_dir/p$i", 0700);
-
-			if($this->assignment_model->add_assignment($the_id, $this->edit)){
-				$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
-				return TRUE;
-			}
-			else{
-				$this->error_messages[] = 'Error '.($this->edit?'updating':'adding').' assignment.';
-				return FALSE;
-			}
+			$this->messages[] = array(
+				'type' => 'error',
+				'text' => 'Error '.($this->edit?'updating':'adding').' assignment.'
+			);
+			return FALSE;
 		}
 
-		elseif ($this->upload->do_upload('tests_desc'))
+		$this->messages[] = array(
+			'type' => 'success',
+			'text' => 'Assignment '.($this->edit?'updated':'added').' successfully.'
+		);
+
+		// Create assignment directory
+		if ( ! file_exists($assignment_dir) )
+			mkdir($assignment_dir, 0700);
+
+
+
+		// Upload Tests (zip file)
+
+		shell_exec('rm -f '.$assignments_root.'/*.zip');
+		$config = array(
+			'upload_path' => $assignments_root,
+			'allowed_types' => 'zip',
+		);
+		$this->upload->initialize($config);
+		$zip_uploaded = $this->upload->do_upload('tests_desc');
+		$u_data = $this->upload->data();
+		if ( $_FILES['tests_desc']['error'] === UPLOAD_ERR_NO_FILE )
+			$this->messages[] = array(
+				'type' => 'notice',
+				'text' => "Notice: You did not upload any zip file for tests. If needed, upload by editing assignment."
+			);
+		elseif ( ! $zip_uploaded )
+			$this->messages[] = array(
+				'type' => 'error',
+				'text' => "Error: Error uploading tests zip file: ".$this->upload->display_errors('', '')
+			);
+		else
+			$this->messages[] = array(
+				'type' => 'success',
+				'text' => "Tests (zip file) uploaded successfully."
+			);
+
+
+
+		// Upload PDF File of Assignment
+
+		$config = array(
+			'upload_path' => $assignment_dir,
+			'allowed_types' => 'pdf',
+		);
+		$this->upload->initialize($config);
+		$old_pdf_files = glob("$assignment_dir/*.pdf");
+		$pdf_uploaded = $this->upload->do_upload("pdf");
+		if ($_FILES['pdf']['error'] === UPLOAD_ERR_NO_FILE)
+			$this->messages[] = array(
+				'type' => 'notice',
+				'text' => "Notice: You did not upload any pdf file for assignment. If needed, upload by editing assignment."
+			);
+		elseif ( ! $pdf_uploaded)
+			$this->messages[] = array(
+				'type' => 'error',
+				'text' => "Error: Error uploading pdf file of assignment: ".$this->upload->display_errors('', '')
+			);
+		else
 		{
+			foreach($old_pdf_files as $old_name)
+				shell_exec("rm -f $old_name");
+			$this->messages[] = array(
+				'type' => 'success',
+				'text' => 'PDF file uploaded successfully.'
+			);
+		}
+
+
+
+		// Extract Tests (zip file)
+
+		if ($zip_uploaded) // if zip file is uploaded
+		{
+			// Create a temp directory
+			$tmp_dir = "$assignments_root/shj_tmp_directory";
+			shell_exec("rm -rf $tmp_dir");
+			mkdir($tmp_dir);
+
+			// Extract new test cases and descriptions in temp directory
 			$this->load->library('unzip');
-			$this->unzip->allow(array('txt', 'cpp', 'html', 'md'));
-			if ( ! file_exists($assignment_dir))
-				mkdir($assignment_dir, 0700);
-			$u_data = $this->upload->data();
-
-			// Remove previous test cases and descriptions
-			shell_exec("cd $assignment_dir; rm -rf */in; rm -rf */out; rm -f */tester.cpp; rm -f */tester.executable; rm -f */desc.html; rm -f */desc.md;");
-
-			// Extract and save new test cases and descriptions
-			$extract_result = $this->unzip->extract($u_data['full_path'], $assignment_dir);
+			$this->unzip->allow(array('txt', 'cpp', 'html', 'md', 'pdf'));
+			$extract_result = $this->unzip->extract($u_data['full_path'], $tmp_dir);
 
 			// Remove the zip file
 			unlink($u_data['full_path']);
 
-			if ( $extract_result !== FALSE){
-				for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
-				{
-					if ( ! file_exists("$assignment_dir/p$i"))
-						mkdir("$assignment_dir/p$i", 0700);
-					elseif (file_exists("$assignment_dir/p$i/desc.md"))
-					{
-						$this->load->library('parsedown');
-						$html = $this->parsedown->parse(file_get_contents("$assignment_dir/p$i/desc.md"));
-						file_put_contents("$assignment_dir/p$i/desc.html", $html);
-					}
-				}
-
-				if ($this->assignment_model->add_assignment($the_id, $this->edit))
-				{
-					$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
-					$this->success_messages[] = 'Tests and descriptions uploaded successfully.';
-					return TRUE;
-				}
-				else
-				{
-					$this->error_messages[] = 'Error '.($this->edit?'updating':'adding').' assignment.';
-					return FALSE;
-				}
+			if ( $extract_result )
+			{
+				// Remove previous test cases and descriptions
+				shell_exec("cd $assignment_dir;"
+					." rm -rf */in; rm -rf */out; rm -f */tester.cpp; rm -f */tester.executable;"
+					." rm -f */desc.html; rm -f */desc.md;");
+				// Copy new test cases from temp dir
+				shell_exec("cd $assignments_root; cp -R tmp/* assignment_{$the_id};");
+				$this->messages[] = array(
+					'type' => 'success',
+					'text' => 'Tests (zip file) extracted successfully.'
+				);
 			}
 			else
 			{
-				$this->error_messages[] = 'Error extracting zip archive.';
-				$this->error_messages = array_merge($this->error_messages , $this->unzip->errors_array());
-				rmdir($assignment_dir);
-				return FALSE;
+				$this->messages[] = array(
+					'type' => 'error',
+					'text' => 'Error: Error extracting zip archive.'
+				);
+				foreach($this->unzip->errors_array() as $msg)
+					$this->messages[] = array(
+						'type' => 'error',
+						'text' => " Zip Extraction Error: ".$msg
+					);
 			}
+
+			// Remove temp directory
+			shell_exec("rm -rf $tmp_dir");
 		}
-		elseif ($this->edit)
+
+
+
+		// Create problem directories and parsing markdown files
+
+		for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
 		{
-			for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
-				if ( ! file_exists($assignment_dir."/p$i"))
-					mkdir($assignment_dir."/p$i", 0700);
-
-			if ($this->assignment_model->add_assignment($the_id, $this->edit))
+			if ( ! file_exists("$assignment_dir/p$i"))
+				mkdir("$assignment_dir/p$i", 0700);
+			elseif (file_exists("$assignment_dir/p$i/desc.md"))
 			{
-				$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
-				return TRUE;
-			}
-			else
-			{
-				$this->error_messages[] = 'Error '.($this->edit?'updating':'adding').' assignment.';
-				return FALSE;
+				$this->load->library('parsedown');
+				$html = $this->parsedown->parse(file_get_contents("$assignment_dir/p$i/desc.md"));
+				file_put_contents("$assignment_dir/p$i/desc.html", $html);
 			}
 		}
-		return FALSE;
+
+		return TRUE;
 	}
 
 
@@ -457,8 +542,11 @@ class Assignments extends CI_Controller
 
 		$this->edit_assignment = $assignment_id;
 		$this->edit = TRUE;
+
+		// redirect to add function
 		$this->add();
 	}
+
 
 
 }

@@ -22,7 +22,7 @@ Download the latest release from [http://sharifjudge.ir/download](http://sharifj
   * Download submitted codes in zip file
   * _"Output Comparison"_ and _"Tester Code"_ methods for checking output correctness
   * Add multiple users
-  * Problem Descriptions (Editable in Markdown and HTML formats)
+  * Problem Descriptions (PDF/Markdown/HTML)
   * Rejudge
   * Scoreboard
   * Notifications
@@ -36,19 +36,20 @@ For running Sharif Judge, a Linux server with following requirements is needed:
   * PHP CLI (PHP command line interface, i.e. `php` shell command)
   * MySql or PostgreSql database
   * PHP must have permission to run shell commands using [`shell_exec()`](http://www.php.net/manual/en/function.shell-exec.php) php function (specially `shell_exec("php");`)
-  * Tools for compiling and running submitted codes (`gcc`, `g++`, `javac`, `java`, `python` and `python3` commands)
+  * Tools for compiling and running submitted codes (`gcc`, `g++`, `javac`, `java`, `python2` and `python3` commands)
   * It is better to have `perl` installed for more precise time and memory limit and imposing size limit on output of submitted code.
 
 ## Installation
 
   1. Download the latest release from [download page](http://sharifjudge.ir/download) and unpack downloaded file in your public html directory.
-  2. Create a MySql or PostgreSql database for Sharif Judge.
-  3. Set database connection settings in `application/config/database.php`.
-  4. Make `application/cache/Twig` writable by php.
-  5. Open the main page of Sharif Judge in a web browser and follow the installation process.
-  6. Log in with your admin account.
-  7. **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
-  8. **[IMPORTANT]** [Secure Sharif Judge](http://docs.sharifjudge.ir/security)
+  2. **[Optional]** Move folders `system` and `application` somewhere outside your public directory. Then save their full path in `index.php` file (`$system_path` and `$application_folder` variables).
+  3. Create a MySql or PostgreSql database for Sharif Judge. Do not install any database connection package for C/C++, Java or Python.
+  4. Set database connection settings in `application/config/database.php`.
+  5. Make `application/cache/Twig` writable by php.
+  6. Open the main page of Sharif Judge in a web browser and follow the installation process.
+  7. Log in with your admin account.
+  8. **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
+  9. **[IMPORTANT]** [Secure Sharif Judge](http://docs.sharifjudge.ir/security)
 
 ## After Installation
 

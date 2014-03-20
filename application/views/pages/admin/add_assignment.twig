@@ -69,11 +69,9 @@
 
 
 {% block main_content %}
-{% for success_message in success_messages %}
-	<p class="shj_ok">{{ success_message }}</p>
-{% endfor %}
-{% for error_message in error_messages %}
-	<p class="shj_error">{{ error_message }}</p>
+{% set msgclasses = {'success': 'shj_g', 'notice': 'shj_o', 'error': 'shj_r'} %}
+{% for message in messages %}
+	<p class="{{ msgclasses[message.type] }}">{{ message.text }}</p>
 {% endfor %}
 
 {% if edit %}
@@ -121,11 +119,15 @@
 				<a href="http://docs.sharifjudge.ir/en:v1.4:tests_structure" target="_blank">Use this structure</a>
 			</span>
 		</label>
-
 		<input id="form_tests_desc" type="file" name="tests_desc" class="sharif_input medium"/>
-		{% if (not edit) and upload_error %}
-			<div class="shj_error">{{ upload_error }}</div>
-		{% endif %}
+	</p>
+	<p class="input_p clear">
+		<label for="form_pdf">PDF File<br>
+			<span class="form_comment">
+				PDF File of Assignment
+			</span>
+		</label>
+		<input id="form_pdf" type="file" name="pdf" class="sharif_input medium"/>
 	</p>
 </div>
 <div class="panel_right">
@@ -150,7 +152,7 @@
 	<p class="input_p">
 		<label for="form_late_rule">Coefficient rule (<a target="_blank" href="http://docs.sharifjudge.ir/en:v1.4:add_assignment#coefficient_rule">?</a>)</label><br>
 		<span class="form_comment medium clear" style="display: block;">PHP script without &lt;?php ?&gt; tags</span>
-		<textarea id="form_late_rule" name="late_rule" rows="14" class="sharif_input add_text">{{ edit ? edit_assignment.late_rule : set_value('late_rule', default_late_rule) }}</textarea>
+		<textarea id="form_late_rule" name="late_rule" rows="20" class="sharif_input add_text">{{ edit ? edit_assignment.late_rule : set_value('late_rule', default_late_rule) }}</textarea>
 		{{ form_error('late_rule', '<div class="shj_error">', '</div>') }}
 	</p>
 </div>

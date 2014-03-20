@@ -20,11 +20,9 @@
 
 
 {% block main_content %}
-{% for success_message in success_messages %}
-	<p class="shj_ok">{{ success_message }}</p>
-{% endfor %}
-{% for error_message in error_messages %}
-	<p class="shj_error">{{ error_message }}</p>
+{% set msgclasses = {'success': 'shj_g', 'notice': 'shj_o', 'error': 'shj_r'} %}
+{% for message in messages %}
+	<p class="{{ msgclasses[message.type] }}">{{ message.text }}</p>
 {% endfor %}
 
 {% if all_assignments|length == 0 %}
@@ -42,6 +40,7 @@
 	<th>Start Time</th>
 	<th>Finish Time</th>
 	<th>Status</th>
+	<th>PDF</th>
 	{% if user.level > 0 %}
 	<th>Actions</th>
 	{% endif %}
@@ -68,6 +67,9 @@
 		{% else %}
 			<span style="color: red;">Close</span>
 		{% endif %}
+	</td>
+	<td>
+		<a href="{{ site_url('assignments/pdf/'~item.id) }}"><img src="{{ base_url('assets/images/pdf.svg') }}" /></a>
 	</td>
 	{% if user.level > 0 %}
 	<td>

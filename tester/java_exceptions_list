@@ -56,3 +56,26 @@ java.lang.UnsupportedClassVersionError
 java.lang.VerifyError
 java.lang.VirtualMachineError
 
+java.util.ConcurrentModificationException
+java.util.EmptyStackException
+java.util.MissingResourceException
+java.util.NoSuchElementException
+java.util.TooManyListenersException
+
+java.io.IOError
+java.io.EOFException
+java.io.FileNotFoundException
+java.io.InterruptedIOException
+java.io.InvalidClassException
+java.io.InvalidObjectException
+java.io.IOException
+java.io.NotActiveException
+java.io.NotSerializableException
+java.io.OptionalDataException
+java.io.StreamCorruptedException
+java.io.SyncFailedException
+java.io.UnsupportedEncodingException
+java.io.UTFDataFormatException
+java.io.WriteAbortedException
+
+java.security.AccessControlException
