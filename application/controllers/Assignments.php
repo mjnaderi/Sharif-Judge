@@ -483,9 +483,9 @@ class Assignments extends CI_Controller
 		if ($zip_uploaded) // if zip file is uploaded
 		{
 			// Create a temp directory
-			$tmp_dir = "$assignments_root/shj_tmp_directory";
-			shell_exec("rm -rf $tmp_dir");
-			mkdir($tmp_dir);
+			$tmp_dir_name = "shj_tmp_directory";
+			$tmp_dir = "$assignments_root/$tmp_dir_name";
+			shell_exec("rm -rf $tmp_dir; mkdir $tmp_dir;");
 
 			// Extract new test cases and descriptions in temp directory
 			$this->load->library('unzip');
@@ -500,9 +500,11 @@ class Assignments extends CI_Controller
 				// Remove previous test cases and descriptions
 				shell_exec("cd $assignment_dir;"
 					." rm -rf */in; rm -rf */out; rm -f */tester.cpp; rm -f */tester.executable;"
-					." rm -f */desc.html; rm -f */desc.md;");
+					." rm -f */desc.html; rm -f */desc.md; rm -f */*.pdf;");
+				if (glob("$tmp_dir/*.pdf"))
+					shell_exec("cd $assignment_dir; rm -f *.pdf");
 				// Copy new test cases from temp dir
-				shell_exec("cd $assignments_root; cp -R tmp/* assignment_{$the_id};");
+				shell_exec("cd $assignments_root; cp -R $tmp_dir_name/* assignment_{$the_id};");
 				$this->messages[] = array(
 					'type' => 'success',
 					'text' => 'Tests (zip file) extracted successfully.'
