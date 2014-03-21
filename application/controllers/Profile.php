@@ -104,15 +104,11 @@ class Profile extends CI_Controller
 	{
 		// Non-admin users should not be able to change user role:
 		if ($this->user->level <= 2)
-			if($role == '')
-				return TRUE;
-			else
-				return FALSE;
+			return ($role == '');
+
 		// Admins can change everybody's user role:
 		$roles = array('admin', 'head_instructor', 'instructor', 'student');
-		if (in_array($role, $roles))
-			return TRUE;
-		return FALSE;
+		return in_array($role, $roles);
 	}
 
 

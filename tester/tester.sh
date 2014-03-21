@@ -2,7 +2,7 @@
 
 #    In the name of ALLAH
 #    Sharif Judge
-#    Copyright (C) 2013  Mohammad Javad Naderi <mjnaderi@gmail.com>
+#    Copyright (C) 2014  Mohammad Javad Naderi <mjnaderi@gmail.com>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 
 ##################### Example Usage #####################
-# tester.sh /home/mohammad/judge/homeworks/hw6/p1 mjn problem problem c 1 1 50000 1000000 diff -bB 1 1 1 0 1
+# tester.sh /home/mohammad/judge/homeworks/hw6/p1 mjn problem problem c 1 1 50000 1000000 diff -bB 1 1 1 0 1 1
 # In this example judge assumes that the file is located at:
 # /home/mohammad/judge/homeworks/hw6/p1/mjn/problem.c
 # And test cases are located at:
@@ -533,7 +533,7 @@ for((i=1;i<=TST;i++)); do
 		fi
 	else
 		cp $PROBLEMPATH/out/output$i.txt correctout
-		if [ "$DIFFOPTION" = "ignore" ];then
+		if [ "$DIFFOPTION" = "ignore" ]; then
 			# Removing all newlines and whitespaces before diff
 			tr -d ' \t\n\r\f' <out >tmp1 && mv tmp1 out;
 			tr -d ' \t\n\r\f' <correctout >tmp1 && mv tmp1 correctout;
@@ -541,9 +541,12 @@ for((i=1;i<=TST;i++)); do
 		# Add a newline at the end of both files
 		echo "" >> out
 		echo "" >> correctout
+		if [ "$DIFFTOOL" = "diff" ]; then
+			# Add -q to diff options (for faster diff)
+			DIFFARGUMENT="-q $DIFFARGUMENT"
+		fi
 		# Compare output files
-		if $DIFFTOOL $DIFFARGUMENT out correctout >/dev/null 2>/dev/null
-		then
+		if $DIFFTOOL $DIFFARGUMENT out correctout >/dev/null 2>/dev/null; then
 			ACCEPTED=true
 		fi
 	fi
