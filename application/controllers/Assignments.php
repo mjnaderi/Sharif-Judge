@@ -185,9 +185,11 @@ class Assignments extends CI_Controller
 	/**
 	 * Compressing and downloading final codes of an assignment to the browser
 	 */
-	public function download($assignment_id = FALSE)
+	public function download_submissions($type = FALSE, $assignment_id = FALSE)
 	{
-		if ($assignment_id === FALSE)
+		if ($type !== 'by_user' && $type !== 'by_problem')
+			show_404();
+		if ($assignment_id === FALSE || ! is_numeric($assignment_id))
 			show_404();
 		if ( $this->user->level == 0) // permission denied
 			show_404();
@@ -207,11 +209,13 @@ class Assignments extends CI_Controller
 			if ( ! file_exists($file_path))
 				continue;
 			$file = file_get_contents($file_path);
-			$this->zip->add_data("by_user/{$item['username']}/p{$item['problem']}.".filetype_to_extension($item['file_type']), $file);
-			$this->zip->add_data("by_problem/problem_{$item['problem']}/{$item['username']}.".filetype_to_extension($item['file_type']), $file);
+			if ($type === 'by_user')
+				$this->zip->add_data("{$item['username']}/p{$item['problem']}.".filetype_to_extension($item['file_type']), $file);
+			elseif ($type === 'by_problem')
+				$this->zip->add_data("problem_{$item['problem']}/{$item['username']}.".filetype_to_extension($item['file_type']), $file);
 		}
 
-		$this->zip->download("assignment{$assignment_id}_codes_".date('Y-m-d_H-i',shj_now()).'.zip');
+		$this->zip->download("assignment{$assignment_id}_submissions_{$type}_".date('Y-m-d_H-i',shj_now()).'.zip');
 	}
 
 

@@ -77,7 +77,8 @@
 			<a href="{{ site_url('assignments/downloadtestsdesc/'~item.id) }}"><i title="Download Tests and Descriptions" class="fa fa-cloud-download fa-lg color11"></i></a>
 		{% endif %}
 		{% if user.level >= 1 %}
-			<a href="{{ site_url('assignments/download/'~item.id) }}"><i title="Download Final Codes" class="fa fa-download fa-lg color12"></i></a>
+			<a href="{{ site_url("assignments/download_submissions/by_user/#{item.id}") }}"><i title="Download Final Submissions (by user)" class="fa fa-download fa-lg color12"></i></a>
+			<a href="{{ site_url("assignments/download_submissions/by_problem/#{item.id}") }}"><i title="Download Final Submissions (by problem)" class="fa fa-download fa-lg color2"></i></a>
 		{% endif %}
 		{% if user.level >= 2 %}
 			<a href="{{ site_url('moss/'~item.id) }}"><i title="Detect Similar Codes" class="fa fa-shield fa-lg color7"></i></a>
