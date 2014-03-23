@@ -25,6 +25,16 @@ CMD=$@
 TIMEOUT_EXISTS=true
 hash timeout 2>/dev/null || TIMEOUT_EXISTS=false
 
+
+if [ $EXT == "py2" ]; then
+        mem=$(pid=$(python2 >/dev/null 2>/dev/null & echo $!) && ps -p $pid -o vsz=; kill $pid >/dev/null 2>/dev/null;)
+        MEMLIMIT=$((MEMLIMIT+mem+5000))
+elif [ $EXT == "py3" ]; then
+        mem=$(pid=$(python3 >/dev/null 2>/dev/null & echo $!) && ps -p $pid -o vsz=; kill $pid >/dev/null 2>/dev/null;)
+        MEMLIMIT=$((MEMLIMIT+mem+5000))
+fi
+
+
 # Imposing memory limit with ulimit
 if [ "$EXT" != "java" ]; then
 	ulimit -v $((MEMLIMIT+10000))
