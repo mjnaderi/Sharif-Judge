@@ -163,8 +163,8 @@ class Install extends CI_Controller
 				show_error("Error creating database table ".$this->db->dbprefix('queue'));
 			//Add UNIQUE (submit_id, username, assignment, problem) constraint
 			$this->db->query(
-				'ALTER TABLE '.$this->db->dbprefix('queue').
-				' ADD CONSTRAINT suap_unique UNIQUE (submit_id, username, assignment, problem);'
+				"ALTER TABLE {$this->db->dbprefix('queue')}
+				 ADD CONSTRAINT {$this->db->dbprefix('suap_unique')} UNIQUE (submit_id, username, assignment, problem);"
 			);
 
 
