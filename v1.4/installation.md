@@ -21,7 +21,7 @@ echo shell_exec("php -v");
 Installation
 ------------
 
-1. Download the latest release from [[http://sharifjudge.ir/download|download page]] and unpack downloaded file in your public html directory.
+1. Download the latest release from (download page)[https://github.com/mjnaderi/Sharif-Judge/releases] and unpack downloaded file in your public html directory.
 2. **[Optional]** Move folders `system` and `application` somewhere outside your public directory, and enter their full path in `index.php` file.
 ```php
 $system_path = '/home/mohammad/secret/system';
