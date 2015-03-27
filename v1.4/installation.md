@@ -42,9 +42,10 @@ $application_folder = '/home/mohammad/secret/application';
 * 5. Make `application/cache/Twig` writable by php.
 * 6. Open Sharif Judge's main page in a web browser and follow the installation process.
 * 7. Log in with your admin account.
-* 8. **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
+* 8.
+    **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
 
-    Important: [Secure Sharif Judge](security.md)
+Important: [Secure Sharif Judge](security.md)
 
 After Installation
 ------------------
