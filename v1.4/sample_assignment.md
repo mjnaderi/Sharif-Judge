@@ -87,7 +87,7 @@ Problem 2 uses "Output Comparison" method for checking output. So it has two fol
 
 Problem 3 is an "Upload-Only" problem.
 
-===== Sample Solutions =====
+## Sample Solutions
 
 Sample solutions for problem 1:
 
