@@ -4,7 +4,7 @@ Shield is an extremely simple mechanism to forbid running of potentially harmful
 
 Shield is not a sandboxing solution. Shield provides only a partial protection against trivial attacks. Real protection against untrusted code comes only by enabling [Sandbox](sandboxing.md).
 
-## Shield for C/C++ =====
+## Shield for C/C++
 
 By enabling Shield for C/C++, Sharif Judge just adds some `#define`s at the beginning of submitted C/C++ code before running.
 
