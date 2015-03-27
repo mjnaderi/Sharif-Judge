@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
 	ifstream test_out(argv[2]);   /* This stream reads from test's output file  */
 	ifstream user_out(argv[3]);   /* This stream reads from user's output file  */
  
-	/* Your judge script here */
+	/* Your code here */
 	/* If user's output is correct, return 0, otherwise return 1       */
  
 	...
@@ -110,7 +110,7 @@ int main(int argc, char const *argv[])
 	ifstream test_out(argv[2]);   /* This stream reads from test's output file  */
 	ifstream user_out(argv[3]);   /* This stream reads from user's output file  */
  
-	/* Your judge script here */
+	/* Your code here */
 	/* If user's output is correct, return 0, otherwise return 1       */
 	/* e.g.: Here the problem is: read n numbers and print their sum:  */
  
