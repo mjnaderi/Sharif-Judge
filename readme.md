@@ -26,8 +26,7 @@ Features
   * Notifications
   * ...
 
-Getting Started
+Documentation
 ===============
 
-  * [Download](https://github.com/mjnaderi/Sharif-Judge/releases)
-  * [Installation](link)
+  * [Sharif Judge v1.4 Documentation](v1.4)

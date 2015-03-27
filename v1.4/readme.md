@@ -1,3 +1,5 @@
+# Sharif Judge v1.4 Documentation
+
 Table of contents:
 
 * [Installation](installation.md)
