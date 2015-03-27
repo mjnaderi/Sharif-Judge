@@ -5,4 +5,5 @@ Table of contents:
 * [Tests Structure](tests_structure.md)
 * [Security](security.md)
 * [Sandboxing](sandboxing.md)
+* [Shield](shield.md)
 
