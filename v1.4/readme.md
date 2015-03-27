@@ -4,6 +4,7 @@ Table of contents:
 * [Users](users.md)
 * [Add Assignment](add_assignment.md)
 * [Tests Structure](tests_structure.md)
+* [Settings](settings.md)
 * [Security](security.md)
 * [Sandboxing](sandboxing.md)
 * [Shield](shield.md)
