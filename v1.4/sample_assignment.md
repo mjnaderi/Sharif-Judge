@@ -12,7 +12,7 @@ Read integer n, and then read n integers. Print sum of these n numbers.
 
 | Sample Input      | Sample Output |
 | ----------------- | ------------- |
-| 5 \\ 54 78 0 4 9  | 145           |
+| 5<br/>54 78 0 4 9  | 145           |
 
 ### Problem 2 (Max):
 
@@ -20,7 +20,7 @@ Read integer n, and then read n integers. Print sum of the two largest numbers b
 
 | Sample Input                       | Sample Output |
 | ---------------------------------- | ------------- |
-| 7 \\ 162 173 159 164 181 158 175   | 356           |
+| 7<br/>162 173 159 164 181 158 175   | 356           |
 
 ### Problem 3 (Upload!):
 
