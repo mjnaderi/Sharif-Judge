@@ -4,4 +4,5 @@ Table of contents:
 * [Add Assignment](add_assignment.md)
 * [Tests Structure](tests_structure.md)
 * [Security](security.md)
+* [Sandboxing](sandboxing.md)
 
