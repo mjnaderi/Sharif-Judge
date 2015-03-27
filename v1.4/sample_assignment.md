@@ -89,7 +89,9 @@ Problem 3 is an "Upload-Only" problem.
 
 ## Sample Solutions
 
-Sample solutions for problem 1:
+### Sample solutions for problem 1:
+
+#### C
 
 ```c
 #include<stdio.h>
@@ -108,6 +110,8 @@ int main(){
 }
 ```
 
+#### C++
+
 ```cpp
 #include <iostream>
 using namespace std;
@@ -123,6 +127,8 @@ int main(){
 	return 0;
 }
 ```
+
+#### Java
 
 ```java
 import java.util.Scanner;
@@ -143,7 +149,10 @@ class sum
 }
 ```
 
-Sample Solution for problem 2:
+### Sample Solution for problem 2:
+
+#### C
+
 ```c
 #include<stdio.h>
 int main(){
@@ -163,6 +172,8 @@ int main(){
 	return 0;
 }
 ```
+
+#### C++
 
 ```cpp
 #include<iostream>
