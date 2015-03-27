@@ -212,7 +212,7 @@ class Install extends CI_Controller
 				array('shj_key' => 'submit_penalty',         'shj_value' => '300'),
 				array('shj_key' => 'enable_registration',    'shj_value' => '0'),
 				array('shj_key' => 'registration_code',      'shj_value' => '0'),
-				array('shj_key' => 'mail_from',              'shj_value' => 'shj@sharifjudge.ir'),
+				array('shj_key' => 'mail_from',              'shj_value' => 'shj@example.com'),
 				array('shj_key' => 'mail_from_name',         'shj_value' => 'Sharif Judge'),
 				array('shj_key' => 'reset_password_mail',    'shj_value' => "<p>\nSomeone requested a password reset for your Sharif Judge account at {SITE_URL}.\n</p>\n<p>\nTo change your password, visit this link:\n</p>\n<p>\n<a href=\"{RESET_LINK}\">Reset Password</a>\n</p>\n<p>\nThe link is valid for {VALID_TIME}. If you don't want to change your password, just ignore this email.\n</p>"),
 				array('shj_key' => 'add_user_mail',          'shj_value' => "<p>\nHello! You are registered in Sharif Judge at {SITE_URL} as {ROLE}.\n</p>\n<p>\nYour username: {USERNAME}\n</p>\n<p>\nYour password: {PASSWORD}\n</p>\n<p>\nYou can log in at <a href=\"{LOGIN_URL}\">{LOGIN_URL}</a>\n</p>"),
