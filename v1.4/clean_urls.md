@@ -20,7 +20,7 @@ This is `.htaccess2` file:
 # You also need to change 
 # $config['index_page'] = 'index.php';
 # to
-# $config['index_page'] = `;
+# $config['index_page'] = '';
 # in application/config/config.php
 # in order to enable clean urls.
 
@@ -38,7 +38,7 @@ $config['index_page'] = 'index.php';
 to
 
 ```php
-$config['index_page'] = `;
+$config['index_page'] = '';
 ```
 
 If it didn't work, just revert the changes!
