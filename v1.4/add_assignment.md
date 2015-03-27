@@ -1,8 +1,7 @@
 Add Assignment
 ==============
 
-    See [Sample Assignment](link) to learn and test adding assignments by adding a sample assignment.
-
+See [Sample Assignment](sample_assignment.md) to learn and test adding assignments by adding a sample assignment.
 
 You can add a new assignment by clicking on "Add" in "Assignments" page. You will see this page:
 
@@ -45,7 +44,7 @@ e.g.
 Tests
 -----
 
-You can upload test cases in a zip file with [this structure](test_structures.md).
+You can upload test cases in a zip file with [this structure](tests_structure.md).
 
 Open
 ----
