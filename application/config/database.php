@@ -84,10 +84,10 @@ $db['default'] = array(
 
 	/*  Enter database connection settings here:  */
 	'dbdriver' => 'mysqli',     // database driver (mysqli, postgre)
-	'hostname' => 'localhost',  // database host
-	'username' => '',           // database username
-	'password' => '',           // database password
-	'database' => '',           // database name
+	'hostname' => '127.0.0.1',  // database host
+	'username' => 'judge',           // database username
+	'password' => 'judge',           // database password
+	'database' => 'judge',     // database name
 	'dbprefix' => 'shj_',       // table prefix
 	/**********************************************/
 
