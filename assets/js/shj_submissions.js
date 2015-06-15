@@ -15,7 +15,8 @@ $(document).ready(function () {
 		e.preventDefault();
 		$('.code-column').selectText();
 	});
-	$(".btn").click(function () {
+	//$(".btn").click(function () {
+	$("td").on('click', '.btn', function () {
 		var button = $(this);
 		var row = button.parents('tr');
 		var type = button.data('type');
@@ -84,7 +85,7 @@ $(document).ready(function () {
 				if (response.done) {
 					row.children('.status').html('<div class="btn pending" data-code="0">PENDING</div>');
 					noty({text: 'Rejudge in progress', layout: 'bottomRight', type: 'success', timeout: 2500});
-					setTimeout(update_status, update_status_interval);
+					//setTimeout(update_status, update_status_interval);
 				}
 				else
 					shj.loading_failed(response.message);
@@ -125,7 +126,7 @@ $(document).ready(function () {
 });
 
 
-update_status_interval = 15000;
+update_status_interval = 5000;
 function update_status(){
 	
 	$('tr').each(function(){
@@ -148,25 +149,25 @@ function update_status(){
 					response = JSON.parse(response);
 					//console.log(response.status);
 					//console.log(typeof response);
+					var element;
 					switch (response.status.toLowerCase() ){
 						case 'pending':
-							status.children('.status').html('<div class="btn pending" data-code="0">PENDING</div>');
+							element = ('<div class="btn pending" data-code="0">PENDING</div>');
 					 		noty({text: 'Still judging', layout: 'bottomRight', type: 'success', timeout: 2500});
 						break;
 
 						case  'score' :
-							var a = '<div class="btn ' + (response.fullmark ? 'shj-green' : 'shj-red');
-							a += '" data-type="result" >' + response.final_score + '</div>';
-							status.html(a);
+							element = '<div class="btn ' + (response.fullmark ? 'shj-green' : 'shj-red');
+							element += '" data-type="result" >' + response.final_score + '</div>';
 							noty({text: 'Submission has been judged', layout: 'bottomRight', type: 'success', timeout: 2500});
 						break;
 
 						default:
-							status.children('.status').html('<div class="btn shj-blue" data-code="0">' 
+							element = ('<div class="btn shj-blue" data-code="0">' 
 															+ response.status + '</div>');
-
 					}
-						
+					status.html(element);
+
 					// }
 					// else
 					// 	shj.loading_failed(response.message);
