@@ -85,7 +85,7 @@ $(document).ready(function () {
 				if (response.done) {
 					row.children('.status').html('<div class="btn pending" data-code="0">PENDING</div>');
 					noty({text: 'Rejudge in progress', layout: 'bottomRight', type: 'success', timeout: 2500});
-					//setTimeout(update_status, update_status_interval);
+					setTimeout(update_status, update_status_interval);
 				}
 				else
 					shj.loading_failed(response.message);
@@ -126,7 +126,7 @@ $(document).ready(function () {
 });
 
 
-update_status_interval = 5000;
+update_status_interval = 6000;
 function update_status(){
 	
 	$('tr').each(function(){
@@ -153,13 +153,13 @@ function update_status(){
 					switch (response.status.toLowerCase() ){
 						case 'pending':
 							element = ('<div class="btn pending" data-code="0">PENDING</div>');
-					 		noty({text: 'Still judging', layout: 'bottomRight', type: 'success', timeout: 2500});
+					 		noty({text: 'Still judging', layout: 'bottomRight', type: 'success', timeout: 2000});
 						break;
 
 						case  'score' :
 							element = '<div class="btn ' + (response.fullmark ? 'shj-green' : 'shj-red');
 							element += '" data-type="result" >' + response.final_score + '</div>';
-							noty({text: 'Submission has been judged', layout: 'bottomRight', type: 'success', timeout: 2500});
+							noty({text: 'Submission has been judged', layout: 'bottomRight', type: 'success', timeout: 2000});
 						break;
 
 						default:
