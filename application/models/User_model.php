@@ -174,7 +174,7 @@ class User_model extends CI_Model
 			if (strlen($line) == 0 OR $line[0] == '#')
 				continue; //ignore comments and empty lines
 
-			$parts = preg_split('/\s+,\s+/', $line);
+			$parts = preg_split('/\s*,\s*/', $line);
 			if (count($parts) != 5)
 				continue; //ignore lines that not contain 5 parts
 
