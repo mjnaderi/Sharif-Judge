@@ -136,8 +136,14 @@ class Submit extends CI_Controller
 			$this->data['error'] = 'Selected assignment is closed.';
 		elseif (shj_now() < strtotime($this->user->selected_assignment['start_time']))
 			$this->data['error'] = 'Selected assignment has not started.';
-		elseif (shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) // deadline = finish_time + extra_time
-			$this->data['error'] = 'Selected assignment has finished.';
+		elseif (strtotime($this->user->selected_assignment['start_time']) < strtotime($this->user->selected_assignment['finish_time'])
+		  		&& shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) 
+		{
+		  		// deadline = finish_time + extra_time
+				// but if start time is before finish time, the deadline is NEVER
+			
+			$this->data['error'] =  'Selected assignment has finished.';
+		}
 		elseif ( ! $this->assignment_model->is_participant($this->user->selected_assignment['participants'],$this->user->username) )
 			$this->data['error'] = 'You are not registered for submitting.';
 		else
@@ -172,7 +178,8 @@ class Submit extends CI_Controller
 			show_error('Selected assignment has been closed.');
 		if ($now < strtotime($this->user->selected_assignment['start_time']))
 			show_error('Selected assignment has not started.');
-		if ($now > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time'])
+		if (strtotime($this->user->selected_assignment['start_time']) < strtotime($this->user->selected_assignment['finish_time'])
+			&& $now > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time'])
 			show_error('Selected assignment has finished.');
 		if ( ! $this->assignment_model->is_participant($this->user->selected_assignment['participants'],$this->user->username) )
 			show_error('You are not registered for submitting.');
