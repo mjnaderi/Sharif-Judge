@@ -152,7 +152,7 @@ function update_status(){
 					var element;
 					switch (response.status.toLowerCase() ){
 						case 'pending':
-							element = ('<div class="btn pending" data-code="0">PENDING</div>');
+							element = ('<div class="btn pending" data-type="result" data-code="0">PENDING</div>');
 					 		noty({text: 'Still judging', layout: 'bottomRight', type: 'success', timeout: 2000});
 						break;
 
@@ -163,7 +163,7 @@ function update_status(){
 						break;
 
 						default:
-							element = ('<div class="btn shj-blue" data-code="0">' 
+							element = ('<div class="btn shj-blue" data-code="0" data-type="result">' 
 															+ response.status + '</div>');
 					}
 					status.html(element);
