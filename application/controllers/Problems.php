@@ -43,10 +43,13 @@ class Problems extends CI_Controller
 		if ($assignment_id == 0)
 			show_error('No assignment selected.');
 		
-		if 	($this->user->level == 0 && shj_now() < strtotime($assignment['start_time'])){
+		$assignment = $this->assignment_model->assignment_info($assignment_id);
+		
+		if 	(shj_now() < strtotime($assignment['start_time'])
+			&& $this->user->level == 0 
+			){
 			show_error("selected assignment hasn't started yet");
 		}
-		$assignment = $this->assignment_model->assignment_info($assignment_id);
 
 		$data = array(
 			'all_assignments' => $this->all_assignments,
