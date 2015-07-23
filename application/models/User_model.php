@@ -177,7 +177,7 @@ class User_model extends CI_Model
 			$parts = preg_split('/\s*,\s*/', $line);
 			if (count($parts) != 5)
 				continue; //ignore lines that not contain 5 parts
-
+//echo $line;
 			if (strtolower(substr($parts[2], 0, 6)) == 'random')
 			{
 				// generate random password
