@@ -17,4 +17,4 @@ tester/easysandbox/t/*
 tester/moss
 
 # ignore uploaded asignment
-asignments/*
+assignments/*
