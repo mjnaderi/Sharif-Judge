@@ -78,7 +78,7 @@ class Problems extends CI_Controller
 
 		if ( $assignment['id'] == 0
 			OR ( $this->user->level == 0 && ! $assignment['open'] )
-			OR shj_now() < strtotime($assignment['start_time'])
+			OR (shj_now() < strtotime($assignment['start_time']) && $this->user->level == 0)
 			OR ( strtotime($assignment['start_time']) < strtotime($assignment['finish_time'])
 				&& shj_now() > strtotime($assignment['finish_time'])+$assignment['extra_time'] // deadline = finish_time + extra_time
 				)

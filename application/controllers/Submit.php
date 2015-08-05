@@ -134,7 +134,8 @@ class Submit extends CI_Controller
 		elseif ($this->user->level == 0 && ! $this->user->selected_assignment['open'])
 			// if assignment is closed, non-student users (admin, instructors) still can submit
 			$this->data['error'] = 'Selected assignment is closed.';
-		elseif (shj_now() < strtotime($this->user->selected_assignment['start_time']))
+		elseif (shj_now() < strtotime($this->user->selected_assignment['start_time']) && $this->user->level == 0 )
+			// non-student users can submit to not started assignments
 			$this->data['error'] = 'Selected assignment has not started.';
 		elseif (strtotime($this->user->selected_assignment['start_time']) < strtotime($this->user->selected_assignment['finish_time'])
 		  		&& shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) 
@@ -176,7 +177,7 @@ class Submit extends CI_Controller
 			show_error('You have already submitted for this problem. Your last submission is still in queue.');
 		if ($this->user->level==0 && !$this->user->selected_assignment['open'])
 			show_error('Selected assignment has been closed.');
-		if ($now < strtotime($this->user->selected_assignment['start_time']))
+		if ($now < strtotime($this->user->selected_assignment['start_time']) && $this->user->level == 0)
 			show_error('Selected assignment has not started.');
 		if (strtotime($this->user->selected_assignment['start_time']) < strtotime($this->user->selected_assignment['finish_time'])
 			&& $now > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time'])
