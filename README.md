@@ -1,6 +1,6 @@
 #Wecode 
 
-Wecode judge, originally forked from[Sharif Judge](https://github.com/mjnaderi/Sharif-Judge) is a free and open source online judge for C, C++, Java and
+Wecode judge, originally forked from[Sharif Judge](https://github.com/mjnaderi/Sharif-Judge), is a free and open source online judge for C, C++, Java and
 Python programming courses.
 
 The web interface is written in PHP (CodeIgniter framework) and the main backend is written in BASH.
@@ -30,7 +30,7 @@ Download the latest release from https://github.com/mjnaderi/Sharif-Judge/releas
 
 ## Requirements
 
-For running Sharif Judge, a Linux server with following requirements is needed:
+For running Wecode judge, a Linux server with following requirements is needed:
 
   * Webserver running PHP version 5.3 or later with `mysqli` extension
   * PHP CLI (PHP command line interface, i.e. `php` shell command)
@@ -41,20 +41,20 @@ For running Sharif Judge, a Linux server with following requirements is needed:
 
 ## Installation
 
-  1. Download the latest release from [download page](https://github.com/mjnaderi/Sharif-Judge/releases) and unpack downloaded file in your public html directory.
-  2. **[Optional]** Move folders `system` and `application` somewhere outside your public directory. Then save their full path in `index.php` file (`$system_path` and `$application_folder` variables).
-  3. Create a MySql or PostgreSql database for Sharif Judge. Do not install any database connection package for C/C++, Java or Python.
-   1. For some weird reason with CodeIgniter, your database name must not contain dot *.* character
+  1. Clone latest release from [github repository](https://github.com/truongan/Sharif-Judge/) into a directory with read/write permission. Then put the index.php file in your public directory
+  2. Take note the location of `system` and `application`  folders, then save their full path in `index.php` file (`$system_path` and `$application_folder` variables).
+  3. Create a MySql or PostgreSql database for Wecode judge. Do not install any database connection package for C/C++, Java or Python.
+   1. For some weird reason with CodeIgniter, your database name must not contain dot "*.*" character
   4. Copy `application/config/database.php.example` to application/config/database.php and set approriate database connection settings 
   5. Make `application/cache/Twig` writable by php.
-  6. Open the main page of Sharif Judge in a web browser and follow the installation process.
+  6. Open the main page of Wecode judge in a web browser and follow the installation process.
   7. Log in with your admin account.
   8. **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
-  9. **[IMPORTANT]** [Secure Sharif Judge](https://github.com/mjnaderi/Sharif-Judge/blob/docs/v1.4/security.md)
+  9. **[IMPORTANT]** [Secure Wecode judge](https://github.com/truongan/Sharif-Judge/blob/docs/v1.4/security.md)
 
 ## After Installation
 
-  * Read the [documentation](https://github.com/mjnaderi/Sharif-Judge/tree/docs)
+  * Read the [documentation](https://github.com/truongan/Sharif-Judge/tree/docs)
 
 ## License
 
