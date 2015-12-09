@@ -39,7 +39,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://khmt.uit.edu.vn/laptrinh/wecode.testground/';
+$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ $config['base_url']	= 'http://khmt.uit.edu.vn/laptrinh/wecode.testground/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -272,7 +272,7 @@ $config['cache_path'] = '';
 | http://codeigniter.com/user_guide/libraries/sessions.html
 |
 */
-$config['encryption_key'] = 'duDPBko8ICj9eSlgUx7LiY2HpnATr1Jf';
+$config['encryption_key'] = 'yPtrogSkhMuQcTbeC2ZEp7vGFL0mfn6R';
 
 /*
 |--------------------------------------------------------------------------
