@@ -7,10 +7,16 @@
 }
 
 body {
-	background-color: #333;
+	background: #333;
 	color: #2d2d2d;
 	font-size: 12px;
 	font-family: sans-serif;
+}
+
+.uitguy {
+	position: absolute;
+	right: 0;
+	bottom: 0;
 }
 
 a {
