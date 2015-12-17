@@ -36,56 +36,61 @@ class Problems extends CI_Controller
 	 */
 	public function index($assignment_id = NULL, $problem_id = 1)
 	{
-
 		// If no assignment is given, use selected assignment
 		if ($assignment_id === NULL)
 			$assignment_id = $this->user->selected_assignment['id'];
-		if ($assignment_id == 0)
-			show_error('No assignment selected.');
-		
-		$assignment = $this->assignment_model->assignment_info($assignment_id);
-		
-		if 	(shj_now() < strtotime($assignment['start_time'])
-			&& $this->user->level == 0 
-			){
-			show_error("selected assignment hasn't started yet");
+
+		//echo $data['error']; die();
+		if ($assignment_id == 0) { 
+			$data['error'] = 'Please select an assignment first';
+			//show_error('No assignment selected.');
+		} else {
+
+			$assignment = $this->assignment_model->assignment_info($assignment_id);
+			
+			if 	(shj_now() < strtotime($assignment['start_time'])
+				&& $this->user->level == 0 
+				){
+				show_error("selected assignment hasn't started yet");
+			}
+
+			$data = array(
+				'all_assignments' => $this->all_assignments,
+				'all_problems' => $this->assignment_model->all_problems($assignment_id),
+				'description_assignment' => $assignment,
+				'can_submit' => TRUE,
+			);
+
+			if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > $data['description_assignment']['problems'])
+				show_404();
+
+			$languages = explode(',',$data['all_problems'][$problem_id]['allowed_languages']);
+
+			$assignments_root = rtrim($this->settings_model->get_setting('assignments_root'),'/');
+			$problem_dir = "$assignments_root/assignment_{$assignment_id}/p{$problem_id}";
+			$data['problem'] = array(
+				'id' => $problem_id,
+				'description' => '<p>Description not found</p>',
+				'allowed_languages' => $languages,
+				'has_pdf' => glob("$problem_dir/*.pdf") != FALSE
+			);
+
+			$path = "$problem_dir/desc.html";
+			if (file_exists($path))
+				$data['problem']['description'] = file_get_contents($path);
+
+			if ( $assignment['id'] == 0
+				OR ( $this->user->level == 0 && ! $assignment['open'] )
+				OR (shj_now() < strtotime($assignment['start_time']) && $this->user->level == 0)
+				OR ( strtotime($assignment['start_time']) < strtotime($assignment['finish_time'])
+					&& shj_now() > strtotime($assignment['finish_time'])+$assignment['extra_time'] // deadline = finish_time + extra_time
+					)
+				OR ! $this->assignment_model->is_participant($assignment['participants'], $this->user->username)
+			)
+				$data['can_submit'] = FALSE;
+
+			$data['error'] = 'none';
 		}
-
-		$data = array(
-			'all_assignments' => $this->all_assignments,
-			'all_problems' => $this->assignment_model->all_problems($assignment_id),
-			'description_assignment' => $assignment,
-			'can_submit' => TRUE,
-		);
-
-		if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > $data['description_assignment']['problems'])
-			show_404();
-
-		$languages = explode(',',$data['all_problems'][$problem_id]['allowed_languages']);
-
-		$assignments_root = rtrim($this->settings_model->get_setting('assignments_root'),'/');
-		$problem_dir = "$assignments_root/assignment_{$assignment_id}/p{$problem_id}";
-		$data['problem'] = array(
-			'id' => $problem_id,
-			'description' => '<p>Description not found</p>',
-			'allowed_languages' => $languages,
-			'has_pdf' => glob("$problem_dir/*.pdf") != FALSE
-		);
-
-		$path = "$problem_dir/desc.html";
-		if (file_exists($path))
-			$data['problem']['description'] = file_get_contents($path);
-
-		if ( $assignment['id'] == 0
-			OR ( $this->user->level == 0 && ! $assignment['open'] )
-			OR (shj_now() < strtotime($assignment['start_time']) && $this->user->level == 0)
-			OR ( strtotime($assignment['start_time']) < strtotime($assignment['finish_time'])
-				&& shj_now() > strtotime($assignment['finish_time'])+$assignment['extra_time'] // deadline = finish_time + extra_time
-				)
-			OR ! $this->assignment_model->is_participant($assignment['participants'], $this->user->username)
-		)
-			$data['can_submit'] = FALSE;
-
 		$this->twig->display('pages/problems.twig', $data);
 	}
 
