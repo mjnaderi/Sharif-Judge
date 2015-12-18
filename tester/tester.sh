@@ -132,7 +132,7 @@ LOG="$PROBLEMPATH/$UN/log"; echo "" >>$LOG
 function shj_log
 {
 	if $LOG_ON; then
-		echo -e "$@" >>$LOG 
+		echo -e "$@" >>$LOG
 	fi
 }
 
@@ -288,7 +288,7 @@ fi
 ########################################################################################################
 
 if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
-	COMPILER="gcc"
+	COMPILER="gcc -std=c99"
 	if [ "$EXT" = "cpp" ]; then
 		COMPILER="g++"
 	fi
@@ -406,9 +406,9 @@ PASSEDTESTS=0
 for((i=1;i<=TST;i++)); do
 	shj_log "\n=== TEST $i ==="
 	echo "<span class=\"shj_b\">Test $i</span>" >>$PROBLEMPATH/$UN/result.html
-	
+
 	touch err
-	
+
 	if [ "$EXT" = "java" ]; then
 		if $PERL_EXISTS; then
 			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT java -mx${MEMLIMIT}k $JAVA_POLICY $MAINFILENAME"
@@ -507,7 +507,7 @@ for((i=1;i<=TST;i++)); do
 		t=`grep "FINISHED" err|cut -d" " -f3`
 		shj_log "Time: $t s"
 	fi
-	
+
 	if [ $EXITCODE -eq 137 ]; then
 		#shj_log "Time Limit Exceeded (Exit code=$EXITCODE)"
 		#echo "<span style='color: orange;'>Time Limit Exceeded</span>" >>$PROBLEMPATH/$UN/result.html
@@ -522,7 +522,7 @@ for((i=1;i<=TST;i++)); do
 		echo "<span class=\"shj_o\">Runtime Error</span>" >>$PROBLEMPATH/$UN/result.html
 		continue
 	fi
-	
+
 	# checking correctness of output
 	ACCEPTED=false
 	if [ -f shj_tester ]; then
@@ -564,7 +564,7 @@ done
 
 # After I added the feature for showing java exception name and exception place,
 # I found that the way I am doing it is a security risk. So I added the file "tester/java_exceptions_list"
-# and now it is safe to show the exception name (if it is in file java_exceptions_list), but we should not 
+# and now it is safe to show the exception name (if it is in file java_exceptions_list), but we should not
 # show place of exception. So I commented following lines:
 	## Print last java exception (if enabled)
 	#if $DISPLAY_JAVA_EXCEPTION_ON && [ "$javaexceptionname" != "" ]; then
