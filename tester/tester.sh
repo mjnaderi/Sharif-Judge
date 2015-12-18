@@ -128,7 +128,7 @@ if [[ "$DIFFOPTION" != "identical" && "$DIFFOPTION" != "ignore" ]]; then
 fi
 
 
-LOG="$PROBLEMPATH/$UN/log"; echo "" >>$LOG
+LOG="$PROBLEMPATH/$UN/log"; echo "" >$LOG
 function shj_log
 {
 	if $LOG_ON; then
@@ -290,7 +290,7 @@ fi
 if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 	COMPILER="gcc -std=c99"
 	if [ "$EXT" = "cpp" ]; then
-		COMPILER="g++ -std=c++03"
+		COMPILER="g++ -std=c++98"
 	fi
 	EXEFILE="s_$(echo $FILENAME | sed 's/[^a-zA-Z0-9]//g')" # Name of executable file
 	cp $PROBLEMPATH/$UN/$FILENAME.$EXT code.c
@@ -449,6 +449,7 @@ for((i=1;i<=TST;i++)); do
 			#./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>/dev/null
 			if $PERL_EXISTS; then
 				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$EXEFILE"
+				#shj_log "./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt ./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$EXEFILE"
 			else
 				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./$EXEFILE"
 			fi

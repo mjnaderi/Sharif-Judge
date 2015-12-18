@@ -44,6 +44,10 @@ class Queueprocess extends CI_Controller
 			$this->settings_model->set_setting('queue_is_working', '0');
 			exit;
 		}
+
+		//To pause the queue when debugging, just exit here
+		//exit;
+
 		if ($this->settings_model->get_setting('queue_is_working'))
 		 	exit;
 
@@ -133,7 +137,7 @@ class Queueprocess extends CI_Controller
 
 			//reconnect to database incase we have run test for a long time.
 			$this->db->reconnect();
-			
+
 			// Save the result
 			$this->queue_model->save_judge_result_in_db($submission, $type);
 
