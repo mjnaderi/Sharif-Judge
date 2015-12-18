@@ -290,7 +290,7 @@ fi
 if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 	COMPILER="gcc -std=c99"
 	if [ "$EXT" = "cpp" ]; then
-		COMPILER="g++"
+		COMPILER="g++ -std=c++03"
 	fi
 	EXEFILE="s_$(echo $FILENAME | sed 's/[^a-zA-Z0-9]//g')" # Name of executable file
 	cp $PROBLEMPATH/$UN/$FILENAME.$EXT code.c
