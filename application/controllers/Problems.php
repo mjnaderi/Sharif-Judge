@@ -36,19 +36,24 @@ class Problems extends CI_Controller
 	 */
 	public function index($assignment_id = NULL, $problem_id = 1)
 	{
-
 		// If no assignment is given, use selected assignment
 		if ($assignment_id === NULL)
 			$assignment_id = $this->user->selected_assignment['id'];
-		if ($assignment_id == 0)
-			show_error('No assignment selected.');
+
 		
+		if ($assignment_id == 0) { 
+			$data['error'] = 'Please select an assignment first';
+			$this->twig->display('pages/problems.twig', $data);	
+			return;
+		} 
+
 		$assignment = $this->assignment_model->assignment_info($assignment_id);
 		
 		if 	(shj_now() < strtotime($assignment['start_time'])
 			&& $this->user->level == 0 
 			){
-			show_error("selected assignment hasn't started yet");
+			$this->twig->display('pages/problems.twig', array('error' => "selected assignment hasn't started yet"));
+			return;
 		}
 
 		$data = array(
@@ -86,6 +91,7 @@ class Problems extends CI_Controller
 		)
 			$data['can_submit'] = FALSE;
 
+		$data['error'] = 'none';
 		$this->twig->display('pages/problems.twig', $data);
 	}
 
