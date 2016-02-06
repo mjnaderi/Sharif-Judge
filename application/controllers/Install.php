@@ -108,8 +108,11 @@ class Install extends CI_Controller
 			);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->add_key('id', TRUE); // PRIMARY KEY
-			if ( ! $this->dbforge->create_table('assignments', TRUE))
-				show_error("Error creating database table ".$this->db->dbprefix('assignments'));
+			if ( ! $this->dbforge->create_table('assignments', TRUE)){
+				
+				show_error("Error creating database table ".$this->db->dbprefix('assignments') . print_r($this->db->error(), true));
+				
+			}
 
 
 			// create table 'notifications'
