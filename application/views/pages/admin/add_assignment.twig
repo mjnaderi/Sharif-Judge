@@ -110,7 +110,7 @@
 			Extra Time (minutes)<br>
 			<span class="form_comment">Extra time for late submissions.</span>
 		</label>
-		<input id="form_extra_time" type="text" name="extra_time" id="extra_time" class="sharif_input medium" value="{{ edit ? edit_assignment.extra_time|extra_time_formatter : set_value('extra_time') }}" />
+		<input id="form_extra_time" type="text" name="extra_time" id="extra_time" class="sharif_input medium" value="{{ edit ? edit_assignment.extra_time|extra_time_formatter : set_value('extra_time', 0) }}" />
 		{{ form_error('extra_time', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p clear">
@@ -139,9 +139,9 @@
 </div>
 <div class="panel_right">
 	<p class="input_p">
-		<input id="form_a_open" type="checkbox" name="open" value="1" {{ edit ? (edit_assignment.open ? 'checked') : set_checkbox('open', '1')|raw }} />
+		<input id="form_a_open" type="checkbox" name="open" value="1" {{ edit ? (edit_assignment.open ? 'checked') : set_checkbox('open', '1', true)|raw }} />
 		<label for="form_a_open" class="default">Open</label>
-		<span class="form_comment space-left">Open or close this assignment</span>
+		<span class="form_comment space-left">Open or close this assignment for submission</span>
 		{{ form_error('open', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p">
