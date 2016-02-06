@@ -98,18 +98,18 @@ class Install extends CI_Controller
 				'open'          => array('type' => 'TINYINT', 'constraint' => 1),
 				'scoreboard'    => array('type' => 'TINYINT', 'constraint' => 1),
 				'javaexceptions'=> array('type' => 'TINYINT', 'constraint' => 1),
-				'description'   => array('type' => 'TEXT', 'default' => ''),
+				'description'   => array('type' => 'TEXT'),
 				'start_time'    => array('type' => $DATETIME),
 				'finish_time'   => array('type' => $DATETIME),
 				'extra_time'    => array('type' => 'INT', 'constraint' => 11),
 				'late_rule'     => array('type' => 'TEXT'),
-				'participants'  => array('type' => 'TEXT', 'default' => ''),
+				'participants'  => array('type' => 'TEXT'),
 				'moss_update'   => array('type' => 'VARCHAR', 'constraint' => 30, 'default' => 'Never'),
 			);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->add_key('id', TRUE); // PRIMARY KEY
 			if ( ! $this->dbforge->create_table('assignments', TRUE)){
-				
+				var_dump($this->db->last_query());
 				show_error("Error creating database table ".$this->db->dbprefix('assignments') . print_r($this->db->error(), true));
 				
 			}
@@ -119,7 +119,7 @@ class Install extends CI_Controller
 			$fields = array(
 				'id'            => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'auto_increment' => TRUE),
 				'title'         => array('type' => 'VARCHAR', 'constraint' => 200, 'default' => ''),
-				'text'          => array('type' => 'TEXT', 'default' => ''),
+				'text'          => array('type' => 'TEXT'),
 				'time'          => array('type' => $DATETIME),
 			);
 			$this->dbforge->add_field($fields);
@@ -140,7 +140,7 @@ class Install extends CI_Controller
 				'python_time_limit' => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 1500),
 				'java_time_limit'   => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 2000),
 				'memory_limit'      => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 50000),
-				'allowed_languages' => array('type' => 'TEXT', 'default' => ''),
+				'allowed_languages' => array('type' => 'TEXT'),
 				'diff_cmd'          => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => 'diff'),
 				'diff_arg'          => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => '-bB'),
 			);
@@ -175,7 +175,7 @@ class Install extends CI_Controller
 			// create table 'scoreboard'
 			$fields = array(
 				'assignment'        => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
-				'scoreboard'        => array('type' => 'TEXT', 'default' => ''),
+				'scoreboard'        => array('type' => 'TEXT'),
 			);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->add_key('assignment');
@@ -187,7 +187,7 @@ class Install extends CI_Controller
 			// create table 'settings'
 			$fields = array(
 				'shj_key'        => array('type' => 'VARCHAR', 'constraint' => 50),
-				'shj_value'      => array('type' => 'TEXT', 'default' => ''),
+				'shj_value'      => array('type' => 'TEXT'),
 			);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->add_key('shj_key');
