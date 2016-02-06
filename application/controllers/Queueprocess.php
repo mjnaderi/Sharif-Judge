@@ -113,6 +113,7 @@ class Queueprocess extends CI_Controller
 			// Running tester (judging the code) //
 			///////////////////////////////////////
 			putenv('LANG=en_US.UTF-8');
+			putenv('PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games');
 			$output = trim(shell_exec($cmd));
 
 
