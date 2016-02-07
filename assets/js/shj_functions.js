@@ -368,6 +368,13 @@ $(document).ready(function () {
 				success: function (response) {
 					if (response.done)
 					{
+						/* 
+							truongan: if we are at assignment list and chaging seleced assignments
+							update countdown and select assigment list is not enough
+							reload page is safer.
+						*/
+						location.reload();
+
 						var checkboxes = $(".select_assignment").children('i').addBack('i');
 						checkboxes.removeClass('fa-check-square-o color6').addClass('fa-square-o');
 						checkboxes.filter("[data-id='" + id + "']").removeClass('fa-square-o').addClass('fa-check-square-o color6');
