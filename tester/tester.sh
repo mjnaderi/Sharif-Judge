@@ -454,6 +454,7 @@ for((i=1;i<=TST;i++)); do
 				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./$EXEFILE"
 			fi
 			EXITCODE=$?
+			shj_log "./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt ./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$EXEFILE"
 		fi
 
 	elif [ "$EXT" = "py2" ]; then

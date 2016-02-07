@@ -98,8 +98,12 @@ $(document).ready(function(){
 			<input type="hidden" name="problem" value="{{ problem.id }}"/>
 
 			<p class="input_p">
+				<label>
+					Select language
+				</label>
+				<br/>
 				<select id="languages" name="language" class="sharif_input full-width">
-					<option value="0" selected="selected">-- Select Language --</option>
+				
 					{% for l in problem.allowed_languages %}
 						<option value="{{ l }}">{{ l }}</option>
 					{% endfor %}
