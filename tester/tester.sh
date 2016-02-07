@@ -481,7 +481,7 @@ for((i=1;i<=TST;i++)); do
 	fi
 
 	shj_log "Exit Code = $EXITCODE"
-
+	shj_log "err file:`cat err`"
 	if ! grep -q "FINISHED" err; then
 		if grep -q "SHJ_TIME" err; then
 			t=`grep "SHJ_TIME" err|cut -d" " -f3`
