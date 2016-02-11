@@ -45,9 +45,13 @@ class Moss extends CI_Controller
 		$assignments_path = rtrim($this->settings_model->get_setting('assignments_root'), '/');
 		for($i=1; $i<=$data['moss_assignment']['problems']; $i++){
 			$data['moss_problems'][$i] = NULL;
-			$path = $assignments_path."/assignment_{$assignment_id}/p{$i}/moss_link.txt";
-			if (file_exists($path))
+			$path = $assignments_path."/assignment_{$assignment_id}/p{$i}/";
+			if (file_exists($path . "moss_link.txt")){
+				shell_exec("rm $path/moss_running");
 				$data['moss_problems'][$i] = file_get_contents($path);
+			} else if (file_exists($path . "moss_running")){
+				$data['moss_problems'][$i] = "submission submitted to moss, awaiting respone, try again later";
+			}
 		}
 
 		$this->twig->display('pages/admin/moss.twig', $data);
@@ -96,7 +100,8 @@ class Moss extends CI_Controller
 			foreach ($group as $item)
 				if ($item['file_type'] !== 'zip' && $item['file_type'] !== 'pdf')
 					$list .= "p{$problem_id}/{$item['username']}/{$item['file_name']}".'.'.filetype_to_extension($item['file_type']). " ";
-			shell_exec("list='$list'; cd $assignment_path; $tester_path/moss \$list | grep http >p{$problem_id}/moss_link.txt;");
+			shell_exec("list='$list'; cd $assignment_path; $tester_path/moss \$list | grep http >p{$problem_id}/moss_link.txt 2>/dev/null &");
+			shell_exec("cd $assignment_path/p{$problem_id}; touch moss_running");
 		}
 		$this->assignment_model->set_moss_time($assignment_id);
 	}
