@@ -76,7 +76,7 @@ It may take a minute. Please be patient.<br>
 			{% if moss_problem is null %}
 				Link Not Found.
 			{% elseif not moss_problem|trim %}
-				Link Not Found. Maybe you have entered wrong user id.
+				Link Not Found. There were error running moss
 			{% else %}
 				<a href="{{ moss_problem }}" target="_black">{{ moss_problem }}</a>
 			{% endif %}
