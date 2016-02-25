@@ -7,7 +7,7 @@
 	<div class="top_object shj_menu" id="user_top">
 		<a href="{{ site_url('profile') }}" id="profile_link"><i class="fa fa-user"></i></a>
 		<div class="top_menu user-menu">
-			<div class="gravatar"><img src="http://www.gravatar.com/avatar/{{ md5(user.email) }}?s=70&d=identicon" /></div>
+			<div class="gravatar"><img src="https://www.gravatar.com/avatar/{{ md5(user.email) }}?s=70&d=identicon" /></div>
 			<div class="name"><i class="fa fa-user"></i> {{ user.username }}</div>
 			<div class="menu-controls">
 				<a href="{{ site_url('logout') }}" class="logout-btn"><i class="fa fa-sign-out"></i> Sign Out</a>
