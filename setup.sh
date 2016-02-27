@@ -69,8 +69,9 @@ git checkout wecode
 cd $public
 rm index.html index.php
 ln -s $install/index.php $install/assets $install/.htaccess .
+echo sed -i "s@system_path = 'system'@system_path = '$install/system'@g" index.php
 sed -i "s@system_path = 'system'@system_path = '$install/system'@g" index.php
-sed -i "s@application_path = 'application'@application_path = '$install/application'@g" index.php
+sed -i "s@application_folder = 'application'@application_folder = '$install/application'@g" index.php
 
 cd $install/application/config
 cp config.php.example config.php
