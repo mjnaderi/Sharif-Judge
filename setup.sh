@@ -39,12 +39,14 @@ while getopts "hi:o:u:p:d:" ops ; do
 done
 shift $((OPTIND-1))
 
+base_url=$1
+
 if [ "$db_user" = "" ]; then
 	usage; exit 1
 fi
 
 if [ "$public" = "" ]; then 
-	public="$install/../public"
+	public="$install/../public_html"
 fi
 
 if [ "$db" = '' ]; then
@@ -74,7 +76,8 @@ cd $install/application/config
 cp config.php.example config.php
 cp database.php.example database.php 
 
-sed -i "s@base_url']     = ''@base_url']     = '$base_url'@g" config.php
+echo sed -i "s@base_url'] = ''@base_url'] = '$base_url'@g" config.php
+sed -i "s@base_url'] = ''@base_url'] = '$base_url'@g" config.php
 sed -i "s@index_page'] = 'index.php'@index_page'] = ''@g" config.php
 
 sed -i "s/homestead/$db_user/g" database.php
