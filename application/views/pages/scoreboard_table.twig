@@ -31,8 +31,16 @@
 	<td dir="auto">{{ names[sc_username] }}</td>
 	{% for problem in problems %}
 	<td>
+
 		{% if scores[sc_username][problem.id].score is defined %}
-			{{ scores[sc_username][problem.id].score }}<br>
+			{% if scores[sc_username][problem.id].fullmark == true %}
+				<span style="color:green">
+					{{ scores[sc_username][problem.id].score }}
+			{% else %}
+				<span style="color:red">
+					{{ scores[sc_username][problem.id].score }}*
+			{% endif %}
+				</span></br>
 			<span class="tiny_text" title="Time">{{ time_hhmm(scores[sc_username][problem.id].time) }}</span>
 		{% else %}
 			-
@@ -48,4 +56,5 @@
 {% endfor %}
 
 </table>
+*: Not full mark
 {% endspaceless %}

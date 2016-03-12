@@ -46,6 +46,8 @@ class Scoreboard_model extends CI_Model
 			$delay = strtotime($submission['time'])-$start;
 			$scores[$submission['username']][$submission['problem']]['score'] = $final_score;
 			$scores[$submission['username']][$submission['problem']]['time'] = $delay;
+			$scores[$submission['username']][$submission['problem']]['fullmark'] = 
+					($submission['pre_score'] == 10000);
 
 			if ( ! isset($total_score[$submission['username']]))
 				$total_score[$submission['username']] = 0;
@@ -147,7 +149,7 @@ class Scoreboard_model extends CI_Model
 			'total_score' => $total_score,
 			'scores' => $scores,
 			'scoreboard' => $scoreboard,
-			'names' => $this->user_model->get_names(),
+			'names' => $this->user_model->get_names()
 		);
 
 		$scoreboard_table = $this->twig->render('pages/scoreboard_table.twig', $data);
