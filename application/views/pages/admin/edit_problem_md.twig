@@ -169,16 +169,55 @@ else in the doc, define the link:
 Violets are blue.
 </code></pre>
 </div>
-
+<script>
+	var test_case_html = '<p class="input_p">'+
+				'Test Case COUNT'+
+				'<table>'+
+				'	<thead><td>Input</td><td>Output</td></thead>'+
+				'	<tbody>'+
+				'	<tr>'+
+				'		<td><textarea dir="auto" name="in_COUNT" rows="10" cols="35" class="sharif_input"></textarea></td>'+
+				'		<td><textarea dir="auto" name="out_COUNT" rows="10" cols="35" class="sharif_input"></textarea></td>'+
+				'	</tr>'+
+				'</table>'+
+				'</p>';
+	$(document).ready(function() {
+		$('#addcase').click(function(e){
+			var next = parseInt($('[name="num_test_cases"]').val()) + 1;
+			$('[name="num_test_cases"]').val(next);
+			$('#testcases').append(test_case_html.replace(new RegExp('COUNT', 'g'),next));
+		});
+	});
+</script>
 <div id="md_div">
+	{{ form_open("problems/edit/md/#{description_assignment.id}/#{problem.id}") }}
 	<p>
 		Assignment {{ description_assignment.id }} (<span dir="auto">{{ description_assignment.name }}</span>)<br>
-		Problem {{ problem.id }}
+		Problem {{ problem.id }} - <input type="text" name="problem_name" value="{{ problem.name }}"/>
 	</p>
-	{{ form_open("problems/edit/md/#{description_assignment.id}/#{problem.id}") }}
 	<p class="input_p">
-		<textarea dir="auto" name="text" rows="30" cols="75" class="sharif_input" id="md_editor">{{ problem.description }}</textarea>
+		<textarea dir="auto" name="text" rows="10" cols="75" class="sharif_input" id="md_editor">{{ problem.description }}</textarea>
 	</p>
+	<h2>Test Cases <i class="fa fa-plus-circle fa-lg color11 pointer" id="addcase"></i></h2>
+	<div id="testcases">
+	{% set count = 0 %}
+	{% for item in problem.tests %}
+	<p class="input_p">
+		{% set count = count + 1 %}
+		Test Case {{ count }}
+		<table>
+			<thead><td>Input</td><td>Output</td></thead>
+			<tbody>
+			<tr>
+				<td><textarea dir="auto" name="in_{{ count }}" rows="10" cols="35" class="sharif_input" >{{ item["in"] }}</textarea></td>
+				<td><textarea dir="auto" name="out_{{ count }}" rows="10" cols="35" class="sharif_input">{{ item["out"] }}</textarea></td>
+			</tr>
+			</tbody>
+		</table>
+	</p>
+	{% endfor %}
+	</div>
+	<input type="hidden" name="num_test_cases" value="{{ count }}"/>
 	<p class="input_p">
 		<input type="submit" value="Save" class="sharif_input"/>
 	</p>
