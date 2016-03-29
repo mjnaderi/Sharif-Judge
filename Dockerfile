@@ -17,10 +17,14 @@ RUN chown -R www-data:www-data /var/www
 RUN sed -i -e"s/'username' => '',/'username' => 'root',/" /var/www/html/application/config/database.php
 RUN sed -i -e"s/'password' => '',/'password' => '${PASSWD}',/" /var/www/html/application/config/database.php
 RUN sed -i -e"s/'database' => '',/'database' => 'sharif',/" /var/www/html/application/config/database.php
+RUN sed -i -e"s/'shj_value' => '\/home\/shj\/tester'/'shj_value' => '\/var\/www\/html\/tester'/" /var/www/html/application/controllers/Install.php
+RUN sed -i -e"s/'shj_value' => '\/home\/shj\/assignments'/'shj_value' => '\/var\/www\/html\/assignments'/" /var/www/html/application/controllers/Install.php
 RUN chmod 755 /var/www/html/application/cache/Twig
-
+RUN echo "#!/bin/bash" > /start.sh
+RUN echo "mysqld &" >> /start.sh 
+RUN echo "apache2 -D FOREGROUND" >> /start.sh
+RUN chmod +x /start.sh
 EXPOSE 80
-CMD ['service', 'mysql', 'start']
 
 ENV APACHE_RUN_USER    www-data
 ENV APACHE_RUN_GROUP   www-data
@@ -30,4 +34,4 @@ ENV APACHE_LOCK_DIR    /var/lock/apache2
 ENV APACHE_LOG_DIR     /var/log/apache2
 ENV LANG               C
 
-CMD ["apache2", "-D", "FOREGROUND"]
+CMD ["/start.sh"]
