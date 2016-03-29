@@ -1,4 +1,5 @@
-###Begin banned keyword - each line will be remove from the submitted code before compile
+###Begin banned keyword - each line following if appear in code will raise error. regex allow
+std.*;
 define
 include
 ###End banned keyword

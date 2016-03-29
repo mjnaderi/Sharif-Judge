@@ -381,7 +381,9 @@ echo "" >$PROBLEMPATH/$UN/result.html
 if [ -f "$PROBLEMPATH/tester.cpp" ] && [ ! -f "$PROBLEMPATH/tester.executable" ]; then
 	shj_log "Tester file found. Compiling tester..."
 	TST_COMPILE_BEGIN_TIME=$(($(date +%s%N)/1000000));
-	g++ $PROBLEMPATH/tester.cpp -lm -O2 -o $PROBLEMPATH/tester.executable
+	# An: 20160321 change
+	# no optimization when compile tester code
+	g++ $PROBLEMPATH/tester.cpp -o $PROBLEMPATH/tester.executable
 	EC=$?
 	TST_COMPILE_END_TIME=$(($(date +%s%N)/1000000));
 	if [ $EC -ne 0 ]; then
@@ -528,8 +530,10 @@ for((i=1;i<=TST;i++)); do
 	# checking correctness of output
 	ACCEPTED=false
 	if [ -f shj_tester ]; then
+		ulimit -t $TIMELIMITINT
 		./shj_tester $PROBLEMPATH/in/input$i.txt $PROBLEMPATH/out/output$i.txt out
 		EC=$?
+		shj_log "$EC"
 		if [ $EC -eq 0 ]; then
 			ACCEPTED=true
 		fi
@@ -577,7 +581,9 @@ done
 
 
 cd ..
+cp -r $JAIL "debug-jail-backup"
 rm -r $JAIL >/dev/null 2>/dev/null # removing files
+
 
 ((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000
 shj_log "\nScore from 10000: $SCORE"
