@@ -307,7 +307,7 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 		do
 			#echo grep -q "$line" $f
 			if grep -q "$line" $f ;then
-				echo "$line is banned" >> cerr
+				echo "code.c: forbidden phase: $line is banned" >> cerr
 				NEEDCOMPILE=0
 			fi
 		done <<< "$banned"
@@ -328,7 +328,7 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 	fi
 
 	if [ $NEEDCOMPILE -eq 0 ]; then
-		EXITCODE=1
+		EXITCODE=110
 	else
 		if $C_SHIELD_ON; then
 			shj_log "Enabling Shield For C/C++"
@@ -355,7 +355,8 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 	shj_log "Compiled. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
 	if [ $EXITCODE -ne 0 ]; then
 		shj_log "Compile Error"
-		shj_log "$(cat cerr | head -10)"
+		#shj_log "$(cat cerr | head -10)"
+		shj_log "$(cat cerr )"
 		echo '<span class="shj_b">Compile Error<br>Error Messages: (line numbers are not correct)</span>' >$PROBLEMPATH/$UN/result.html
 		echo '<span class="shj_r">' >> $PROBLEMPATH/$UN/result.html
 		SHIELD_ACT=false
