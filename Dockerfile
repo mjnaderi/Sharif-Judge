@@ -4,7 +4,7 @@ ENV PASSWD 1q2w3e4r
 
 RUN sed -i -e"s/archive/br\.archive/" /etc/apt/sources.list
 
-RUN apt-get update && apt-get install -y git apache2 php5 mysql-server php5-mysql
+RUN apt-get update && apt-get install -y git apache2 php5 mysql-server php5-mysql gcc g++-4.8 openjdk-7-jdk python2.7 python3-all
 
 RUN /usr/sbin/mysqld & \
     sleep 10s &&\
