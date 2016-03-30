@@ -8,7 +8,9 @@ include
 using namespace std;
 
 void A(){
+
 ###INSERT CODE HERE
+
 }
 int main(){
 	A();
