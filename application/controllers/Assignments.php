@@ -278,6 +278,7 @@ class Assignments extends CI_Controller
 		$this->load->library('upload');
 
 		if ( ! empty($_POST) )
+			//echo("<pre>"); print_r($_POST); echo("</pre>"); die();
 			if ($this->_add()) // add/edit assignment
 			{
 				//if ( ! $this->edit) // if adding assignment (not editing)
