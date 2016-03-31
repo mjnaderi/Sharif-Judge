@@ -27,6 +27,7 @@ shj.row ='<tr><td>SPID</td>'
 							.replace(/PID/g, (shj.num_of_problems))
 
 				);
+			$("select").chosen();
 			shj.num_of_problems++;
 
 			$('#nop').attr('value', shj.num_of_problems);
@@ -82,4 +83,5 @@ $(document).ready(function(){
 		//return false;
 
 	});
+	$("select").chosen();
 });

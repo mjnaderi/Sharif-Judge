@@ -12,6 +12,9 @@
 
 
 {% block other_assets %}
+	<link rel="stylesheet" type="text/css" href="{{ base_url('assets/chosen/chosen.min.css') }}">
+<script type="text/javascript" src = {{ base_url('assets/chosen/chosen.jquery.min.js') }}></script>
+
 <script type="text/javascript" src = {{ base_url('assets/js/add_assignments.js') }}></script>
 <script type='text/javascript' src="{{ base_url('assets/js/taboverride.min.js') }}"></script>
 <script>
@@ -158,7 +161,7 @@
 			<input id="allowed_lang{{i}}" type="hidden" name="allowed_languages[{{i}}]" class="sharif_input short2" value="{{ problem.allowed_languages }}"/>
 			<input id="submit_lang{{i}}" type="hidden" name="languages[{{i}}]" class="sharif_input short2"/>
 			<td>
-				<select id="lang{{i}}" name="select_languages[{{i}}][]" multiple>
+				<select id="lang{{i}}" name="select_languages[{{i}}][]" class="medium" multiple>
 					<option value="C">C</option>
 					<option value="C++">C++</option>
 					<option value="Python 2">Python 2</option>

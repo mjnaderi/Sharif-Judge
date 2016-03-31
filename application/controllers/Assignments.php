@@ -316,7 +316,7 @@ class Assignments extends CI_Controller
 						'python_time_limit' => 1500,
 						'java_time_limit' => 2000,
 						'memory_limit' => 50000,
-						'allowed_languages' => 'C,C++,Python 2,Python 3,Java',
+						'allowed_languages' => 'C++',
 						'diff_cmd' => 'diff',
 						'diff_arg' => '-bB',
 						'is_upload_only' => 0
