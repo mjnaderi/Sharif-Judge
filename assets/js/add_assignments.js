@@ -8,7 +8,7 @@ shj.row ='<tr><td>SPID</td>'
 +'<td><input type="text" name="memory_limit[]" class="sharif_input tiny" value="50000"/></td>'
 +'<input id="submit_langPID" type="hidden" name="languages[PID]" class="sharif_input short2"/>'
 +'<td>'
-+'	<select id="langPID" name="select_languages[PID][]" multiple>'
++'	<select id="langPID" name="select_languages[PID][]" multiple class="medium">'
 +'		<option value="C">C</option>'
 +'		<option value="C++" selected="true">C++</option>'
 +'		<option value="Python 2">Python 2</option>'
@@ -27,7 +27,7 @@ shj.row ='<tr><td>SPID</td>'
 							.replace(/PID/g, (shj.num_of_problems))
 
 				);
-			$("select").chosen();
+			$("select").select2();
 			shj.num_of_problems++;
 
 			$('#nop').attr('value', shj.num_of_problems);
@@ -83,5 +83,5 @@ $(document).ready(function(){
 		//return false;
 
 	});
-	$("select").chosen();
+	$("select").select2();
 });
