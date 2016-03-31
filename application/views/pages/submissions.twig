@@ -122,7 +122,9 @@
 			<td><a href="{{ site_url('submissions/'~view~'/user/'~submission.username~(filter_problem?'/problem/'~filter_problem)) }}">{{ submission.username }}</a></td>
 			<td dir="auto">{{ submission.name }}</td>
 		{% endif %}
-			<td><a href="{{ site_url('submissions/'~view~(filter_user?'/user/'~filter_user)~'/problem/'~submission.problem) }}" title="{{ problems[submission.problem].name }}">{{ submission.problem }}</a></td>
+			<td><a href="{{ site_url('submissions/'~view~(filter_user?'/user/'~filter_user)~'/problem/'~submission.problem) }}" title="{{ problems[submission.problem].name }}">{{ submission.problem }}</a>
+				(<a href="{{ site_url('problems/' ~ submission.assignment ~ '/'~ submission.problem ) }}" title="View problem {{submission.problem}}'s statements">&larr;</a>)
+			</td>
 			<td>{{ submission.time }}</td>
 			<td>{{ submission.pre_score }}</td>
 			<td>
