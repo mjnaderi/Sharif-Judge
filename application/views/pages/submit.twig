@@ -55,7 +55,7 @@
 		</select>
 		{{ form_error('language','<div class="shj_error">','</div>') }}
 	</p>
-	<p class="input_p">
+	<!--p class="input_p">
 		<label for="file" class="tiny">File:</label>
 		<input type="file" id="file" class="sharif_input medium" name="userfile" />
 		{% if upload_state == 'error' %}
@@ -63,6 +63,11 @@
 		{% elseif upload_state == 'ok' %}
 		<div class="shj_ok">File uploaded successfully. See the result in 'All Submissions'.</div>
 		{% endif %}
+	</p-->
+	<p class="input_p">
+		<label for="code" class="tiny">Code:</label>
+		<textarea rows="24" cols="80" name="code" class="sharif_input add_text">Paste your code here</textarea>
+
 	</p>
 	<p class="input_p">
 		<input type="submit" value="Submit" class="sharif_input"/>
