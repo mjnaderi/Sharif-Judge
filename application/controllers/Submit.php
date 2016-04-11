@@ -206,7 +206,7 @@ class Submit extends CI_Controller
 			mkdir($user_dir, 0700);
 
 		$a = $this->input->post('code');
-		if ($a !== FALSE){
+		if ($a != FALSE){
 			$this->ext = $this->language_to_ext[$this->filetype];
 
 			$file_name = "solution";
@@ -230,8 +230,6 @@ class Submit extends CI_Controller
 				'time' => shj_now_str(),
 			);
 
-			//var_dump($submit_info); die();
-
 			if ($this->problem['is_upload_only'] == 0)
 			{
 				$this->queue_model->add_to_queue($submit_info);
@@ -245,8 +243,12 @@ class Submit extends CI_Controller
 			return TRUE;
 		}
 
-		if ($_FILES['userfile']['error'] == 4)
+		//var_dump($_FILES); die();
+
+		if (!isset($_FILES['userfile']) or $_FILES['userfile']['error'] == 4)
 			show_error('No file chosen.');
+
+
 
 		$this->ext = substr(strrchr($_FILES['userfile']['name'],'.'),1); // uploaded file extension
 		$this->file_name = basename($_FILES['userfile']['name'], ".{$this->ext}"); // uploaded file name without extension
