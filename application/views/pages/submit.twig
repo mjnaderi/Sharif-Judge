@@ -43,7 +43,7 @@
 		<select id="problems" name ="problem" class="sharif_input">
 			<option value="0" selected="selected">-- Select Problem --</option>
 			{% for problem in problems %}
-				<option dir="auto" value="{{ problem.id }}">{{ problem.name }}</option>
+				<option dir="auto" value="{{ problem.id }}">#{{problem.id}}--{{ problem.name }}</option>
 			{% endfor %}
 		</select>
 		{{ form_error('problem','<div class="shj_error">','</div>') }}
