@@ -147,11 +147,11 @@ class Submit extends CI_Controller
 			// non-student users can submit to not started assignments
 			$this->data['error'] = 'Selected assignment has not started.';
 		elseif (strtotime($this->user->selected_assignment['start_time']) < strtotime($this->user->selected_assignment['finish_time'])
-		  		&& shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) 
+		  		&& shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time'])
 		{
 		  		// deadline = finish_time + extra_time
 				// but if start time is before finish time, the deadline is NEVER
-			
+
 			$this->data['error'] =  'Selected assignment has finished.';
 		}
 		elseif ( ! $this->assignment_model->is_participant($this->user->selected_assignment['participants'],$this->user->username) )
@@ -208,9 +208,11 @@ class Submit extends CI_Controller
 		$a = $this->input->post('code');
 		if ($a !== FALSE){
 			$this->ext = $this->language_to_ext[$this->filetype];
-			
-			$file_name = "solution-" .($this->user->selected_assignment['total_submits']+1);
-			file_put_contents("$user_dir/$file_name" . "." . $this->ext, $a);
+
+			$file_name = "solution";
+			file_put_contents("$user_dir/$file_name-"
+								.($this->user->selected_assignment['total_submits']+1)
+								. "." . $this->ext, $a);
 
 			$this->load->model('submit_model');
 
@@ -219,13 +221,17 @@ class Submit extends CI_Controller
 				'username' => $this->user->username,
 				'assignment' => $this->user->selected_assignment['id'],
 				'problem' => $this->problem['id'],
-				'file_name' => $file_name,
-				'main_file_name' => "$file_name" . "." . $this->ext,
+				'file_name' => "$file_name-"
+								.($this->user->selected_assignment['total_submits']+1),
+				'main_file_name' => "$file_name",
 				'file_type' => $this->filetype,
 				'coefficient' => $this->coefficient,
 				'pre_score' => 0,
 				'time' => shj_now_str(),
 			);
+
+			//var_dump($submit_info); die();
+
 			if ($this->problem['is_upload_only'] == 0)
 			{
 				$this->queue_model->add_to_queue($submit_info);
