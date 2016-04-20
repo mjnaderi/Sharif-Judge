@@ -18,10 +18,10 @@
 	$(document).ready(function(){
 		$("select#problems").change(function(){
 			var v = $(this).val();
-			$('select#languages').empty();
-			$('<option value="0" selected="selected">-- Select Language --</option>').appendTo('select#languages');
 			if (v==0)
 				return;
+			$('select#languages').empty();
+			//$('<option value="0" selected="selected">-- Select Language --</option>').appendTo('select#languages');
 			for (var i=0;i<shj.p[v].length;i++)
 				$('<option value="'+shj.p[v][i]+'">'+shj.p[v][i]+'</option>').appendTo('select#languages');
 		});
