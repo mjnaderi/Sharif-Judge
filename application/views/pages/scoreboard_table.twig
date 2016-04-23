@@ -41,7 +41,11 @@
 					{{ scores[sc_username][problem.id].score }}*
 			{% endif %}
 				</span></br>
-			<span class="tiny_text" title="Time">{{ time_hhmm(scores[sc_username][problem.id].time) }}</span>
+			{% if scores[sc_username][problem.id].late > 0 %}
+				<span class="tiny_text shj_o" title="Delay time" >{{ time_hhmm(scores[sc_username][problem.id].late) }}**</span>
+			{% else %}
+				<span class="tiny_text" title="Time">{{ time_hhmm(scores[sc_username][problem.id].time) }}</span>
+			{% endif %}
 		{% else %}
 			-
 		{% endif %}
@@ -57,4 +61,6 @@
 
 </table>
 *: Not full mark
+<br/>
+**: Delay time
 {% endspaceless %}

@@ -33,6 +33,7 @@ class Scoreboard_model extends CI_Model
 		$penalty = array();
 		$users = array();
 		$start = strtotime($assignment['start_time']);
+		$end = strtotime($assignment['finish_time']);
 		$submit_penalty = $this->settings_model->get_setting('submit_penalty');
 		$scores = array();
 		foreach ($submissions as $submission){
@@ -46,8 +47,10 @@ class Scoreboard_model extends CI_Model
 				$final_score = ceil($pre_score*$submission['coefficient']/100);
 			$fullmark = ($submission['pre_score'] == 10000);
 			$delay = strtotime($submission['time'])-$start;
+			$late = strtotime($submission['time'])-$end;
 			$scores[$submission['username']][$submission['problem']]['score'] = $final_score;
 			$scores[$submission['username']][$submission['problem']]['time'] = $delay;
+			$scores[$submission['username']][$submission['problem']]['late'] = $late;
 			$scores[$submission['username']][$submission['problem']]['fullmark'] = $fullmark;
 
 			if ( ! isset($total_score[$submission['username']])){
