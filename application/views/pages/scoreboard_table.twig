@@ -31,7 +31,6 @@
 	<td dir="auto">{{ names[sc_username] }}</td>
 	{% for problem in problems %}
 	<td>
-
 		{% if scores[sc_username][problem.id].score is defined %}
 			{% if scores[sc_username][problem.id].fullmark == true %}
 				<span style="color:green">

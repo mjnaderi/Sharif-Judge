@@ -111,7 +111,7 @@ class Install extends CI_Controller
 			if ( ! $this->dbforge->create_table('assignments', TRUE)){
 				var_dump($this->db->last_query());
 				show_error("Error creating database table ".$this->db->dbprefix('assignments') . print_r($this->db->error(), true));
-				
+
 			}
 
 
@@ -181,7 +181,11 @@ class Install extends CI_Controller
 			$this->dbforge->add_key('assignment');
 			if ( ! $this->dbforge->create_table('scoreboard', TRUE))
 				show_error("Error creating database table ".$this->db->dbprefix('scoreboard'));
-
+			//Add UNIQUE ( assignment) constraint
+			$this->db->query(
+				"ALTER TABLE {$this->db->dbprefix('scoreboard')}
+				 ADD CONSTRAINT {$this->db->dbprefix('suap_unique')} UNIQUE (assignment);"
+			);
 
 
 			// create table 'settings'
