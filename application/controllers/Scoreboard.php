@@ -27,6 +27,7 @@ class Scoreboard extends CI_Controller
 	{
 		$this->load->model('scoreboard_model');
 		$data = array(
+			'all_assignments' => $this->assignment_model->all_assignments(),
 			'scoreboard' => $this->scoreboard_model->get_scoreboard($this->user->selected_assignment['id'])
 		);
 
