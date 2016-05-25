@@ -55,6 +55,7 @@ class Scoreboard extends CI_Controller
 		$a = substr($a, 0, $i);
 
 		$data = array(
+			'all_assignments' => $this->assignment_model->all_assignments(),
 			'scoreboard' => $a
 		);
 
