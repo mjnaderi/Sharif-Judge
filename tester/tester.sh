@@ -611,7 +611,7 @@ done
 
 
 cd ..
-cp -r $JAIL "debug-jail-backup"
+#cp -r $JAIL "debug-jail-backup"
 rm -r $JAIL >/dev/null 2>/dev/null # removing files
 
 
