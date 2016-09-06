@@ -84,6 +84,7 @@ class Settings extends CI_Controller
 				if (file_exists($shpy3_path) && file_put_contents($shpy3_path,$this->input->post('shield_py3')) === FALSE)
 					array_push($this->errors, 'File shield_py3.py is not writable. Edit it manually.');
 			ob_end_clean();
+			$site_name = $this->input->post('site_name');
 			$timezone = $this->input->post('timezone');
 			// if timezone is invalid, set it to 'Asia/Tehran' :
 			if ( ! in_array($timezone, DateTimeZone::listIdentifiers()) )
@@ -91,6 +92,7 @@ class Settings extends CI_Controller
 
 			$this->settings_model->set_settings(
 				array(
+					'site_name' => $site_name;
 					'timezone' => $timezone,
 					'tester_path' => $this->input->post('tester_path'),
 					'assignments_root' => $this->input->post('assignments_root'),
@@ -115,7 +117,7 @@ class Settings extends CI_Controller
 					'week_start' => $this->input->post('week_start'),
 				)
 			);
-			
+
 		}
 		else
 			$this->form_status = 'error';

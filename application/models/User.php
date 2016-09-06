@@ -14,6 +14,10 @@ class User extends CI_Model
 	public $level;
 	public $email;
 
+	/* We put site's name in here because this data is given in every pages
+	*  to display username.
+	*/
+	public $site_name;
 
 	public function __construct()
 	{

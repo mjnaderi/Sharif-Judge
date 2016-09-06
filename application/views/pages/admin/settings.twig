@@ -46,6 +46,13 @@ $(document).ready(function(){
 </p>
 {{ form_open('settings/update') }}
 	<p class="input_p">
+		<label for="form_site_name">
+			Site name
+		</label>
+		<input id="form_site_name" type="text" name="site_name" class="sharif_input medium" value="{{ site_name }}"/>
+	</p>
+
+	<p class="input_p">
 		<label for="form_timezone">
 			Timezone<br>
 			<a target="_blank" href="http://www.php.net/manual/en/timezones.php">list of timezones</a>
