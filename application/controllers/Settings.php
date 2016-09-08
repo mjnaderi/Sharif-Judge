@@ -21,7 +21,7 @@ class Settings extends CI_Controller
 		parent::__construct();
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
-		if ( $this->user->level <= 2) // permission denied
+		if ( $this->user->level <= 2) // permission deniedf
 			show_404();
 		$this->form_status = '';
 		$this->errors = array();
@@ -92,7 +92,7 @@ class Settings extends CI_Controller
 
 			$this->settings_model->set_settings(
 				array(
-					'site_name' => $site_name;
+					'site_name' => $site_name,
 					'timezone' => $timezone,
 					'tester_path' => $this->input->post('tester_path'),
 					'assignments_root' => $this->input->post('assignments_root'),
