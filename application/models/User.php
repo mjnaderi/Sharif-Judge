@@ -21,8 +21,6 @@ class User extends CI_Model
 
 	public function __construct()
 	{
-		$this->load->model('settings_model');
-		$this->site_name = $this->settings_model->get_setting('site_name');
 		parent::__construct();
 		$this->username = $this->session->userdata('username');
 		if ($this->username === NULL)
@@ -54,6 +52,9 @@ class User extends CI_Model
 			case 'instructor': $this->level = 1; break;
 			case 'student': $this->level = 0; break;
 		}
+		$this->load->model('settings_model');
+		$this->site_name = $this->settings_model->get_setting('site_name');
+
 	}
 
 

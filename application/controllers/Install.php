@@ -202,7 +202,7 @@ class Install extends CI_Controller
 
 			// insert default settings to table 'settings'
 			$result = $this->db->insert_batch('settings', array(
-				array('shj_key' => 'site name',               'shj_value' => 'Wecode Judge'),
+				array('shj_key' => 'site_name',               'shj_value' => 'Wecode Judge'),
 				array('shj_key' => 'timezone',               'shj_value' => 'Asia/Ho_Chi_Minh'),
 				array('shj_key' => 'tester_path',            'shj_value' => dirname(BASEPATH) . '/tester'),
 				array('shj_key' => 'assignments_root',       'shj_value' => dirname(BASEPATH) . '/assignments'),
