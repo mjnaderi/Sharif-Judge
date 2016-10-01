@@ -33,7 +33,7 @@
 		{{ form_open('install') }}
 		<div class="login1">
 		<h2>Sharif Judge Installation</h2>
-		
+
 			<p class="input_p">
 				<label for="form_username">Admin username:</label>
 				<input id="form_username" class="sharif_input" type="text" name="username" required="required" pattern="[0-9A-Za-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only alpha-numeric characters" value="{{ set_value('username') }}" autofocus/>
@@ -46,7 +46,7 @@
 			</p>
 			<p class="input_p">
 				<label for="form_password">Admin password:</label>
-				<input id="form_password" type="password" name="password" required="required" pattern="[0-9A-Za-z]{6,20}" title="The Password field must be between 6 and 30 characters in length, and contain only alpha-numeric characters" class="sharif_input"/>
+				<input id="form_password" type="password" name="password" required="required" pattern=".{10,30}" title="The Password field must be between 10 and 30 characters in length" class="sharif_input"/>
 				{{ form_error('password', '<div class="shj_error">', '</div>') }}
 			</p>
 			<p class="input_p">
@@ -61,8 +61,8 @@
 					<input id="sharif_submit"  type="submit" value="Continue"/>
 				</p>
 			</div>
-		
-			
+
+
 		</form>
 	</div>
 {% endif %}
