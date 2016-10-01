@@ -159,6 +159,12 @@ class Submit extends CI_Controller
 		else
 			$this->data['error'] = 'none';
 
+		$this->data['from'] = "";
+		$this->load->library('user_agent');
+	    $a = $this->agent->referrer();
+
+		if (preg_match('/\/problems\/\d+\/(\d+)$/', $a, $pno)) $this->data['from'] = $pno[1];
+
 		$this->twig->display('pages/submit.twig', $this->data);
 
 	}

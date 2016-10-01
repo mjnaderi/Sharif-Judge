@@ -15,6 +15,7 @@
 <script>
 	shj.p={};
 	{{ problems_js|raw }}
+
 	$(document).ready(function(){
 		$("select#problems").change(function(){
 			var v = $(this).val();
@@ -25,6 +26,13 @@
 			for (var i=0;i<shj.p[v].length;i++)
 				$('<option value="'+shj.p[v][i]+'">'+shj.p[v][i]+'</option>').appendTo('select#languages');
 		});
+
+		{% if from == '' %}
+			$("select#problems").val(1);
+		{% else  %}
+			$("select#problems").val({{ from }});
+		{% endif %}
+		$("select#problems").change();
 	});
 </script>
 {% endblock %}
@@ -41,7 +49,7 @@
 	<p class="input_p">
 		<label for="problems" class="tiny">Problem:</label>
 		<select id="problems" name ="problem" class="sharif_input">
-			<option value="0" selected="selected">-- Select Problem --</option>
+			<!--option value="0" selected="selected">-- Select Problem --</option-->
 			{% for problem in problems %}
 				<option dir="auto" value="{{ problem.id }}">#{{problem.id}}--{{ problem.name }}</option>
 			{% endfor %}
@@ -51,7 +59,7 @@
 	<p class="input_p">
 		<label for="languages" class="tiny">Language:</label>
 		<select id="languages" name="language" class="sharif_input">
-			<option value="0" selected="selected">-- Select Language --</option>
+			<!--option value="0" selected="selected">-- Select Language --</option-->
 		</select>
 		{{ form_error('language','<div class="shj_error">','</div>') }}
 	</p>
