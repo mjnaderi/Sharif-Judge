@@ -33,8 +33,22 @@
 			$("select#problems").val({{ from }});
 		{% endif %}
 		$("select#problems").change();
+
+
 	});
 </script>
+
+<style type="text/css" media="screen">
+    #editor {
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+		width: 500px;
+height: 400px;
+    }
+</style>
 {% endblock %}
 
 
@@ -72,16 +86,35 @@
 		<div class="shj_ok">File uploaded successfully. See the result in 'All Submissions'.</div>
 		{% endif %}
 	</p-->
+
 	<p class="input_p">
 		<label for="code" class="tiny">Code:</label>
-		<textarea rows="24" cols="80" name="code" class="sharif_input add_text">Paste your code here
-NOTE: If you use java, your Main class must be named solution
+		<textarea  style="display:none;" rows="4" cols="80" name="code" class="sharif_input add_text">
 		</textarea>
-
 	</p>
+	<div id="editor">//Paste your code here
+//NOTE: If you use java, your Main class must be named solution</div>
 	<p class="input_p">
 		<input type="submit" value="Submit" class="sharif_input"/>
 	</p>
 	</form>
+	<script src="{{ base_url('assets/js/src-min-noconflict/ace.js') }}" type="text/javascript" charset="utf-8"></script>
+	<script  type="text/javascript" charset="utf-8">
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/dawn");
+		editor.session.setMode("ace/mode/c_cpp");
+		$("form").submit(function(){
+			$("textarea").val(editor.getSession().getValue());
+		});
+
+		$("select[name=language]").change(function(){
+			var lang_to_mode = {"C++":"c_cpp"
+				, Java:"java"
+				, "Python 2":"python"
+				, "Python 3":"python"
+			};
+			editor.session.setMode("ace/mode/" + lang_to_mode[$(this).val()]);
+		});
+	</script>
 {% endif %}
 {% endblock %}  {# main_content #}
