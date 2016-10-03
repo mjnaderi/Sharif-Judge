@@ -373,8 +373,8 @@ $(document).ready(function () {
 							update countdown and select assigment list is not enough
 							reload page is safer.
 						*/
-						location.reload();
-
+						window.location.href = window.location.href;
+						/*
 						var checkboxes = $(".select_assignment").children('i').addBack('i');
 						checkboxes.removeClass('fa-check-square-o color6').addClass('fa-square-o');
 						checkboxes.filter("[data-id='" + id + "']").removeClass('fa-square-o').addClass('fa-check-square-o color6');
@@ -382,6 +382,7 @@ $(document).ready(function () {
 						shj.finish_time = moment(response.finish_time);
 						shj.extra_time  = moment.duration(parseInt(response.extra_time, 10), 'seconds');
 						shj.update_clock();
+						*/
 					}
 					else
 						shj.loading_failed(response.message);
