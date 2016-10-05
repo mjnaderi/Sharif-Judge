@@ -39,43 +39,29 @@
 </script>
 
 <style type="text/css" media="screen">
-	form {
-		display: block;
-		overflow: auto;
-	}
     #editor {
-        /*position: inline-block;*/
-        position: relative;
-        /*
-        top: 130px;
-        right: 20px;
-        bottom: 42px;
-        left: 85px;
-        */
-		/*width: 500px;*/
 		min-height: 100px;
-		height: calc(100% - 172px);
+		height: 100%;
     }
-    .scroll-content {
-    	height: 100%;
+    .scroll-content{
+    	display: flex;
+    	flex-direction: column;
     }
     #page_title {
     	width: 100%;
     }
     #main_content {
-    	top:48px;
-    	bottom:0;
-    	width: 100%;
-    	position: absolute;
+    	height: 100%;
+    	display: flex;
+    	flex-direction: column;
     }
     form{
-		top: 65px;
-		bottom: 0;
-		position: absolute;
-		width: 100%;
-		padding: 0 20px 0 20px;
-		right: 20px;
-		left: 0px;
+    	height: 100%;
+    	display: flex;
+    	flex-direction: column;
+    }
+    #main_content > p{
+    	margin: 10px 6px 0 0;
     }
 </style>
 {% endblock %}
@@ -90,7 +76,7 @@
 	<p>Coefficient: {{ coefficient }}%</p>
 	{{ form_open_multipart('submit') }}
 	<p class="input_p">
-		<label for="problems" class="tiny">Problem:</label>
+		<label for="problems" class="short">Problem:</label>
 		<select id="problems" name ="problem" class="sharif_input">
 			<!--option value="0" selected="selected">-- Select Problem --</option-->
 			{% for problem in problems %}
@@ -100,24 +86,14 @@
 		{{ form_error('problem','<div class="shj_error">','</div>') }}
 	</p>
 	<p class="input_p">
-		<label for="languages" class="tiny">Language:</label>
+		<label for="languages" class="short">Language:</label>
 		<select id="languages" name="language" class="sharif_input">
 			<!--option value="0" selected="selected">-- Select Language --</option-->
 		</select>
 		{{ form_error('language','<div class="shj_error">','</div>') }}
 	</p>
-	<!--p class="input_p">
-		<label for="file" class="tiny">File:</label>
-		<input type="file" id="file" class="sharif_input medium" name="userfile" />
-		{% if upload_state == 'error' %}
-		<div class="shj_error">Error uploading file.</div>
-		{% elseif upload_state == 'ok' %}
-		<div class="shj_ok">File uploaded successfully. See the result in 'All Submissions'.</div>
-		{% endif %}
-	</p-->
-
 	<p class="input_p">
-		<label for="code" class="tiny">Code theme:</label>
+		<label for="code" class="short">Code theme:</label>
 		<textarea  style="display:none;" rows="4" cols="80" name="code" class="sharif_input add_text">
 		</textarea>
 		<select id="theme" class="sharif_input">
