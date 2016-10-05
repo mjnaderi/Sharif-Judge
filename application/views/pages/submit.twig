@@ -39,14 +39,43 @@
 </script>
 
 <style type="text/css" media="screen">
+	form {
+		display: block;
+		overflow: auto;
+	}
     #editor {
+        /*position: inline-block;*/
         position: relative;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-		width: 500px;
-height: 400px;
+        /*
+        top: 130px;
+        right: 20px;
+        bottom: 42px;
+        left: 85px;
+        */
+		/*width: 500px;*/
+		min-height: 100px;
+		height: calc(100% - 172px);
+    }
+    .scroll-content {
+    	height: 100%;
+    }
+    #page_title {
+    	width: 100%;
+    }
+    #main_content {
+    	top:48px;
+    	bottom:0;
+    	width: 100%;
+    	position: absolute;
+    }
+    form{
+		top: 65px;
+		bottom: 0;
+		position: absolute;
+		width: 100%;
+		padding: 0 20px 0 20px;
+		right: 20px;
+		left: 0px;
     }
 </style>
 {% endblock %}
