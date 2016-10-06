@@ -25,6 +25,8 @@
 			//$('<option value="0" selected="selected">-- Select Language --</option>').appendTo('select#languages');
 			for (var i=0;i<shj.p[v].length;i++)
 				$('<option value="'+shj.p[v][i]+'">'+shj.p[v][i]+'</option>').appendTo('select#languages');
+			$("#problem_link").attr('href', "/problems/{{ user.selected_assignment.id }}/" + $(this).val());
+
 		});
 
 		{% if from == '' %}
@@ -33,7 +35,6 @@
 			$("select#problems").val({{ from }});
 		{% endif %}
 		$("select#problems").change();
-
 
 	});
 </script>
@@ -83,6 +84,7 @@
 				<option dir="auto" value="{{ problem.id }}">#{{problem.id}}--{{ problem.name }}</option>
 			{% endfor %}
 		</select>
+		<span class="medium"><a id="problem_link" href="#" target="_blank">Problem statement</a></label>
 		{{ form_error('problem','<div class="shj_error">','</div>') }}
 	</p>
 	<p class="input_p">
