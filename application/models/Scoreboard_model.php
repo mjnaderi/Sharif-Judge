@@ -29,11 +29,9 @@ class Scoreboard_model extends CI_Model
 		$assignment = $this->assignment_model->assignment_info($assignment_id);
 		$submissions = $this->db->get_where('submissions', array('is_final' => 1 , 'assignment' => $assignment_id))->result_array();
 		$total_score = array();
-		$solved = array();
 		$penalty = array();
 		$users = array();
 		$start = strtotime($assignment['start_time']);
-		$end = strtotime($assignment['finish_time']);
 		$submit_penalty = $this->settings_model->get_setting('submit_penalty');
 		$scores = array();
 		foreach ($submissions as $submission){
@@ -45,24 +43,15 @@ class Scoreboard_model extends CI_Model
 				$final_score = 0;
 			else
 				$final_score = ceil($pre_score*$submission['coefficient']/100);
-			$fullmark = ($submission['pre_score'] == 10000);
 			$delay = strtotime($submission['time'])-$start;
-			$late = strtotime($submission['time'])-$end;
 			$scores[$submission['username']][$submission['problem']]['score'] = $final_score;
 			$scores[$submission['username']][$submission['problem']]['time'] = $delay;
-			$scores[$submission['username']][$submission['problem']]['late'] = $late;
-			$scores[$submission['username']][$submission['problem']]['fullmark'] = $fullmark;
 
-			if ( ! isset($total_score[$submission['username']])){
+			if ( ! isset($total_score[$submission['username']]))
 				$total_score[$submission['username']] = 0;
-			}
-			if ( !isset($solved[$submission['username']])){
-				$solved[$submission['username']] = 0;
-			}
 			if ( ! isset($penalty[$submission['username']]))
 				$penalty[$submission['username']] = 0;
 
-			$solved[$submission['username']] += $fullmark;
 			$total_score[$submission['username']] += $final_score;
 
 			$number_of_submissions = $this->db->where(array(
@@ -78,17 +67,14 @@ class Scoreboard_model extends CI_Model
 			'username' => array(),
 			'score' => array(),
 			'submit_penalty' => array()
-			,'solved' => array()
 		);
 		$users = array_unique($users);
 		foreach($users as $username){
 			array_push($scoreboard['username'], $username);
 			array_push($scoreboard['score'], $total_score[$username]);
 			array_push($scoreboard['submit_penalty'], $penalty[$username]);
-			array_push($scoreboard['solved'], $solved[$username]);
 		}
 		array_multisort(
-			$scoreboard['solved'], SORT_NUMERIC, SORT_DESC,
 			$scoreboard['score'], SORT_NUMERIC, SORT_DESC,
 			$scoreboard['submit_penalty'], SORT_NUMERIC, SORT_ASC,
 			$scoreboard['username']
@@ -161,10 +147,11 @@ class Scoreboard_model extends CI_Model
 			'total_score' => $total_score,
 			'scores' => $scores,
 			'scoreboard' => $scoreboard,
-			'names' => $this->user_model->get_names()
+			'names' => $this->user_model->get_names(),
 		);
 
 		$scoreboard_table = $this->twig->render('pages/scoreboard_table.twig', $data);
+
 
 		// Minify the scoreboard's html code
 		// $scoreboard_table = $this->output->minify($scoreboard_table, 'text/html');

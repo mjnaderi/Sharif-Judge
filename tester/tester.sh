@@ -128,11 +128,11 @@ if [[ "$DIFFOPTION" != "identical" && "$DIFFOPTION" != "ignore" ]]; then
 fi
 
 
-LOG="$PROBLEMPATH/$UN/log"; echo "" >$LOG
+LOG="$PROBLEMPATH/$UN/log"; echo "" >>$LOG
 function shj_log
 {
 	if $LOG_ON; then
-		echo -e "$@" >>$LOG
+		echo -e "$@" >>$LOG 
 	fi
 }
 
@@ -191,8 +191,6 @@ fi
 
 
 COMPILE_BEGIN_TIME=$(($(date +%s%N)/1000000));
-
-
 
 ########################################################################################################
 ############################################ COMPILING JAVA ############################################
@@ -290,33 +288,12 @@ fi
 ########################################################################################################
 
 if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
-	COMPILER="gcc -std=c99"
+	COMPILER="gcc"
 	if [ "$EXT" = "cpp" ]; then
-		COMPILER="g++ -std=c++98"
+		COMPILER="g++"
 	fi
 	EXEFILE="s_$(echo $FILENAME | sed 's/[^a-zA-Z0-9]//g')" # Name of executable file
-
-	if [ -f "$PROBLEMPATH/template.cpp" ]; then
-		t="$PROBLEMPATH/template.cpp"
-		f=$PROBLEMPATH/$UN/$FILENAME.$EXT
-		banned=`sed -n -e '/\/\*###Begin banned keyword/,/###End banned keyword/p' $t | sed -e '1d' -e '$d'`
-		code=`sed -e '1,/###End banned keyword/d' $t`
-
-		#echo "$banned"
-		#echo "$code"
-		while read -r line
-		do
-			#echo grep -q "$line" $f
-			if grep -q "$line" $f ;then
-				echo "code.c: forbidden phase: $line is banned" >> cerr
-				NEEDCOMPILE=0
-			fi
-		done <<< "$banned"
-		echo "$code" | sed -e "/\/\/###INSERT CODE HERE/r $f" -e '/\/\/###INSERT CODE HERE/d' > code.c
-	else
-		cp $PROBLEMPATH/$UN/$FILENAME.$EXT code.c
-	fi
-
+	cp $PROBLEMPATH/$UN/$FILENAME.$EXT code.c
 	shj_log "Compiling as $EXT"
 	if $SANDBOX_ON; then
 		shj_log "Enabling EasySandbox"
@@ -327,37 +304,30 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 			SANDBOX_ON=false
 		fi
 	fi
-
-	if [ $NEEDCOMPILE -eq 0 ]; then
-		EXITCODE=110
-	else
-		if $C_SHIELD_ON; then
-			shj_log "Enabling Shield For C/C++"
-			# if code contains any 'undef', raise compile error:
-			if tr -d ' \t\n\r\f' < code.c | grep -q '#undef'; then
-				echo 'code.c:#undef is not allowed' >cerr
-				EXITCODE=110
-			else
-				cp ../shield/shield.$EXT shield.$EXT
-				cp ../shield/def$EXT.h def.h
-				# adding define to beginning of code:
-				echo '#define main themainmainfunction' | cat - code.c > thetemp && mv thetemp code.c
-				$COMPILER shield.$EXT $C_OPTIONS $C_WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
-				EXITCODE=$?
-			fi
+	if $C_SHIELD_ON; then
+		shj_log "Enabling Shield For C/C++"
+		# if code contains any 'undef', raise compile error:
+		if tr -d ' \t\n\r\f' < code.c | grep -q '#undef'; then
+			echo 'code.c:#undef is not allowed' >cerr
+			EXITCODE=110
 		else
-			mv code.c code.$EXT
-			$COMPILER code.$EXT $C_OPTIONS $C_WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
+			cp ../shield/shield.$EXT shield.$EXT
+			cp ../shield/def$EXT.h def.h
+			# adding define to beginning of code:
+			echo '#define main themainmainfunction' | cat - code.c > thetemp && mv thetemp code.c
+			$COMPILER shield.$EXT $C_OPTIONS $C_WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
 			EXITCODE=$?
 		fi
+	else
+		mv code.c code.$EXT
+		$COMPILER code.$EXT $C_OPTIONS $C_WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
+		EXITCODE=$?
 	fi
-
 	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
 	shj_log "Compiled. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
 	if [ $EXITCODE -ne 0 ]; then
 		shj_log "Compile Error"
-		#shj_log "$(cat cerr | head -10)"
-		shj_log "$(cat cerr )"
+		shj_log "$(cat cerr | head -10)"
 		echo '<span class="shj_b">Compile Error<br>Error Messages: (line numbers are not correct)</span>' >$PROBLEMPATH/$UN/result.html
 		echo '<span class="shj_r">' >> $PROBLEMPATH/$UN/result.html
 		SHIELD_ACT=false
@@ -411,9 +381,7 @@ echo "" >$PROBLEMPATH/$UN/result.html
 if [ -f "$PROBLEMPATH/tester.cpp" ] && [ ! -f "$PROBLEMPATH/tester.executable" ]; then
 	shj_log "Tester file found. Compiling tester..."
 	TST_COMPILE_BEGIN_TIME=$(($(date +%s%N)/1000000));
-	# An: 20160321 change
-	# no optimization when compile tester code
-	g++ $PROBLEMPATH/tester.cpp -o $PROBLEMPATH/tester.executable
+	g++ $PROBLEMPATH/tester.cpp -lm -O2 -o $PROBLEMPATH/tester.executable
 	EC=$?
 	TST_COMPILE_END_TIME=$(($(date +%s%N)/1000000));
 	if [ $EC -ne 0 ]; then
@@ -438,9 +406,9 @@ PASSEDTESTS=0
 for((i=1;i<=TST;i++)); do
 	shj_log "\n=== TEST $i ==="
 	echo "<span class=\"shj_b\">Test $i</span>" >>$PROBLEMPATH/$UN/result.html
-
+	
 	touch err
-
+	
 	if [ "$EXT" = "java" ]; then
 		if $PERL_EXISTS; then
 			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT java -mx${MEMLIMIT}k $JAVA_POLICY $MAINFILENAME"
@@ -481,12 +449,10 @@ for((i=1;i<=TST;i++)); do
 			#./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>/dev/null
 			if $PERL_EXISTS; then
 				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$EXEFILE"
-				#shj_log "./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt ./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$EXEFILE"
 			else
 				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./$EXEFILE"
 			fi
 			EXITCODE=$?
-			shj_log "./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt ./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$EXEFILE"
 		fi
 
 	elif [ "$EXT" = "py2" ]; then
@@ -513,7 +479,7 @@ for((i=1;i<=TST;i++)); do
 	fi
 
 	shj_log "Exit Code = $EXITCODE"
-	shj_log "err file:`cat err`"
+
 	if ! grep -q "FINISHED" err; then
 		if grep -q "SHJ_TIME" err; then
 			t=`grep "SHJ_TIME" err|cut -d" " -f3`
@@ -541,7 +507,7 @@ for((i=1;i<=TST;i++)); do
 		t=`grep "FINISHED" err|cut -d" " -f3`
 		shj_log "Time: $t s"
 	fi
-
+	
 	if [ $EXITCODE -eq 137 ]; then
 		#shj_log "Time Limit Exceeded (Exit code=$EXITCODE)"
 		#echo "<span style='color: orange;'>Time Limit Exceeded</span>" >>$PROBLEMPATH/$UN/result.html
@@ -556,14 +522,12 @@ for((i=1;i<=TST;i++)); do
 		echo "<span class=\"shj_o\">Runtime Error</span>" >>$PROBLEMPATH/$UN/result.html
 		continue
 	fi
-
+	
 	# checking correctness of output
 	ACCEPTED=false
 	if [ -f shj_tester ]; then
-		ulimit -t $TIMELIMITINT
 		./shj_tester $PROBLEMPATH/in/input$i.txt $PROBLEMPATH/out/output$i.txt out
 		EC=$?
-		shj_log "$EC"
 		if [ $EC -eq 0 ]; then
 			ACCEPTED=true
 		fi
@@ -600,7 +564,7 @@ done
 
 # After I added the feature for showing java exception name and exception place,
 # I found that the way I am doing it is a security risk. So I added the file "tester/java_exceptions_list"
-# and now it is safe to show the exception name (if it is in file java_exceptions_list), but we should not
+# and now it is safe to show the exception name (if it is in file java_exceptions_list), but we should not 
 # show place of exception. So I commented following lines:
 	## Print last java exception (if enabled)
 	#if $DISPLAY_JAVA_EXCEPTION_ON && [ "$javaexceptionname" != "" ]; then
@@ -611,9 +575,7 @@ done
 
 
 cd ..
-#cp -r $JAIL "debug-jail-backup"
 rm -r $JAIL >/dev/null 2>/dev/null # removing files
-
 
 ((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000
 shj_log "\nScore from 10000: $SCORE"

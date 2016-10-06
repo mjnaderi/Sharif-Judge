@@ -228,7 +228,6 @@ class User_model extends CI_Model
 				$this->email->to($user[1]);
 				$this->email->subject('Sharif Judge Username and Password');
 				$text = $this->settings_model->get_setting('add_user_mail');
-				$text = str_replace('{SITE_NAME}', $this->settings_model->get_setting('site_name'), $text);
 				$text = str_replace('{SITE_URL}', base_url(), $text);
 				$text = str_replace('{ROLE}', $user[3], $text);
 				$text = str_replace('{USERNAME}', $user[0], $text);

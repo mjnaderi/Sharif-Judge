@@ -33,7 +33,7 @@ class Password_hash
 	var $portable_hashes;
 	var $random_state;
 
-	function __construct($input)
+	function Password_hash($input)
 	{
 		list($iteration_count_log2, $portable_hashes) = $input;
 

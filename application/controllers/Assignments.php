@@ -159,14 +159,6 @@ class Assignments extends CI_Controller
 				$this->zip->add_data("p{$i}/".shj_basename($path), file_get_contents($path));
 			}
 
-			$template_files = glob("$root_path/p{$i}/template.*");
-			if ($template_files){
-				foreach ($template_files as $file )
-				{
-					$this->zip->add_data("p{$i}/".shj_basename($file), file_get_contents($file));
-				}
-			}
-
 			$path = "$root_path/p{$i}/desc.html";
 			if (file_exists($path))
 				$this->zip->add_data("p{$i}/desc.html", file_get_contents($path));
@@ -278,7 +270,6 @@ class Assignments extends CI_Controller
 		$this->load->library('upload');
 
 		if ( ! empty($_POST) )
-			//echo("<pre>"); print_r($_POST); echo("</pre>"); die();
 			if ($this->_add()) // add/edit assignment
 			{
 				//if ( ! $this->edit) // if adding assignment (not editing)
@@ -316,7 +307,7 @@ class Assignments extends CI_Controller
 						'python_time_limit' => 1500,
 						'java_time_limit' => 2000,
 						'memory_limit' => 50000,
-						'allowed_languages' => 'C++',
+						'allowed_languages' => 'C,C++,Python 2,Python 3,Java',
 						'diff_cmd' => 'diff',
 						'diff_arg' => '-bB',
 						'is_upload_only' => 0
@@ -510,7 +501,6 @@ class Assignments extends CI_Controller
 				// Remove previous test cases and descriptions
 				shell_exec("cd $assignment_dir;"
 					." rm -rf */in; rm -rf */out; rm -f */tester.cpp; rm -f */tester.executable;"
-					." rm -rf */template.*;"
 					." rm -f */desc.html; rm -f */desc.md; rm -f */*.pdf;");
 				if (glob("$tmp_dir/*.pdf"))
 					shell_exec("cd $assignment_dir; rm -f *.pdf");

@@ -4,8 +4,8 @@
  # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
  #}
 {% spaceless %}
-
 <table class="sharif_table">
+
 <thead>
 	<tr>
 		<th>#</th>
@@ -32,19 +32,8 @@
 	{% for problem in problems %}
 	<td>
 		{% if scores[sc_username][problem.id].score is defined %}
-			{% if scores[sc_username][problem.id].fullmark == true %}
-				<span style="color:green">
-					{{ scores[sc_username][problem.id].score }}
-			{% else %}
-				<span style="color:red">
-					{{ scores[sc_username][problem.id].score }}*
-			{% endif %}
-				</span></br>
-			{% if scores[sc_username][problem.id].late > 0 %}
-				<span class="tiny_text shj_o" title="Delay time" >{{ time_hhmm(scores[sc_username][problem.id].late) }}**</span>
-			{% else %}
-				<span class="tiny_text" title="Time">{{ time_hhmm(scores[sc_username][problem.id].time) }}</span>
-			{% endif %}
+			{{ scores[sc_username][problem.id].score }}<br>
+			<span class="tiny_text" title="Time">{{ time_hhmm(scores[sc_username][problem.id].time) }}</span>
 		{% else %}
 			-
 		{% endif %}
@@ -59,7 +48,4 @@
 {% endfor %}
 
 </table>
-*: Not full mark
-<br/>
-**: Delay time
 {% endspaceless %}
