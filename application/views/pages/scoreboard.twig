@@ -9,6 +9,16 @@
 {% block title %}Scoreboard{% endblock %}
 {% block head_title %}Scoreboard{% endblock %}
 
+{% block title_menu %}
+<span class="title_menu_item">
+	<a href="{{ site_url('scoreboard/') }}">
+	<i class="fa fa-star color10"></i> Full information </a>
+</span>
+<span class="title_menu_item">
+	<a href="{{ site_url('scoreboard/simplify') }}">
+	<i class="fa fa-star-half-o color10"></i> Minimal information </a>
+</span>
+{% endblock %} {# title_menu #}
 
 
 {% block main_content %}

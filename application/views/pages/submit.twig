@@ -15,18 +15,56 @@
 <script>
 	shj.p={};
 	{{ problems_js|raw }}
+
 	$(document).ready(function(){
 		$("select#problems").change(function(){
 			var v = $(this).val();
-			$('select#languages').empty();
-			$('<option value="0" selected="selected">-- Select Language --</option>').appendTo('select#languages');
 			if (v==0)
 				return;
+			$('select#languages').empty();
+			//$('<option value="0" selected="selected">-- Select Language --</option>').appendTo('select#languages');
 			for (var i=0;i<shj.p[v].length;i++)
 				$('<option value="'+shj.p[v][i]+'">'+shj.p[v][i]+'</option>').appendTo('select#languages');
+			$("#problem_link").attr('href', "/problems/{{ user.selected_assignment.id }}/" + $(this).val());
+
 		});
+
+		{% if from == '' %}
+			$("select#problems").val(1);
+		{% else  %}
+			$("select#problems").val({{ from }});
+		{% endif %}
+		$("select#problems").change();
+
 	});
 </script>
+
+<style type="text/css" media="screen">
+    #editor {
+		min-height: 100px;
+		height: 100%;
+    }
+    .scroll-content{
+    	display: flex;
+    	flex-direction: column;
+    }
+    #page_title {
+    	width: 100%;
+    }
+    #main_content {
+    	height: 100%;
+    	display: flex;
+    	flex-direction: column;
+    }
+    form{
+    	height: 100%;
+    	display: flex;
+    	flex-direction: column;
+    }
+    #main_content > p{
+    	margin: 10px 6px 0 0;
+    }
+</style>
 {% endblock %}
 
 
@@ -39,34 +77,70 @@
 	<p>Coefficient: {{ coefficient }}%</p>
 	{{ form_open_multipart('submit') }}
 	<p class="input_p">
-		<label for="problems" class="tiny">Problem:</label>
+		<label for="problems" class="short">Problem:</label>
 		<select id="problems" name ="problem" class="sharif_input">
-			<option value="0" selected="selected">-- Select Problem --</option>
+			<!--option value="0" selected="selected">-- Select Problem --</option-->
 			{% for problem in problems %}
-				<option dir="auto" value="{{ problem.id }}">{{ problem.name }}</option>
+				<option dir="auto" value="{{ problem.id }}">#{{problem.id}}--{{ problem.name }}</option>
 			{% endfor %}
 		</select>
+		<span class="medium"><a id="problem_link" href="#" target="_blank">Problem statement</a></label>
 		{{ form_error('problem','<div class="shj_error">','</div>') }}
 	</p>
 	<p class="input_p">
-		<label for="languages" class="tiny">Language:</label>
+		<label for="languages" class="short">Language:</label>
 		<select id="languages" name="language" class="sharif_input">
-			<option value="0" selected="selected">-- Select Language --</option>
+			<!--option value="0" selected="selected">-- Select Language --</option-->
 		</select>
 		{{ form_error('language','<div class="shj_error">','</div>') }}
 	</p>
 	<p class="input_p">
-		<label for="file" class="tiny">File:</label>
-		<input type="file" id="file" class="sharif_input medium" name="userfile" />
-		{% if upload_state == 'error' %}
-		<div class="shj_error">Error uploading file.</div>
-		{% elseif upload_state == 'ok' %}
-		<div class="shj_ok">File uploaded successfully. See the result in 'All Submissions'.</div>
-		{% endif %}
+		<label for="code" class="short">Code theme:</label>
+		<textarea  style="display:none;" rows="4" cols="80" name="code" class="sharif_input add_text">
+		</textarea>
+		<select id="theme" class="sharif_input">
+			<option value="ambiance">ambiance</option>
+			<option value="chaos">chaos</option>
+			<option value="chrome">chrome</option>
+			<option value="clouds">clouds</option>
+			<option value="clouds_midnight">clouds_midnight</option>
+			<option value="cobalt">cobalt</option>
+			<option value="crimson_editor">crimson_editor</option>
+			<option value="dawn">dawn</option>
+			<option value="dreamweaver">dreamweaver</option>
+			<option value="eclipse">eclipse</option>
+			<option value="github">github</option>
+			<option value="idle_fingers">idle_fingers</option>
+			<option value="iplastic">iplastic</option>
+			<option value="katzenmilch">katzenmilch</option>
+			<option value="kr_theme">kr_theme</option>
+			<option value="kuroir">kuroir</option>
+			<option value="merbivore">merbivore</option>
+			<option value="merbivore_soft">merbivore_soft</option>
+			<option value="mono_industrial">mono_industrial</option>
+			<option value="monokai">monokai</option>
+			<option value="pastel_on_dark">pastel_on_dark</option>
+			<option value="solarized_dark">solarized_dark</option>
+			<option value="solarized_light">solarized_light</option>
+			<option value="sqlserver">sqlserver</option>
+			<option value="terminal">terminal</option>
+			<option value="textmate">textmate</option>
+			<option value="tomorrow">tomorrow</option>
+			<option value="tomorrow_night">tomorrow_night</option>
+			<option value="tomorrow_night_blue">tomorrow_night_blue</option>
+			<option value="tomorrow_night_bright">tomorrow_night_bright</option>
+			<option value="tomorrow_night_eighties">tomorrow_night_eighties</option>
+			<option value="twilight">twilight</option>
+			<option value="vibrant_ink">vibrant_ink</option>
+		</select>
 	</p>
+	<div id="editor">//Paste your code here
+//NOTE: If you use java, your Main class must be named solution</div>
 	<p class="input_p">
 		<input type="submit" value="Submit" class="sharif_input"/>
 	</p>
 	</form>
+	<script src="{{ base_url('assets/js/src-min-noconflict/ace.js') }}" type="text/javascript" charset="utf-8"></script>
+	<script  type="text/javascript" src="{{ base_url('assets/js/submit_page.js')   }}" charset="utf-8"></script>
 {% endif %}
 {% endblock %}  {# main_content #}

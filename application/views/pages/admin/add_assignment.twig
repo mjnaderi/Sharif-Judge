@@ -12,6 +12,14 @@
 
 
 {% block other_assets %}
+<!--link rel="stylesheet" type="text/css" href="{{ base_url('assets/chosen/chosen.min.css') }}">
+<script type="text/javascript" src = {{ base_url('assets/chosen/chosen.jquery.min.js') }}></script-->
+
+<link rel="stylesheet" type="text/css" href="{{ base_url('assets/select2/select2.min.css') }}">
+<script type="text/javascript" src = {{ base_url('assets/select2/select2.min.js') }}></script>
+
+
+<script type="text/javascript" src = {{ base_url('assets/js/add_assignments.js') }}></script>
 <script type='text/javascript' src="{{ base_url('assets/js/taboverride.min.js') }}"></script>
 <script>
 	$(document).ready(function(){
@@ -19,47 +27,7 @@
 	});
 </script>
 <script type="text/javascript" src="{{ base_url('assets/js/jquery-ui-timepicker-addon.js') }}"></script>
-<script>
-	shj.num_of_problems={{ problems|length }};
-	shj.row='<tr><td>PID</td>\
-	<td><input type="text" name="name[]" class="sharif_input short" value="Problem "/></td>\
-	<td><input type="text" name="score[]" class="sharif_input tiny2" value="100"/></td>\
-	<td><input type="text" name="c_time_limit[]" class="sharif_input tiny2" value="500"/></td>\
-	<td><input type="text" name="python_time_limit[]" class="sharif_input tiny2" value="1500"/></td>\
-	<td><input type="text" name="java_time_limit[]" class="sharif_input tiny2" value="2000"/></td>\
-	<td><input type="text" name="memory_limit[]" class="sharif_input tiny" value="50000"/></td>\
-	<td><input type="text" name="languages[]" class="sharif_input short2" value="C,C++,Python 2,Python 3,Java"/></td>\
-	<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="diff"/></td>\
-	<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="-bB"/></td>\
-	<td><input type="checkbox" name="is_upload_only[]" class="check" value="PID"/><td><i class="fa fa-times-circle fa-lg color1 delete_problem pointer"></i></td></td>\
-</tr>';
-	$(document).ready(function(){
-		$("#add").click(function(){
-			$('#problems_table>tbody').append(shj.row.replace(/PID/g, (shj.num_of_problems+1)));
-			shj.num_of_problems++;
-			$('#nop').attr('value', shj.num_of_problems);
-		});
-		$(document).on('click', '.delete_problem', function(){
-			if (shj.num_of_problems==1) return;
-			var row = $(this).parents('tr');
-			row.remove();
-			var i = 0;
-			$('#problems_table>tbody').children('tr').each(function(){
-				i++;
-				$(this).children(':first').html(i);
-				$(this).find('[type="checkbox"]').attr('value',i);
-			});
-			shj.num_of_problems--;
-			$('#nop').attr('value',shj.num_of_problems);
-		});
-		$('#start_time').datetimepicker({
-			timeFormat: 'HH:mm:ss'
-		});
-		$('#finish_time').datetimepicker({
-			timeFormat: 'HH:mm:ss'
-		});
-	});
-</script>
+<script type="text/javascript">shj.num_of_problems={{ problems|length }};</script>
 {% endblock %}
 
 
@@ -110,7 +78,7 @@
 			Extra Time (minutes)<br>
 			<span class="form_comment">Extra time for late submissions.</span>
 		</label>
-		<input id="form_extra_time" type="text" name="extra_time" id="extra_time" class="sharif_input medium" value="{{ edit ? edit_assignment.extra_time|extra_time_formatter : set_value('extra_time') }}" />
+		<input id="form_extra_time" type="text" name="extra_time" id="extra_time" class="sharif_input medium" value="{{ edit ? edit_assignment.extra_time|extra_time_formatter : set_value('extra_time', 0) }}" />
 		{{ form_error('extra_time', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p clear">
@@ -139,9 +107,9 @@
 </div>
 <div class="panel_right">
 	<p class="input_p">
-		<input id="form_a_open" type="checkbox" name="open" value="1" {{ edit ? (edit_assignment.open ? 'checked') : set_checkbox('open', '1')|raw }} />
+		<input id="form_a_open" type="checkbox" name="open" value="1" {{ edit ? (edit_assignment.open ? 'checked') : set_checkbox('open', '1', true)|raw }} />
 		<label for="form_a_open" class="default">Open</label>
-		<span class="form_comment space-left">Open or close this assignment</span>
+		<span class="form_comment space-left">Open or close this assignment for submission</span>
 		{{ form_error('open', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p">
@@ -183,6 +151,8 @@
 	</tr>
 	</thead>
 	<tbody>
+
+	{% set i = 0 %}
 	{% for problem in problems %}
 		<tr>
 			<td>{{ problem.id }}</td>
@@ -192,12 +162,23 @@
 			<td><input type="text" name="python_time_limit[]" class="sharif_input tiny2" value="{{ problem.python_time_limit }}"/></td>
 			<td><input type="text" name="java_time_limit[]" class="sharif_input tiny2" value="{{ problem.java_time_limit }}"/></td>
 			<td><input type="text" name="memory_limit[]" class="sharif_input tiny" value="{{ problem.memory_limit }}"/></td>
-			<td><input type="text" name="languages[]" class="sharif_input short2" value="{{ problem.allowed_languages }}"/></td>
+			<input id="allowed_lang{{i}}" type="hidden" name="allowed_languages[{{i}}]" class="sharif_input short2" value="{{ problem.allowed_languages }}"/>
+			<input id="submit_lang{{i}}" type="hidden" name="languages[{{i}}]" class="sharif_input short2"/>
+			<td>
+				<select id="lang{{i}}" name="select_languages[{{i}}][]" class="medium" multiple>
+					<option value="C">C</option>
+					<option value="C++">C++</option>
+					<option value="Python 2">Python 2</option>
+					<option value="Python 3">Python 3</option>
+					<option value="Java">Java</option>
+				</select>
+			</td>
 			<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="{{ problem.diff_cmd }}"/></td>
 			<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="{{ problem.diff_arg }}"/></td>
 			<td><input type="checkbox" name="is_upload_only[]" class="check" value="{{ problem.id }}" {{ problem.is_upload_only ? 'checked' }}/></td>
 			<td><i class="fa fa-times-circle fa-lg color1 delete_problem pointer"></i></td>
 		</tr>
+		{% set i = i + 1 %}
 	{% endfor %}
 	</tbody>
 </table>

@@ -14,6 +14,10 @@ class User extends CI_Model
 	public $level;
 	public $email;
 
+	/* We put site's name in here because this data is given in every pages
+	*  to display username.
+	*/
+	public $site_name;
 
 	public function __construct()
 	{
@@ -48,6 +52,9 @@ class User extends CI_Model
 			case 'instructor': $this->level = 1; break;
 			case 'student': $this->level = 0; break;
 		}
+		$this->load->model('settings_model');
+		$this->site_name = $this->settings_model->get_setting('site_name');
+
 	}
 
 

@@ -5,7 +5,8 @@
  #}
 {% set title = 'Installation' %}
 {% include 'templates/simple_header.twig' %}
-
+<script type="text/javascript" src="{{ base_url('assets/js/jquery-1.10.2.min.js') }}"></script>
+<script type="text/javascript" src="{{ base_url('assets/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
 {% if installed %}
 	<div id="install_success">
 		<h2>Sharif Judge Installed</h2>
@@ -30,32 +31,63 @@
 {% else %}
 
 	<div id="install_form">
-		<h2>Sharif Judge Installation</h2>
 		{{ form_open('install') }}
-		<p class="input_p">
-			<label for="form_username">Admin username:</label>
-			<input id="form_username" class="sharif_input" type="text" name="username" required="required" pattern="[0-9A-Za-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only alpha-numeric characters" value="{{ set_value('username') }}" autofocus/>
-			{{ form_error('username', '<div class="shj_error">', '</div>') }}
-		</p>
-		<p class="input_p">
-			<label for="form_email">Admin email:</label>
-			<input id="form_email" type="email" autocomplete="off" name="email" required="required" class="sharif_input" value="{{ set_value('email') }}"/>
-			{{ form_error('email', '<div class="shj_error">', '</div>') }}
-		</p>
-		<p class="input_p">
-			<label for="form_password">Admin password:</label>
-			<input id="form_password" type="password" name="password" required="required" pattern="[0-9A-Za-z]{6,20}" title="The Password field must be between 6 and 30 characters in length, and contain only alpha-numeric characters" class="sharif_input"/>
-			{{ form_error('password', '<div class="shj_error">', '</div>') }}
-		</p>
-		<p class="input_p">
-			<label for="form_password_2">Password, again:</label>
-			<input id="form_password_2" type="password" name="password_again" required="required" class="sharif_input"/>
-			{{ form_error('password_again', '<div class="shj_error">', '</div>') }}
-		</p>
-		<p class="input_p">
-			<input class="sharif_input" type="submit" value="Continue"/>
-		</p>
+		<div class="login1">
+		<h2>Sharif Judge Installation</h2>
+
+			<p class="input_p">
+				<label for="form_username">Admin username:</label>
+				<input id="form_username" class="sharif_input" type="text" name="username" required="required" pattern="[0-9A-Za-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only alpha-numeric characters" value="{{ set_value('username') }}" autofocus/>
+				{{ form_error('username', '<div class="shj_error">', '</div>') }}
+			</p>
+			<p class="input_p">
+				<label for="form_email">Admin email:</label>
+				<input id="form_email" type="email" autocomplete="off" name="email" required="required" class="sharif_input" value="{{ set_value('email') }}"/>
+				{{ form_error('email', '<div class="shj_error">', '</div>') }}
+			</p>
+			<a
+			<p class="input_p">
+				<label for="form_password">Admin password:</label>
+				<input id="form_password" type="password" name="password" required="required" pattern=".{10,30}" title="The Password field must be between 10 and 30 characters in length" class="sharif_input"/>
+				{{ form_error('password', '<div class="shj_error">', '</div>') }}
+			</p>
+			<p class="input_p">
+				<label for="form_password_2">Password, again:</label>
+				<input id="form_password_2" type="password" name="password_again" required="required" class="sharif_input"/>
+				{{ form_error('password_again', '<div class="shj_error">', '</div>') }}
+			</p>
+			<p class="input_p">
+				<label for="form_password_2">Generate password:</label>
+				<input id="generae" type="button" value="Generate"/>
+				<input id="form_password_gen" type="text" name="password_gen" class="sharif_input"/>
+				{{ form_error('password_again', '<div class="shj_error">', '</div>') }}
+			</p>
+			</div>
+			<div class="login2">
+				<p style="margin:0;">
+					<a class="dummy"> . </a>
+					<input id="sharif_submit"  type="submit" value="Continue"/>
+				</p>
+			</div>
 		</form>
+	<script>
+	console.log("shit");
+	$("#generae").click(function(){
+		function generatePassword() {
+		    var length = 15,
+		        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+		        retVal = "";
+		    for (var i = 0, n = charset.length; i < length; ++i) {
+		        retVal += charset.charAt(Math.floor(Math.random() * n));
+		    }
+		    return retVal;
+		}
+		var p = generatePassword();
+		$("#form_password_2").val(p);
+		$("#form_password").val(p);
+		$("#form_password_gen").val(p);
+	});
+	</script
 	</div>
 {% endif %}
 </body>

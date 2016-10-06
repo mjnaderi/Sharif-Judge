@@ -39,7 +39,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '';
+$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -272,7 +272,7 @@ $config['cache_path'] = '';
 | http://codeigniter.com/user_guide/libraries/sessions.html
 |
 */
-$config['encryption_key'] = '7DqAtbyOpzoed8HFNPJGBwWksj4v05lr';
+$config['encryption_key'] = 'duDPBko8ICj9eSlgUx7LiY2HpnATr1Jf';
 
 /*
 |--------------------------------------------------------------------------

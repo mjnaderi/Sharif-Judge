@@ -98,25 +98,28 @@ class Install extends CI_Controller
 				'open'          => array('type' => 'TINYINT', 'constraint' => 1),
 				'scoreboard'    => array('type' => 'TINYINT', 'constraint' => 1),
 				'javaexceptions'=> array('type' => 'TINYINT', 'constraint' => 1),
-				'description'   => array('type' => 'TEXT', 'default' => ''),
+				'description'   => array('type' => 'TEXT'),
 				'start_time'    => array('type' => $DATETIME),
 				'finish_time'   => array('type' => $DATETIME),
 				'extra_time'    => array('type' => 'INT', 'constraint' => 11),
 				'late_rule'     => array('type' => 'TEXT'),
-				'participants'  => array('type' => 'TEXT', 'default' => ''),
+				'participants'  => array('type' => 'TEXT'),
 				'moss_update'   => array('type' => 'VARCHAR', 'constraint' => 30, 'default' => 'Never'),
 			);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->add_key('id', TRUE); // PRIMARY KEY
-			if ( ! $this->dbforge->create_table('assignments', TRUE))
-				show_error("Error creating database table ".$this->db->dbprefix('assignments'));
+			if ( ! $this->dbforge->create_table('assignments', TRUE)){
+				var_dump($this->db->last_query());
+				show_error("Error creating database table ".$this->db->dbprefix('assignments') . print_r($this->db->error(), true));
+
+			}
 
 
 			// create table 'notifications'
 			$fields = array(
 				'id'            => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'auto_increment' => TRUE),
 				'title'         => array('type' => 'VARCHAR', 'constraint' => 200, 'default' => ''),
-				'text'          => array('type' => 'TEXT', 'default' => ''),
+				'text'          => array('type' => 'TEXT'),
 				'time'          => array('type' => $DATETIME),
 			);
 			$this->dbforge->add_field($fields);
@@ -137,7 +140,7 @@ class Install extends CI_Controller
 				'python_time_limit' => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 1500),
 				'java_time_limit'   => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 2000),
 				'memory_limit'      => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 50000),
-				'allowed_languages' => array('type' => 'TEXT', 'default' => ''),
+				'allowed_languages' => array('type' => 'TEXT'),
 				'diff_cmd'          => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => 'diff'),
 				'diff_arg'          => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => '-bB'),
 			);
@@ -172,19 +175,23 @@ class Install extends CI_Controller
 			// create table 'scoreboard'
 			$fields = array(
 				'assignment'        => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
-				'scoreboard'        => array('type' => 'TEXT', 'default' => ''),
+				'scoreboard'        => array('type' => 'TEXT'),
 			);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->add_key('assignment');
 			if ( ! $this->dbforge->create_table('scoreboard', TRUE))
 				show_error("Error creating database table ".$this->db->dbprefix('scoreboard'));
-
+			//Add UNIQUE ( assignment) constraint
+			$this->db->query(
+				"ALTER TABLE {$this->db->dbprefix('scoreboard')}
+				 ADD CONSTRAINT {$this->db->dbprefix('suap_unique')} UNIQUE (assignment);"
+			);
 
 
 			// create table 'settings'
 			$fields = array(
 				'shj_key'        => array('type' => 'VARCHAR', 'constraint' => 50),
-				'shj_value'      => array('type' => 'TEXT', 'default' => ''),
+				'shj_value'      => array('type' => 'TEXT'),
 			);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->add_key('shj_key');
@@ -195,6 +202,7 @@ class Install extends CI_Controller
 
 			// insert default settings to table 'settings'
 			$result = $this->db->insert_batch('settings', array(
+				array('shj_key' => 'site_name',               'shj_value' => 'Wecode Judge'),
 				array('shj_key' => 'timezone',               'shj_value' => 'Asia/Ho_Chi_Minh'),
 				array('shj_key' => 'tester_path',            'shj_value' => dirname(BASEPATH) . '/tester'),
 				array('shj_key' => 'assignments_root',       'shj_value' => dirname(BASEPATH) . '/assignments'),
@@ -212,10 +220,10 @@ class Install extends CI_Controller
 				array('shj_key' => 'submit_penalty',         'shj_value' => '300'),
 				array('shj_key' => 'enable_registration',    'shj_value' => '0'),
 				array('shj_key' => 'registration_code',      'shj_value' => '0'),
-				array('shj_key' => 'mail_from',              'shj_value' => 'shj@example.com'),
-				array('shj_key' => 'mail_from_name',         'shj_value' => 'Sharif Judge'),
-				array('shj_key' => 'reset_password_mail',    'shj_value' => "<p>\nSomeone requested a password reset for your Sharif Judge account at {SITE_URL}.\n</p>\n<p>\nTo change your password, visit this link:\n</p>\n<p>\n<a href=\"{RESET_LINK}\">Reset Password</a>\n</p>\n<p>\nThe link is valid for {VALID_TIME}. If you don't want to change your password, just ignore this email.\n</p>"),
-				array('shj_key' => 'add_user_mail',          'shj_value' => "<p>\nHello! You are registered in Sharif Judge at {SITE_URL} as {ROLE}.\n</p>\n<p>\nYour username: {USERNAME}\n</p>\n<p>\nYour password: {PASSWORD}\n</p>\n<p>\nYou can log in at <a href=\"{LOGIN_URL}\">{LOGIN_URL}</a>\n</p>"),
+				array('shj_key' => 'mail_from',              'shj_value' => 'wcj@example.com'),
+				array('shj_key' => 'mail_from_name',         'shj_value' => 'Wecode Judge'),
+				array('shj_key' => 'reset_password_mail',    'shj_value' => "<p>\nSomeone requested a password reset for your {SITE_NAME} Wecode Judge account at {SITE_URL}.\n</p>\n<p>\nTo change your password, visit this link:\n</p>\n<p>\n<a href=\"{RESET_LINK}\">Reset Password</a>\n</p>\n<p>\nThe link is valid for {VALID_TIME}. If you don't want to change your password, just ignore this email.\n</p>"),
+				array('shj_key' => 'add_user_mail',          'shj_value' => "<p>\nHello! You are registered in {SITE_NAME} Wecode Judge at {SITE_URL} as {ROLE}.\n</p>\n<p>\nYour username: {USERNAME}\n</p>\n<p>\nYour password: {PASSWORD}\n</p>\n<p>\nYou can log in at <a href=\"{LOGIN_URL}\">{LOGIN_URL}</a>\n</p>"),
 				array('shj_key' => 'moss_userid',            'shj_value' => ''),
 				array('shj_key' => 'results_per_page_all',   'shj_value' => '40'),
 				array('shj_key' => 'results_per_page_final', 'shj_value' => '80'),

@@ -18,6 +18,15 @@ class Submit extends CI_Controller
 	private $file_name; //uploaded file name without extension
 	private $coefficient;
 
+	private $language_to_ext = array(
+		 'c' => 'c'
+		, 'cpp' => 'cpp'
+		, 'py2' => 'py'
+		, 'py3' => 'py'
+		, 'java' => 'java'
+		, 'zip' => 'zip'
+		, 'pdf' => 'pdf'
+	);
 
 	// ------------------------------------------------------------------------
 
@@ -138,17 +147,23 @@ class Submit extends CI_Controller
 			// non-student users can submit to not started assignments
 			$this->data['error'] = 'Selected assignment has not started.';
 		elseif (strtotime($this->user->selected_assignment['start_time']) < strtotime($this->user->selected_assignment['finish_time'])
-		  		&& shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) 
+		  		&& shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time'])
 		{
 		  		// deadline = finish_time + extra_time
 				// but if start time is before finish time, the deadline is NEVER
-			
+
 			$this->data['error'] =  'Selected assignment has finished.';
 		}
 		elseif ( ! $this->assignment_model->is_participant($this->user->selected_assignment['participants'],$this->user->username) )
 			$this->data['error'] = 'You are not registered for submitting.';
 		else
 			$this->data['error'] = 'none';
+
+		$this->data['from'] = "";
+		$this->load->library('user_agent');
+	    $a = $this->agent->referrer();
+
+		if (preg_match('/\/problems\/\d+\/(\d+)$/', $a, $pno)) $this->data['from'] = $pno[1];
 
 		$this->twig->display('pages/submit.twig', $this->data);
 
@@ -171,8 +186,7 @@ class Submit extends CI_Controller
 				break;
 			}
 		$this->filetype = $this->_language_to_type(strtolower(trim($this->input->post('language'))));
-		$this->ext = substr(strrchr($_FILES['userfile']['name'],'.'),1); // uploaded file extension
-		$this->file_name = basename($_FILES['userfile']['name'], ".{$this->ext}"); // uploaded file name without extension
+
 		if ( $this->queue_model->in_queue($this->user->username,$this->user->selected_assignment['id'], $this->problem['id']) )
 			show_error('You have already submitted for this problem. Your last submission is still in queue.');
 		if ($this->user->level==0 && !$this->user->selected_assignment['open'])
@@ -189,18 +203,65 @@ class Submit extends CI_Controller
 		{
 			$filetype = $this->_language_to_type(strtolower(trim($filetype)));
 		}
-		if ($_FILES['userfile']['error'] == 4)
-			show_error('No file chosen.');
+
 		if ( ! in_array($this->filetype, $filetypes))
 			show_error('This file type is not allowed for this problem.');
-		if ( ! $this->_match($this->filetype, $this->ext) )
-			show_error('This file type does not match your selected language.');
-		if ( ! preg_match('/^[a-zA-Z0-9_\-()]+$/', $this->file_name) )
-			show_error('Invalid characters in file name.');
 
 		$user_dir = rtrim($this->assignment_root, '/').'/assignment_'.$this->user->selected_assignment['id'].'/p'.$this->problem['id'].'/'.$this->user->username;
 		if ( ! file_exists($user_dir))
 			mkdir($user_dir, 0700);
+
+		$a = $this->input->post('code');
+		if ($a != FALSE){
+			$this->ext = $this->language_to_ext[$this->filetype];
+
+			$file_name = "solution";
+			file_put_contents("$user_dir/$file_name-"
+								.($this->user->selected_assignment['total_submits']+1)
+								. "." . $this->ext, $a);
+
+			$this->load->model('submit_model');
+
+			$submit_info = array(
+				'submit_id' => $this->assignment_model->increase_total_submits($this->user->selected_assignment['id']),
+				'username' => $this->user->username,
+				'assignment' => $this->user->selected_assignment['id'],
+				'problem' => $this->problem['id'],
+				'file_name' => "$file_name-"
+								.($this->user->selected_assignment['total_submits']+1),
+				'main_file_name' => "$file_name",
+				'file_type' => $this->filetype,
+				'coefficient' => $this->coefficient,
+				'pre_score' => 0,
+				'time' => shj_now_str(),
+			);
+
+			if ($this->problem['is_upload_only'] == 0)
+			{
+				$this->queue_model->add_to_queue($submit_info);
+				process_the_queue();
+			}
+			else
+			{
+				$this->submit_model->add_upload_only($submit_info);
+			}
+
+			return TRUE;
+		}
+
+		//var_dump($_FILES); die();
+
+		if (!isset($_FILES['userfile']) or $_FILES['userfile']['error'] == 4)
+			show_error('No file chosen.');
+
+
+
+		$this->ext = substr(strrchr($_FILES['userfile']['name'],'.'),1); // uploaded file extension
+		$this->file_name = basename($_FILES['userfile']['name'], ".{$this->ext}"); // uploaded file name without extension
+		if ( ! $this->_match($this->filetype, $this->ext) )
+			show_error('This file type does not match your selected language.');
+		if ( ! preg_match('/^[a-zA-Z0-9_\-()]+$/', $this->file_name) )
+			show_error('Invalid characters in file name.');
 
 		$config['upload_path'] = $user_dir;
 		$config['allowed_types'] = '*';
