@@ -185,14 +185,13 @@ div#shj_logo a {
 
 div#shj_logo img {
 	float:left;
-	width: 32px;
 	height: 32px;
-	margin:0 10px;
+	margin:0 0 0 10px;
 }
 
 div#shj_logo h1.shjlogo-text {
 	color:#FFF;
-	display:inline-block;
+	display:none;
 	margin:0;
 }
 
