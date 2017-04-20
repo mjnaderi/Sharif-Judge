@@ -15,6 +15,13 @@
 <link rel='stylesheet' type='text/css' href='{{ base_url("assets/snippet/jquery.snippet.css") }}'/>
 <link rel='stylesheet' type='text/css' href='{{ base_url("assets/snippet/themes/github.css") }}'/>
 <script type='text/javascript' src="{{ base_url("assets/snippet/jquery.snippet.js") }}"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
+</script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<meta http-equiv="X-UA-Compatible" CONTENT="IE=EmulateIE7" />
 <script>
 $(document).ready(function(){
 	// Syntax highlighting increases the page's height, and we need to update the scroll-bar
