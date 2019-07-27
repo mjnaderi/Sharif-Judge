@@ -1,5 +1,14 @@
 # Sharif Judge
 
+---------
+Github has restricted my account (along with all Iranian developers' accounts). I believed Github is my home as a developer, but I was wrong.
+
+![Github Restricted Iranian Developers](https://raw.githubusercontent.com/mjnaderi/Sharif-Judge/Version-1/github-restriction.png)
+
+If you used or liked this project, please star [1995parham/github-do-not-ban-us](https://github.com/1995parham/github-do-not-ban-us).
+
+---------
+
 [Sharif Judge](https://github.com/mjnaderi/Sharif-Judge) is a free and open source online judge for C, C++, Java and
 Python programming courses.
 
