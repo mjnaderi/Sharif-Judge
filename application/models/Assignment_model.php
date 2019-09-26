@@ -384,7 +384,13 @@ class Assignment_model extends CI_Model
 
 	// ------------------------------------------------------------------------
 
-
+	public function save_problem_name($assignment_id, $problem_id, $name) {
+		if (strlen(trim($name))>0){
+			$problem = $this->problem_info($assignment_id, $problem_id);
+			$problem['name'] = $name;
+			$this->db->update('problems',$problem,array('assignment'=>$assignment_id, 'id'=>$problem_id));
+		}
+	}
 	/**
 	 * Save Problem Description
 	 *
@@ -416,6 +422,20 @@ class Assignment_model extends CI_Model
 			file_put_contents("$assignments_root/assignment_{$assignment_id}/p{$problem_id}/desc.html", $this->parsedown->parse($text));
 		}
 
+	}
+
+	/**
+	* Save Test Case
+	*
+	* Saves a Test Case in the file structure
+	* 
+	*/
+	public function save_test_case($assignment_id, $problem_id, $test_id, $in, $out) {
+		$workdir = rtrim($this->settings_model->get_setting('assignments_root'), '/')."/assignment_{$assignment_id}/p{$problem_id}";
+		mkdir("$workdir/in");
+		mkdir("$workdir/out");
+		file_put_contents("$workdir/in/input{$test_id}.txt", $in);
+		file_put_contents("$workdir/out/output{$test_id}.txt", $out);
 	}
 
 

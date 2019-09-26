@@ -125,21 +125,54 @@ class Problems extends CI_Controller
 		if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > $data['description_assignment']['problems'])
 			show_404();
 
+		$workdir = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}";
 		$this->form_validation->set_rules('text', 'text' ,''); /* todo: xss clean */
 		if ($this->form_validation->run())
 		{
 			$this->assignment_model->save_problem_description($assignment_id, $problem_id, $this->input->post('text'), $ext);
+			$this->assignment_model->save_problem_name($assignment_id, $problem_id, $this->input->post('problem_name'));
+			$files = glob("$workdir/in/*"); // get all file names
+			foreach($files as $file){ // iterate files
+				if(is_file($file))
+					unlink($file); // delete file
+			}
+			$files = glob("$workdir/out/*"); // get all file names
+			foreach($files as $file){ // iterate files
+				if(is_file($file))
+					unlink($file); // delete file
+			}
+			$c=1;
+			for ($i=1;$i<=$this->input->post('num_test_cases');$i++) {
+				echo "<script>alert('".strlen(trim($this->input->post("in_{$i}")))."');</script>";
+				if (strlen(trim($this->input->post("in_{$i}"))) > 0 || strlen(trim($this->input->post("out_{$i}"))) > 0) {
+					$this->assignment_model->save_test_case($assignment_id, $problem_id,$c,$this->input->post("in_{$i}"),$this->input->post("out_{$i}"));
+					$c++;
+				}
+			}
 			redirect('problems/'.$assignment_id.'/'.$problem_id);
 		}
 
+		$problem_info = $this->assignment_model->problem_info($assignment_id, $problem_id);
 		$data['problem'] = array(
 			'id' => $problem_id,
-			'description' => ''
+			'name' => $problem_info['name'],
+			'description' => '',
+			'tests' => array()
 		);
-
-		$path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/desc.".$ext;
+		$path = "{$workdir}/desc.".$ext;
 		if (file_exists($path))
 			$data['problem']['description'] = file_get_contents($path);
+		if (is_dir("{$workdir}/in") && is_dir("{$workdir}/out")) {
+			$test=1;
+			while(true) {
+				if (is_file("{$workdir}/in/input{$test}.txt") && is_file("{$workdir}/out/output{$test}.txt")) {
+					$data['problem']['tests'][] = array("in"=>file_get_contents("{$workdir}/in/input{$test}.txt"), "out"=>file_get_contents("{$workdir}/out/output{$test}.txt"));
+					$test++;
+				} else {
+					break;
+				}
+			}				
+		}
 
 
 		$this->twig->display('pages/admin/edit_problem_'.$type.'.twig', $data);
