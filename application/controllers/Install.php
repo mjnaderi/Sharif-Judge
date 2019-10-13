@@ -195,9 +195,9 @@ class Install extends CI_Controller
 
 			// insert default settings to table 'settings'
 			$result = $this->db->insert_batch('settings', array(
-				array('shj_key' => 'timezone',               'shj_value' => 'Asia/Tehran'),
-				array('shj_key' => 'tester_path',            'shj_value' => '/home/shj/tester'),
-				array('shj_key' => 'assignments_root',       'shj_value' => '/home/shj/assignments'),
+				array('shj_key' => 'timezone',               'shj_value' => 'Asia/Ho_Chi_Minh'),
+				array('shj_key' => 'tester_path',            'shj_value' => dirname(BASEPATH) . '/tester'),
+				array('shj_key' => 'assignments_root',       'shj_value' => dirname(BASEPATH) . '/assignments'),
 				array('shj_key' => 'file_size_limit',        'shj_value' => '50'),
 				array('shj_key' => 'output_size_limit',      'shj_value' => '1024'),
 				array('shj_key' => 'queue_is_working',       'shj_value' => '0'),
@@ -219,7 +219,7 @@ class Install extends CI_Controller
 				array('shj_key' => 'moss_userid',            'shj_value' => ''),
 				array('shj_key' => 'results_per_page_all',   'shj_value' => '40'),
 				array('shj_key' => 'results_per_page_final', 'shj_value' => '80'),
-				array('shj_key' => 'week_start',             'shj_value' => '0'),
+				array('shj_key' => 'week_start',             'shj_value' => '1'),
 			));
 			if ( ! $result)
 				show_error("Error adding data to table ".$this->db->dbprefix('settings'));

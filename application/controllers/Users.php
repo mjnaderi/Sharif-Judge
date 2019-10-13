@@ -54,6 +54,7 @@ class Users extends CI_Controller
 		$this->form_validation->set_rules('new_users', 'New Users', 'required');
 		if ($this->form_validation->run())
 		{
+
 			if ( ! $this->input->is_ajax_request() )
 				exit;
 			list($ok, $error) = $this->user_model->add_users(

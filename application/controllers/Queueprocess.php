@@ -45,7 +45,7 @@ class Queueprocess extends CI_Controller
 			exit;
 		}
 		if ($this->settings_model->get_setting('queue_is_working'))
-			exit;
+		 	exit;
 
 		$this->settings_model->set_setting('queue_is_working', '1');
 
@@ -131,6 +131,9 @@ class Queueprocess extends CI_Controller
 				$submission['status'] = $output;
 			}
 
+			//reconnect to database incase we have run test for a long time.
+			$this->db->reconnect();
+			
 			// Save the result
 			$this->queue_model->save_judge_result_in_db($submission, $type);
 

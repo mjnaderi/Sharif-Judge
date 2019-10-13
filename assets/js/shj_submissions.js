@@ -7,12 +7,16 @@
  */
 
 shj.modal_open = false;
+
+
+
 $(document).ready(function () {
 	$(document).on('click', '#select_all', function (e) {
 		e.preventDefault();
 		$('.code-column').selectText();
 	});
-	$(".btn").click(function () {
+	//$(".btn").click(function () {
+	$("td").on('click', '.btn', function () {
 		var button = $(this);
 		var row = button.parents('tr');
 		var type = button.data('type');
@@ -81,6 +85,7 @@ $(document).ready(function () {
 				if (response.done) {
 					row.children('.status').html('<div class="btn pending" data-code="0">PENDING</div>');
 					noty({text: 'Rejudge in progress', layout: 'bottomRight', type: 'success', timeout: 2500});
+					setTimeout(update_status, update_status_interval);
 				}
 				else
 					shj.loading_failed(response.message);
@@ -116,4 +121,63 @@ $(document).ready(function () {
 			});
 		}
 	);
+
+	setTimeout(update_status, update_status_interval);
 });
+
+
+update_status_interval = 6000;
+function update_status(){
+	
+	$('tr').each(function(){
+		var status = $(this).children('.status');
+		if (status.children('div').hasClass('pending')){
+			$.ajax({
+				type: 'POST',
+				url: shj.site_url + 'submissions/status',
+				data: {
+					username: $(this).data('u'),
+					assignment: $(this).data('a'),
+					problem: $(this).data('p'),
+					submit_id: $(this).data('s'),
+					shj_csrf_token: shj.csrf_token
+				},
+				beforeSend: shj.loading_start,
+				complete: shj.loading_finish,
+				error: shj.loading_error,
+				success: function (response) {
+					response = JSON.parse(response);
+					//console.log(response.status);
+					//console.log(typeof response);
+					var element;
+					switch (response.status.toLowerCase() ){
+						case 'pending':
+							element = ('<div class="btn pending" data-type="result" data-code="0">PENDING</div>');
+					 		noty({text: 'Still judging', layout: 'bottomRight', type: 'success', timeout: 2000});
+						break;
+
+						case  'score' :
+							element = '<div class="btn ' + (response.fullmark ? 'shj-green' : 'shj-red');
+							element += '" data-type="result" >' + response.final_score + '</div>';
+							noty({text: 'Submission has been judged', layout: 'bottomRight', type: 'success', timeout: 2000});
+						break;
+
+						default:
+							element = ('<div class="btn shj-blue" data-code="0" data-type="result">' 
+															+ response.status + '</div>');
+					}
+					status.html(element);
+
+					// }
+					// else
+					// 	shj.loading_failed(response.message);
+				}
+			});
+		}
+	});
+
+	if ($('div.pending')[0]){
+		setTimeout(update_status, update_status_interval);
+
+	}
+}

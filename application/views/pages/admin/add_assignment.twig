@@ -98,7 +98,10 @@
 		{{ form_error('start_time', '<div class="shj_error">', '</div>') }}
 	</p>
 	<p class="input_p">
-		<label for="finish_time">Finish Time</label>
+		<label for="finish_time">Finish Time
+		<br/>
+		<span class="form_comment">Set finish time before start time will set the deadline to *NEVER*</span>
+		</label>
 		<input id="finish_time" type="text" name="finish_time" class="sharif_input medium" value="{{ edit ? edit_assignment.finish_time|date('m/d/Y H:i:s') : set_value('finish_time') }}" />
 		{{ form_error('finish_time', '<div class="shj_error">', '</div>') }}
 	</p>

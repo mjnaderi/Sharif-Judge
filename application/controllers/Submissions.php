@@ -250,7 +250,6 @@ class Submissions extends CI_Controller
 
 
 
-
 	public function the_final()
 	{
 
@@ -539,8 +538,30 @@ class Submissions extends CI_Controller
 			"{$submission['file_name']}.".filetype_to_extension($submission['file_type']),
 			file_get_contents($file_path)
 		);
-
 	}
 
+	public function status(){
+		if ( ! $this->input->is_ajax_request() )
+			show_404();
+
+		$this->form_validation->set_rules('submit_id', 'submit id', 'required|integer');
+		$this->form_validation->set_rules('username', 'username', 'required|alpha_numeric');
+		$this->form_validation->set_rules('assignment', 'assignment', 'required|integer');
+		$this->form_validation->set_rules('problem', 'problem', 'required|integer');
+
+		$submission = $this->submit_model->get_submission(
+					$this->input->post('username'),
+					$this->input->post('assignment'),
+					$this->input->post('problem'),
+					$this->input->post('submit_id')
+			);
+		$submission['fullmark'] = ($submission['pre_score'] == 10000);
+		$submission['pre_score'] = ceil($submission['pre_score']*$this->problems[$submission['problem']]['score']/10000);
+		if ($submission['coefficient'] === 'error')
+			$submission['final_score'] = 0;
+		else
+			$submission['final_score'] = ceil($submission['pre_score']*$submission['coefficient']/100);
+		echo json_encode($submission);		
+	}
 
 }
