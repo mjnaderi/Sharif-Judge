@@ -348,12 +348,12 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 			while read line; do
 				if [ "`echo $line|cut -d: -f1`" = "code.c" ]; then
 					echo ${line#code.c:} >>cerr2
-				fi
-				if [ "`echo $line|cut -d: -f1`" = "shield.c" ]; then
+				elif [ "`echo $line|cut -d: -f1`" = "shield.c" ]; then
 					echo ${line#shield.c:} >>cerr2
-				fi
-				if [ "`echo $line|cut -d: -f1`" = "shield.cpp" ]; then
+				elif [ "`echo $line|cut -d: -f1`" = "shield.cpp" ]; then
 					echo ${line#shield.cpp:} >>cerr2
+				else
+					echo ${line} >>cerr2
 				fi
 			done <cerr
 			(cat cerr2 | head -10 | sed 's/themainmainfunction/main/g' ) > cerr;
