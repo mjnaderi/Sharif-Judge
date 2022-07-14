@@ -200,6 +200,7 @@ if [ "$EXT" = "java" ]; then
 	cp ../java.policy java.policy
 	cp $PROBLEMPATH/$UN/$FILENAME.java $MAINFILENAME.java
 	shj_log "Compiling as Java"
+	sed -i "/^package*/d" $MAINFILENAME.java
 	javac $MAINFILENAME.java >/dev/null 2>cerr
 	EXITCODE=$?
 	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
